@@ -12,6 +12,8 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    // Server-only — never exposed to client bundle
+    supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
     public: {
       supabaseUrl: process.env.SUPABASE_URL,
       supabasePublishableKey: process.env.SUPABASE_PUBLISHABLE_KEY,
