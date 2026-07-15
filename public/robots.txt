@@ -1,2 +1,3 @@
 User-Agent: *
-Disallow:
+Disallow: /admin
+Sitemap: https://novasugiantara.web.id/sitemap.xml

@@ -17,6 +17,10 @@ export default defineNuxtConfig({
     public: {
       supabaseUrl: process.env.SUPABASE_URL,
       supabasePublishableKey: process.env.SUPABASE_PUBLISHABLE_KEY,
+      whatsappNumber: process.env.WHATSAPP_NUMBER || '',
+      whatsappGreeting:
+        process.env.WHATSAPP_GREETING ||
+        'Halo Nova! Saya tertarik dengan portofolio Anda.',
     },
   },
 

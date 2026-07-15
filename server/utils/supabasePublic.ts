@@ -1,0 +1,17 @@
+import { createClient } from '@supabase/supabase-js'
+import type { Database } from '~/types/database'
+
+export const useSupabasePublic = () => {
+  const config = useRuntimeConfig()
+
+  return createClient<Database>(
+    config.public.supabaseUrl,
+    config.public.supabasePublishableKey,
+    {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+      },
+    },
+  )
+}

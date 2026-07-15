@@ -12,8 +12,11 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.110.5",
     "@tailwindcss/vite": "^4.3.2",
+    "@types/sanitize-html": "^2.16.1",
+    "marked": "^18.0.6",
     "nuxt": "^4.4.8",
     "nuxt-icons": "^4.0.0",
+    "sanitize-html": "^2.17.6",
     "tailwindcss": "^4.3.2",
     "vue": "^3.5.39",
     "vue-router": "^5.1.0"
