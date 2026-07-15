@@ -13,6 +13,7 @@
     "@supabase/supabase-js": "^2.110.5",
     "@tailwindcss/vite": "^4.3.2",
     "nuxt": "^4.4.8",
+    "nuxt-icons": "^4.0.0",
     "tailwindcss": "^4.3.2",
     "vue": "^3.5.39",
     "vue-router": "^5.1.0"

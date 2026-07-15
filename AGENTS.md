@@ -95,7 +95,7 @@ app/
   composables/         # useProjects, useExperiences, useAuth, useCv, useBlogPosts, etc.
   layouts/             # default.vue (public — includes top nav: Home/Portofolio/Blog/Contact + WhatsAppFloatButton), admin.vue (dashboard)
   middleware/          # auth.ts (protects /admin/** routes)
-  docs                 # Source Of Truth , SRS & PRD
+  docs                 # Source Of Truth , CV,DESIGN,SRS & PRD
   pages/
     index.vue          # Home / hero
     projects/index.vue # nav label "Portofolio" — about + experience + projects + education/certs
@@ -130,5 +130,5 @@ content/ or data/           # (optional) static seed/fallback content only
 
 ## 8. Content Source of Truth
 
-- check `docs/CV.md`
+- check `docs/*.md` `{CV,Design,PRD,SRS}`
   All portfolio content (profile, skills, experience, projects, certifications, education) lives in Supabase tables, seeded initially from Nova's CV (see `PRD.md` §4 for the seed data derived from the CV). Do not hardcode this content into components — components must fetch from Supabase so the admin dashboard can update it without a redeploy.
