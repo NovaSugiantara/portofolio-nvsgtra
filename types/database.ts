@@ -2,136 +2,165 @@ export interface Database {
   public: {
     Tables: {
       profiles: {
-        Row: {
-          id: string
-          owner_id: string
+        Row: any
+        Insert: {
           full_name: string
           headline: string
-          summary: string | null
-          location: string | null
-          email: string | null
-          phone: string | null
-          linkedin_url: string | null
-          website_url: string | null
-          avatar_url: string | null
-          is_published: boolean
-          created_at: string
-          updated_at: string
+          summary?: string | null
+          location?: string | null
+          email?: string | null
+          phone?: string | null
+          linkedin_url?: string | null
+          website_url?: string | null
+          avatar_url?: string | null
+          is_published?: boolean
         }
+        Update: Partial<Database['public']['Tables']['profiles']['Insert']>
       }
       skills: {
-        Row: {
-          id: string
-          owner_id: string
+        Row: any
+        Insert: {
           category: string
           name: string
-          sort_order: number
-          is_published: boolean
-          created_at: string
+          sort_order?: number
+          is_published?: boolean
         }
+        Update: Partial<Database['public']['Tables']['skills']['Insert']>
       }
       experiences: {
-        Row: {
-          id: string
-          owner_id: string
+        Row: any
+        Insert: {
           company: string
           role: string
-          location: string | null
+          location?: string | null
           start_date: string
-          end_date: string | null
-          bullets: string[]
-          sort_order: number
-          is_published: boolean
-          created_at: string
-          updated_at: string
+          end_date?: string | null
+          bullets?: string[]
+          sort_order?: number
+          is_published?: boolean
+        }
+        Update: {
+          company?: string
+          role?: string
+          location?: string | null
+          start_date?: string
+          end_date?: string | null
+          bullets?: string[]
+          sort_order?: number
+          is_published?: boolean
         }
       }
       projects: {
-        Row: {
-          id: string
-          owner_id: string
+        Row: any
+        Insert: {
           slug: string
           title: string
-          description: string | null
-          tech_stack: string[]
-          role: string | null
-          project_url: string | null
-          repo_url: string | null
-          cover_image_url: string | null
-          sort_order: number
-          is_published: boolean
-          created_at: string
-          updated_at: string
+          description?: string | null
+          tech_stack?: string[]
+          role?: string | null
+          project_url?: string | null
+          repo_url?: string | null
+          cover_image_url?: string | null
+          sort_order?: number
+          is_published?: boolean
+        }
+        Update: {
+          slug?: string
+          title?: string
+          description?: string | null
+          tech_stack?: string[]
+          role?: string | null
+          project_url?: string | null
+          repo_url?: string | null
+          cover_image_url?: string | null
+          sort_order?: number
+          is_published?: boolean
         }
       }
       education: {
-        Row: {
-          id: string
-          owner_id: string
+        Row: any
+        Insert: {
           institution: string
           degree: string
-          start_date: string | null
-          end_date: string | null
-          is_expected: boolean
-          sort_order: number
-          is_published: boolean
-          created_at: string
-          updated_at: string
+          start_date?: string | null
+          end_date?: string | null
+          is_expected?: boolean
+          sort_order?: number
+          is_published?: boolean
+        }
+        Update: {
+          institution?: string
+          degree?: string
+          start_date?: string | null
+          end_date?: string | null
+          is_expected?: boolean
+          sort_order?: number
+          is_published?: boolean
         }
       }
       certifications: {
-        Row: {
-          id: string
-          owner_id: string
+        Row: any
+        Insert: {
           name: string
           issuer: string
-          issued_date: string | null
-          credential_url: string | null
-          sort_order: number
-          is_published: boolean
-          created_at: string
-          updated_at: string
+          issued_date?: string | null
+          credential_url?: string | null
+          sort_order?: number
+          is_published?: boolean
+        }
+        Update: {
+          name?: string
+          issuer?: string
+          issued_date?: string | null
+          credential_url?: string | null
+          sort_order?: number
+          is_published?: boolean
         }
       }
       cv_variants: {
-        Row: {
-          id: string
-          owner_id: string
+        Row: any
+        Insert: {
           name: string
-          is_default: boolean
-          included_experience_ids: string[]
-          included_project_ids: string[]
-          included_skill_ids: string[]
-          created_at: string
-          updated_at: string
+          is_default?: boolean
+          included_experience_ids?: string[]
+          included_project_ids?: string[]
+          included_skill_ids?: string[]
+        }
+        Update: {
+          name?: string
+          is_default?: boolean
+          included_experience_ids?: string[]
+          included_project_ids?: string[]
+          included_skill_ids?: string[]
         }
       }
       blog_posts: {
-        Row: {
-          id: string
-          owner_id: string
+        Row: any
+        Insert: {
           slug: string
           title: string
-          excerpt: string | null
+          excerpt?: string | null
           content: string
-          cover_image_url: string | null
-          tags: string[]
-          published_at: string | null
-          is_published: boolean
-          sort_order: number
-          created_at: string
-          updated_at: string
+          cover_image_url?: string | null
+          tags?: string[]
+          published_at?: string | null
+          sort_order?: number
+          is_published?: boolean
+        }
+        Update: {
+          slug?: string
+          title?: string
+          excerpt?: string | null
+          content?: string
+          cover_image_url?: string | null
+          tags?: string[]
+          published_at?: string | null
+          sort_order?: number
+          is_published?: boolean
         }
       }
       contact_messages: {
-        Row: {
-          id: string
-          name: string
-          email: string
-          message: string
-          created_at: string
-          is_read: boolean
-        }
+        Row: any
       }
     }
   }
