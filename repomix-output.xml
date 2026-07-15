@@ -1,0 +1,843 @@
+This file is a merged representation of a subset of the codebase, containing files not matching ignore patterns, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of a subset of the repository's contents that is considered the most important context.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching these patterns are excluded: **/node_modules/**, **/.agents/**, **/ch_data/**, **/ch_logs/**, **/dblogs/**, **/vendor/**
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+app/
+  assets/
+    css/
+      main.css
+  app.vue
+docs/
+  CV.md
+  PRD.md
+  SRS.md
+public/
+  favicon.ico
+  robots.txt
+.env.example
+.gitignore
+AGENTS.md
+nuxt.config.ts
+package.json
+README.md
+tsconfig.json
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="app/assets/css/main.css">
+@import "tailwindcss";
+</file>
+
+<file path="app/app.vue">
+<template>
+  <div>
+    <NuxtRouteAnnouncer />
+    <NuxtWelcome />
+  </div>
+</template>
+</file>
+
+<file path="docs/CV.md">
+# Nova Sugiantara
+
+**Full Stack Web Developer | Laravel | Vue.js | React | AWS | Ruby on Rails | Go | AI |**
+
+Batubulan, Bali, Indonesia
++62 881-0802-90643 | nvsgtra425@gmail.com
+[linkedin.com/in/novasugiantara](https://linkedin.com/in/novasugiantara) | [novasugiantara.web.id](https://novasugiantara.web.id) | [github.com/novasugiantara](https://github.com/NovaSugiantara)
+
+---
+
+## Professional Summary
+
+Full Stack Developer with 4+ years of experience designing and shipping production-grade web applications across JavaScript (React, Vue) and Ruby/PHP (Ruby on Rails, Laravel) ecosystems. Track record of owning complex, high-stakes systems end-to-end — from payment gateway integrations and high-traffic booking engines to blockchain-based platforms — and leading development teams through sprint planning, code review, and mentorship. Currently deepening expertise in AI-assisted and AI-integrated development, exploring how LLMs and intelligent automation can be embedded into real products to accelerate delivery, improve decision-making, and unlock new user experiences. Looking to bring that combination of solid fullstack engineering fundamentals and a forward-leaning interest in AI into a backend/fullstack role building the next generation of intelligent web products.
+
+---
+
+## Technical Skills
+
+- **Frontend:** Vue.js, React, Redux.js, JavaScript, HTML5, CSS3
+- **Backend:** Laravel, Ruby on Rails, Node.js, Go, PHP
+- **Databases:** PostgreSQL, MySQL
+- **DevOps:** AWS, Docker, CI/CD
+- **Tools:** Git, RESTful APIs, Payment Gateways (Midtrans, PayPal), Blockchain Integration
+
+---
+
+## Professional Experience
+
+### PT. Omni Hotelier International — Gianyar, Bali
+
+**Booking Engine Product Coordinator / Lead Team Product Developer** _(May 2025 – Present)_
+
+- Lead end-to-end Booking Engine development using React/Redux + Laravel, from technical planning through delivery
+- Own sprint planning and task breakdown for the development team, translating product/business requirements into actionable engineering tasks
+- Conduct code reviews across the team's pull requests to enforce code quality, consistency, and best practices
+- Triage and resolve production bugs, prioritizing fixes by business impact and user-facing severity
+- Act as the technical point of coordination between product, QA, and engineering to keep sprint delivery predictable
+
+**Intermediate Fullstack Developer** _(May 2024 – May 2025)_
+
+- Implemented Indonesian and international payment gateway integrations (Midtrans, Xendit, Flywire and others)
+- Enhanced third-party plugin compatibility by 40%
+- Mentored 3 junior developers in code best practices, pairing on reviews and architecture decisions
+
+**Junior Full Stack Developer** _(Feb 2023 – Jun 2024)_
+
+- Built activity booking system (React/Laravel) handling 5K+ monthly transactions
+- Developed API integrations for 8+ travel partners
+- Reduced payment processing errors by 65%
+
+### Freelance Fullstack Developer _(Jun 2021 – Present)_
+
+- Created Zisu MLM platform (Laravel) with user management for 10K+ users
+- Developed Lait Bus booking system (Ruby on Rails) serving 50+ daily routes
+- Migrated Eurekapp.biz from WordPress to custom stack, improving load time by 70%
+- Built Minyak Taru Bali e-commerce site with payment processing
+
+### Baliola — Denpasar, Bali
+
+**Backend Developer** _(Aug 2022 – Feb 2023)_
+
+- Developed blockchain-integrated services using Ruby on Rails/PostgreSQL
+- Created NFT steganography system with Golang
+- Optimized API response times by 55%
+
+### Bali Gatra — Denpasar, Bali
+
+**Web Developer** _(Jul 2021 – Jul 2022)_
+
+- Built Videolegend.tv streaming platform (PHP) with payment integrations
+- Implemented responsive UI for 98% cross-browser compatibility
+
+---
+
+## Education
+
+**Universitas Terbuka**
+Bachelor of Information Technology _(Expected 2026)_
+
+**SMK TI Bali Global Denpasar**
+Software Engineering Diploma _(Graduated 2021)_
+
+---
+
+## Certifications
+
+- Back-End Development for Beginners — Dicoding
+</file>
+
+<file path="docs/PRD.md">
+# PRD — Nova Sugiantara Portfolio & CV Builder
+
+## 1. Overview
+
+**Product name:** Nova Sugiantara Portfolio (novasugiantara.my.id)
+**Owner:** Nova Sugiantara — Full Stack Web Developer (Laravel, Vue.js, React, AWS, Ruby on Rails)
+**Type:** Personal portfolio website with an admin-managed CMS and a dynamic CV generator.
+
+### 1.1 Problem Statement
+Nova needs a professional, always-up-to-date portfolio site that recruiters and clients can browse, and a way to generate a polished, downloadable CV directly from the same structured data — instead of manually editing a CV file every time a role, project, or skill changes.
+
+### 1.2 Goals
+1. Present a credible, modern portfolio (experience, projects, skills, certifications) to recruiters/clients.
+2. Let Nova manage all content himself through a simple admin dashboard — no code changes needed to update experience/projects.
+3. Generate an up-to-date, downloadable PDF CV directly from the same data, with support for multiple saved CV variants (e.g., "Backend-focused", "Fullstack-focused").
+4. Keep the data secure — only Nova can write; the public can only read published content.
+
+### 1.3 Non-Goals (v1)
+- Multi-user/multi-tenant portfolio platform (this is single-owner only).
+- Public user accounts, comments, or social features.
+- Blog/CMS for long-form articles (may be a future phase).
+- Real-time collaboration features.
+
+## 2. Target Users
+
+| User | Needs |
+|---|---|
+| Recruiters / hiring managers | Quickly see skills, experience, projects; download CV |
+| Clients (freelance) | See relevant project case studies, contact Nova |
+| Nova (owner/admin) | Update experience/projects/skills without redeploying; generate tailored CVs |
+
+## 3. Key Features
+
+### 3.1 Public Portfolio Site
+- **Hero/Home:** Name, title ("Full Stack Web Developer | Laravel | Vue.js | React | AWS | Ruby on Rails"), short summary, location (Batubulan, Bali, Indonesia), CTA to download CV / contact.
+- **About:** Professional summary, technical skills grouped by category (Frontend, Backend, Databases, DevOps, Tools).
+- **Experience timeline:** Reverse-chronological list of roles, each with company, title, dates, bullet achievements — sourced from `experiences` table.
+- **Projects showcase:** Cards/grid of projects (e.g., Booking Engine, Zisu MLM Platform, Lait Bus, Eurekapp.biz migration, Minyak Taru Bali e-commerce, Videolegend.tv, NFT steganography system) with description, role, tech stack, links if available.
+- **Certifications & Education:** Universitas Terbuka (BIT, expected 2026), SMK TI Bali Global Denpasar (Software Engineering, 2021), Dicoding Back-End Development for Beginners.
+- **Contact section/form:** Sends a message (rate-limited, spam-protected); shows email/LinkedIn/WhatsApp.
+- **Download CV button:** Generates/downloads the latest published CV as PDF.
+
+### 3.2 Admin Dashboard (auth-protected, owner-only)
+- Login (Supabase Auth).
+- CRUD for: profile info, skills, experience entries, projects, certifications, education.
+- Toggle `is_published` per item (draft vs. live on public site).
+- Reorder items (e.g., drag-to-reorder experience/projects) — nice-to-have, can be manual `sort_order` field in v1.
+- View submitted contact messages.
+
+### 3.3 CV Generator
+- Compose a CV document from live data (profile + selected experiences + selected skills + selected projects + education + certifications).
+- Support **CV variants**: save a named selection/config (e.g., "Backend Role CV" vs "Fullstack Role CV") that picks which experience bullets/skills to emphasize or include.
+- Export as PDF, downloadable from both admin dashboard and public site (public always gets the variant marked "default/published").
+- Regenerating CV should not require manual document editing — it's always derived from current structured data.
+
+## 4. Seed Content (derived from current CV)
+
+Used to pre-populate the database on first migration:
+
+- **Profile:** Nova Sugiantara, Full Stack Web Developer, Batubulan Bali Indonesia, novasugiantara325@gmail.com, +62 881-0802-90643, linkedin.com/in/novasugiantara, novasugiantara.my.id
+- **Summary:** 4+ years building scalable web apps; specialization in JS (React, Vue), PHP (Laravel), Ruby on Rails; expertise in payment integrations, booking systems, blockchain solutions.
+- **Skills:**
+  - Frontend: Vue.js, React, Redux.js, JavaScript, HTML5, CSS3
+  - Backend: Laravel, Ruby on Rails, Node.js, Go, PHP
+  - Databases: PostgreSQL, MySQL
+  - DevOps: AWS, Docker, CI/CD
+  - Tools: Git, RESTful APIs, Payment Gateways (Midtrans, PayPal), Blockchain Integration
+- **Experience:**
+  1. PT. Omni Hotelier International — Intermediate Fullstack Developer (May 2025–Present)
+  2. PT. Omni Hotelier International — Junior Full Stack Developer (Feb 2023–Jun 2025)
+  3. Freelance Fullstack Developer (Jun 2021–Present)
+  4. Baliola — Backend Developer (Aug 2022–Feb 2023)
+  5. Bali Gatra — Web Developer (Jul 2021–Jul 2022)
+  (each with its bullet achievements from the CV)
+- **Projects:** Booking Engine, Activity Booking System, Zisu MLM Platform, Lait Bus Booking System, Eurekapp.biz migration, Minyak Taru Bali e-commerce, NFT Steganography System, Videolegend.tv
+- **Education:** Universitas Terbuka (BIT, expected 2026); SMK TI Bali Global Denpasar (Software Engineering Diploma, 2021)
+- **Certifications:** Back-End Development for Beginners (Dicoding)
+
+## 5. Success Metrics
+- Portfolio loads and is fully readable with JS disabled (SSR).
+- Admin can add/edit an experience entry and see it live on the public site within seconds, without a deploy.
+- CV PDF generated from data matches source-of-truth content (no manual copy-paste drift).
+- Zero public write access to the database (verified via RLS policy tests).
+
+## 6. Phased Rollout
+
+| Phase | Scope |
+|---|---|
+| 1 | DB schema + RLS, public read-only portfolio pages rendering seeded data |
+| 2 | Admin auth + CRUD dashboard for all content types |
+| 3 | CV generator (single default variant → PDF) |
+| 4 | Multiple CV variants + contact form + polish (SEO, animations, analytics) |
+
+## 7. Open Questions / Assumptions
+- Assuming single owner/admin only — no multi-user roles needed (confirmed by "sesuaikan dengan CV saya").
+- Assuming PDF CV generation happens server-side (Nuxt server route) rather than client-side, for consistent rendering — see `SRS.md` for rationale.
+- Deployment target not specified; SRS assumes a Node-capable host (e.g., Vercel/Node server) since server routes + PDF generation need a server runtime, not pure static hosting.
+</file>
+
+<file path="docs/SRS.md">
+# SRS — Nova Sugiantara Portfolio & CV Builder
+
+Companion to `PRD.md`. This document specifies the technical implementation: architecture, database schema, security model, and APIs.
+
+> Before implementing anything in this document, read the local skills `~/.agents/skills/supabase-postgres-best-practices` and `~/.agents/skills/supabase` — they take precedence on migration/query conventions.
+
+## 1. System Architecture
+
+```
+Browser
+  │
+  ├── Public pages (SSR via Nuxt) ──► Nuxt server ──► Supabase (anon key, RLS-restricted read)
+  │
+  ├── Admin dashboard (client, behind auth middleware)
+  │        │
+  │        └──► Nuxt server/api/admin/** ──► Supabase (session-scoped, RLS-restricted write)
+  │
+  └── CV download ──► Nuxt server/api/cv/generate ──► Supabase (service role, read) + PDF renderer ──► PDF stream
+```
+
+- **Frontend:** Nuxt 4 (Vue 3, SSR mode), Tailwind CSS v4, shadcn-vue.
+- **Backend:** Nuxt server routes (`server/api/**`) acting as the only place the service role key is used.
+- **Database/Auth/Storage:** Supabase (Postgres + Row Level Security, Supabase Auth, Supabase Storage for images/avatar).
+- **PDF generation:** server-side rendering of an HTML CV template to PDF (e.g., via a headless-rendering approach invoked from a Nuxt server route). Chosen over client-side generation so output is consistent regardless of browser and so the service role can pull complete data without exposing it to the client.
+
+## 2. Environments & Secrets
+
+| Variable                             | Scope           | Notes                                                               |
+| ------------------------------------ | --------------- | ------------------------------------------------------------------- |
+| `SUPABASE_URL`                       | public          | project URL, safe to expose                                         |
+| `SUPABASE_PUBLISHABLE_KEY` (anon)    | public          | RLS-restricted, safe to expose                                      |
+| `SUPABASE_SERVICE_ROLE_KEY`          | **server-only** | never in `runtimeConfig.public`, never sent to client, never logged |
+| `SESSION/JWT secret (if any custom)` | server-only     |                                                                     |
+
+`.env` is git-ignored; `.env.example` lists variable names only.
+
+## 3. Database Schema
+
+All tables live in the `public` schema unless noted. `owner_id uuid references auth.users(id)` is used on every content table so ownership is explicit and policies are simple (single-owner app today, but this also makes the schema safely extensible later).
+
+```sql
+-- profile: singleton row per owner
+create table profiles (
+  id uuid primary key default gen_random_uuid(),
+  owner_id uuid not null references auth.users(id) on delete cascade,
+  full_name text not null,
+  headline text not null,
+  summary text,
+  location text,
+  email text,
+  phone text,
+  linkedin_url text,
+  website_url text,
+  avatar_url text,
+  is_published boolean not null default false,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table skills (
+  id uuid primary key default gen_random_uuid(),
+  owner_id uuid not null references auth.users(id) on delete cascade,
+  category text not null,        -- e.g. 'Frontend', 'Backend', 'Databases', 'DevOps', 'Tools'
+  name text not null,
+  sort_order int not null default 0,
+  is_published boolean not null default true,
+  created_at timestamptz not null default now()
+);
+
+create table experiences (
+  id uuid primary key default gen_random_uuid(),
+  owner_id uuid not null references auth.users(id) on delete cascade,
+  company text not null,
+  role text not null,
+  location text,
+  start_date date not null,
+  end_date date,               -- null = present
+  bullets text[] not null default '{}',
+  sort_order int not null default 0,
+  is_published boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table projects (
+  id uuid primary key default gen_random_uuid(),
+  owner_id uuid not null references auth.users(id) on delete cascade,
+  slug text not null unique,
+  title text not null,
+  description text,
+  tech_stack text[] not null default '{}',
+  role text,
+  project_url text,
+  repo_url text,
+  cover_image_url text,
+  sort_order int not null default 0,
+  is_published boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table education (
+  id uuid primary key default gen_random_uuid(),
+  owner_id uuid not null references auth.users(id) on delete cascade,
+  institution text not null,
+  degree text not null,
+  start_date date,
+  end_date date,               -- null if expected/ongoing
+  is_expected boolean not null default false,
+  sort_order int not null default 0,
+  is_published boolean not null default true
+);
+
+create table certifications (
+  id uuid primary key default gen_random_uuid(),
+  owner_id uuid not null references auth.users(id) on delete cascade,
+  name text not null,
+  issuer text not null,
+  issued_date date,
+  credential_url text,
+  sort_order int not null default 0,
+  is_published boolean not null default true
+);
+
+create table cv_variants (
+  id uuid primary key default gen_random_uuid(),
+  owner_id uuid not null references auth.users(id) on delete cascade,
+  name text not null,                   -- e.g. 'Backend-focused'
+  is_default boolean not null default false,
+  included_experience_ids uuid[] not null default '{}',
+  included_project_ids uuid[] not null default '{}',
+  included_skill_ids uuid[] not null default '{}',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table contact_messages (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  email text not null,
+  message text not null,
+  created_at timestamptz not null default now(),
+  is_read boolean not null default false
+);
+```
+
+Indexes: add btree indexes on `owner_id`, `is_published`, and `sort_order` per table as query patterns require (follow the Postgres best-practices skill for naming/migration conventions).
+
+## 4. Row Level Security (RLS)
+
+**RLS is enabled on every table above, no exceptions.** Default posture: deny all, then allow narrowly.
+
+```sql
+alter table profiles enable row level security;
+alter table skills enable row level security;
+alter table experiences enable row level security;
+alter table projects enable row level security;
+alter table education enable row level security;
+alter table certifications enable row level security;
+alter table cv_variants enable row level security;
+alter table contact_messages enable row level security;
+
+-- Public read: anon can SELECT only published rows
+create policy "public read published profile"
+  on profiles for select
+  to anon
+  using (is_published = true);
+
+create policy "public read published skills"
+  on skills for select to anon using (is_published = true);
+
+create policy "public read published experiences"
+  on experiences for select to anon using (is_published = true);
+
+create policy "public read published projects"
+  on projects for select to anon using (is_published = true);
+
+create policy "public read published education"
+  on education for select to anon using (is_published = true);
+
+create policy "public read published certifications"
+  on certifications for select to anon using (is_published = true);
+
+-- Owner full access (authenticated, matches owner_id) on all content tables
+create policy "owner manage profile"
+  on profiles for all
+  to authenticated
+  using (owner_id = auth.uid())
+  with check (owner_id = auth.uid());
+
+-- (repeat the same "owner manage X" pattern for skills, experiences, projects,
+--  education, certifications, cv_variants)
+
+-- contact_messages: anyone (anon) can INSERT, nobody can SELECT except owner
+create policy "public can submit contact message"
+  on contact_messages for insert
+  to anon
+  with check (true);   -- validation/rate limiting handled at the server route, not RLS
+
+create policy "owner reads contact messages"
+  on contact_messages for select
+  to authenticated
+  using (auth.uid() in (select owner_id from profiles limit 1));
+```
+
+Rules to enforce during implementation:
+
+- No policy ever grants `anon` `insert`/`update`/`delete` on content tables (profiles, skills, experiences, projects, education, certifications, cv_variants).
+- `contact_messages` is the one exception (public insert only), and even that goes through server-side validation + rate limiting before hitting the DB, not just RLS.
+- `cv_variants` is never publicly readable directly — CV data is served through a server route (`/api/cv/generate`) that assembles the PDF and enforces which variant is "public/default", rather than exposing the raw table to anon.
+
+## 5. Authentication
+
+- Supabase Auth, email/password (or magic link) for a single admin account.
+- No public sign-up route/UI. Admin user provisioned manually via Supabase dashboard/CLI.
+- Nuxt route middleware (`middleware/auth.ts`) protects all `/admin/**` pages: checks Supabase session, redirects to `/admin/login` if absent.
+- Server API routes under `server/api/admin/**` re-validate the session server-side (never trust the client-side redirect alone) before performing any write.
+
+## 6. API Surface (Nuxt server routes)
+
+| Route                    | Method          | Auth                                             | Purpose                  |
+| ------------------------ | --------------- | ------------------------------------------------ | ------------------------ |
+| `/api/profile`           | GET             | public                                           | published profile        |
+| `/api/experiences`       | GET             | public                                           | published experiences    |
+| `/api/projects`          | GET             | public                                           | published projects       |
+| `/api/skills`            | GET             | public                                           | published skills         |
+| `/api/contact`           | POST            | public (rate-limited)                            | submit contact message   |
+| `/api/admin/profile`     | PUT             | session required                                 | update profile           |
+| `/api/admin/experiences` | POST/PUT/DELETE | session required                                 | CRUD experience          |
+| `/api/admin/projects`    | POST/PUT/DELETE | session required                                 | CRUD project             |
+| `/api/admin/skills`      | POST/PUT/DELETE | session required                                 | CRUD skill               |
+| `/api/admin/cv-variants` | POST/PUT/DELETE | session required                                 | manage CV variants       |
+| `/api/cv/generate`       | GET/POST        | public (default variant) / session (any variant) | generate & stream CV PDF |
+
+All `POST`/`PUT`/`DELETE` request bodies validated with `zod` schemas before touching Supabase.
+
+## 7. Security Requirements Summary
+
+1. RLS enabled + tested on every table (see §4). Add automated tests (e.g., via `pgTAP` or integration tests hitting the anon client) that assert anon **cannot** write to any content table.
+2. Service role key confined to server routes only; verified by grep/lint rule that `SUPABASE_SERVICE_ROLE_KEY` never appears in any file under `app/`.
+3. All admin server routes re-check `auth.uid()`/session server-side — client-side route guards are UX only, not security boundaries.
+4. Input validation (`zod`) on every write endpoint; reject unknown fields.
+5. Rate limiting + honeypot on `/api/contact` (the only public write endpoint).
+6. File uploads (avatar, project cover images) restricted by MIME type and size at both client and server, stored in a dedicated Supabase Storage bucket with its own access policy (public read for published assets only, owner-only write).
+7. No sensitive data (email, phone) exposed beyond what's in the published profile intentionally shown on the public site.
+8. HTTPS enforced in production (handled by hosting platform); no mixed content.
+9. Dependency hygiene: keep `@supabase/supabase-js`, Nuxt, and PDF-generation deps patched; avoid unmaintained third-party packages for PDF rendering.
+
+## 8. Non-Functional Requirements
+
+- **Performance:** Public pages should achieve good Core Web Vitals (SSR, optimized images via `@nuxt/image`, minimal client JS on first paint).
+- **Accessibility:** WCAG AA on all public-facing pages.
+- **SEO:** Per-page meta tags, OpenGraph image, sitemap, `robots.txt` (already present) allowing indexing.
+- **Reliability:** CV generation endpoint should degrade gracefully (clear error message) if PDF rendering fails, without leaking stack traces to the client.
+- **Maintainability:** Content changes require zero code deploys — all done via the admin dashboard.
+
+## 9. Out of Scope (v1)
+
+- Multi-admin roles/permissions.
+- Public commenting/likes on projects.
+- i18n (multi-language) — may be phase 2.
+</file>
+
+<file path="public/robots.txt">
+User-Agent: *
+Disallow:
+</file>
+
+<file path=".env.example">
+SUPABASE_URL=<SUBSTITUTE_SUPABASE_URL>
+SUPABASE_PUBLISHABLE_KEY=<SUBSTITUTE_SUPABASE_PUBLISHABLE_KEY>
+</file>
+
+<file path=".gitignore">
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+!.env.example
+</file>
+
+<file path="AGENTS.md">
+# Agent Directives — Nova Sugiantara Portfolio Project
+
+# novasugiantara.web.id
+
+Welcome. You are my expert AI development assistant working on my personal portfolio + CV-builder web app. This file is the source of truth for architecture, constraints, and operational rules. Follow it strictly so the codebase stays consistent, secure, and high quality.
+
+Related documents you should also read before making structural or data changes:
+
+- `PRD.md` — product goals, features, scope
+- `SRS.md` — technical spec, database schema, RLS policies, security requirements
+
+## 0. Required Skills to Consult
+
+Before writing any Supabase/Postgres-related code (migrations, RLS policies, queries, schema design), **read these local skills first**:
+
+- `~/.agents/skills/supabase-postgres-best-practices`
+- `~/.agents/skills/supabase`
+- `~/.agents/skills/hallmark`
+- `~/.agents/skills/frontend-ui-engineering`
+- `~/.agents/skills/caveman`
+- `~/.agents/skills/caveman-*`
+- `~/.agents/skills/web-design-guidelines`
+
+These contain project-specific conventions for schema design, migrations, and query patterns that take precedence over generic Postgres knowledge. If a rule in this file conflicts with those skills, the skills win for anything Supabase/Postgres-specific; this file wins for everything else (UI, architecture, workflow).
+
+## 1. Project Overview & Role
+
+- **Role:** Full-Stack Developer (Nuxt/Vue focus)
+- **Tech Stack:** Nuxt 4, Vue 3 (Composition API, `<script setup>`), TypeScript, Tailwind CSS v4, shadcn-vue, Supabase (Postgres + Auth + Storage)
+- **Goal:** Build and maintain a personal portfolio site for Nova Sugiantara that:
+  1. Publicly showcases profile, skills, work experience, and projects (sourced from Supabase, not hardcoded).
+  2. Has a protected admin area where the owner (only) can create/update/delete profile data, experience, projects, and certifications.
+  3. Can generate/export a CV (PDF) dynamically from the structured data stored in Supabase, and let the owner save multiple tailored CV versions.
+
+## 2. Core Directives & Rules
+
+- **Progressive Enhancement:** Public pages (portfolio) must be server-rendered (SSR) via Nuxt so content is visible and indexable without JS. Interactive/admin features may depend on JS.
+- **Responsive Design:** Every component fully responsive (mobile, tablet, desktop) using Tailwind breakpoints.
+- **Accessibility:** Semantic HTML, proper `aria-*` labels on interactive elements, WCAG AA contrast, keyboard-navigable admin forms.
+- **Performance:** Use `<NuxtImg>`/`@nuxt/image` for image optimization, lazy-load below-the-fold sections, keep bundle lean, avoid unnecessary client-only components on public pages.
+- **SEO:** Public pages must have proper `useSeoMeta`/`useHead` (title, description, OpenGraph, canonical URL), since this is a portfolio meant to be found by recruiters.
+
+## 3. Security-First Principles (non-negotiable)
+
+- **Row Level Security (RLS) is mandatory on every table.** No table goes to production without RLS enabled and explicit policies — default deny, then allow narrowly.
+- **Public (anon) role:** read-only access to published content only (e.g., `is_published = true`). Never grant anon `INSERT`/`UPDATE`/`DELETE`.
+- **Owner/admin role:** all write access must be scoped to `auth.uid() = owner_id` (or equivalent), never a blanket "any authenticated user can write."
+- **Service role key** (`SUPABASE_SERVICE_ROLE_KEY`) is **only** ever used in server-side code (Nuxt `server/api/**`), **never** in `runtimeConfig.public`, never in client-side composables, never committed to git.
+- **Publishable/anon key** is the only Supabase key exposed to the browser (`runtimeConfig.public.supabaseKey`).
+- **Input validation:** validate and sanitize all user input server-side with `zod` before it touches the database, even for the single-admin use case — this protects against malformed data and injected content in CV output.
+- **Contact form / any public write endpoint:** must have rate limiting + honeypot/CAPTCHA to prevent spam/abuse, since it's the only public write path.
+- **File uploads (avatar, project images, resume assets):** restrict file type/size, store in a Supabase Storage bucket with its own RLS/policy, never trust client-provided MIME type alone.
+- **Secrets:** `.env` is git-ignored; `.env.example` only ever contains placeholder names, never real values.
+- **Auth:** Admin login via Supabase Auth (email/password or magic link). No public sign-up flow — this is a single-owner app, so the admin account is provisioned manually (no open registration endpoint).
+
+## 4. Workflow & Commands
+
+- **Install dependencies:** `npm install`
+- **Run local server:** `npm run dev`
+- **Build for production:** `npm run build`
+- **Static generate (if used):** `npm run generate`
+- **Preview production build:** `npm run preview`
+- **Supabase local/migrations:** follow the `supabase` skill's conventions for `supabase migration new`, `supabase db push`, etc.
+
+## 5. Code Standards
+
+- **Styling:** Tailwind CSS utility classes + shadcn-vue components. Avoid inline styles unless required for dynamic theming.
+- **TypeScript:** Strict mode. No `any`. Define explicit `interface`/`type` for all props, composables' return values, and Supabase row shapes (generate types via Supabase CLI: `supabase gen types typescript`).
+- **Naming Conventions:**
+  - Components: `PascalCase` (e.g., `ProjectCard.vue`)
+  - Composables: `camelCase` prefixed with `use` (e.g., `useProjects.ts`)
+  - Server API routes: `kebab-case` (e.g., `server/api/cv/generate.post.ts`)
+- **Documentation:** JSDoc on complex composables/utility functions, especially anything touching Supabase queries or PDF generation.
+- **Data fetching:** use Nuxt's `useAsyncData`/`useFetch` for public data; never call the Supabase client with the service role from the browser.
+
+## 6. Constraints
+
+- **Never** hardcode sensitive data or API keys (Supabase URL/keys, service role, email service keys). Always use environment variables.
+- **Never** modify `node_modules` or `.git` directly.
+- **Never** expose the service role key to the client bundle.
+- **Never** allow anon/public role to write to any table.
+- Commit messages follow Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`).
+
+## 7. Project Architecture (Nuxt 4 `app/` directory)
+
+```
+app/
+  assets/css/        # Tailwind entry, global styles
+  components/         # PascalCase reusable UI (ProjectCard, ExperienceItem, etc.)
+    ui/               # shadcn-vue generated components
+  composables/         # useProjects, useExperiences, useAuth, useCv, etc.
+  layouts/             # default.vue (public), admin.vue (dashboard)
+  middleware/          # auth.ts (protects /admin/** routes)
+  docs                 # Source Of Truth , SRS & PRD
+  pages/
+    index.vue          # Home / hero
+    about.vue
+    projects/index.vue
+    projects/[slug].vue
+    admin/
+      login.vue
+      dashboard.vue
+      projects/
+      experiences/
+      cv/
+  utils/
+server/
+  api/
+    projects.get.ts        # public read
+    admin/projects.post.ts # protected write (uses service role, checks session)
+    cv/generate.post.ts    # server-side PDF generation
+  utils/supabaseAdmin.ts   # service-role client, server-only
+supabase/
+  migrations/               # SQL migrations (schema + RLS policies)
+content/ or data/           # (optional) static seed/fallback content only
+```
+
+## 8. Content Source of Truth
+
+- check `docs/CV.md`
+  All portfolio content (profile, skills, experience, projects, certifications, education) lives in Supabase tables, seeded initially from Nova's CV (see `PRD.md` §4 for the seed data derived from the CV). Do not hardcode this content into components — components must fetch from Supabase so the admin dashboard can update it without a redeploy.
+</file>
+
+<file path="nuxt.config.ts">
+// https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindcss from "@tailwindcss/vite";
+
+export default defineNuxtConfig({
+  compatibilityDate: '2025-07-15',
+  devtools: { enabled: true },
+  vite: {
+    plugins: [
+      tailwindcss(),
+    ],
+  },
+  runtimeConfig: {
+    public: {
+      supabaseUrl: process.env.SUPABASE_URL,
+      supabasePublishableKey: process.env.SUPABASE_PUBLISHABLE_KEY,
+    },
+  },
+})
+</file>
+
+<file path="package.json">
+{
+  "name": "portofolio-nova",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.110.5",
+    "@tailwindcss/vite": "^4.3.2",
+    "nuxt": "^4.4.8",
+    "tailwindcss": "^4.3.2",
+    "vue": "^3.5.39",
+    "vue-router": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "shadcn-nuxt": "^2.7.4"
+  }
+}
+</file>
+
+<file path="README.md">
+# Nuxt Minimal Starter
+
+Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+
+## Setup
+
+Make sure to install dependencies:
+
+```bash
+# npm
+npm install
+
+# pnpm
+pnpm install
+
+# yarn
+yarn install
+
+# bun
+bun install
+```
+
+## Development Server
+
+Start the development server on `http://localhost:3000`:
+
+```bash
+# npm
+npm run dev
+
+# pnpm
+pnpm dev
+
+# yarn
+yarn dev
+
+# bun
+bun run dev
+```
+
+## Production
+
+Build the application for production:
+
+```bash
+# npm
+npm run build
+
+# pnpm
+pnpm build
+
+# yarn
+yarn build
+
+# bun
+bun run build
+```
+
+Locally preview production build:
+
+```bash
+# npm
+npm run preview
+
+# pnpm
+pnpm preview
+
+# yarn
+yarn preview
+
+# bun
+bun run preview
+```
+
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+</file>
+
+<file path="tsconfig.json">
+{
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "files": [],
+  "references": [
+    {
+      "path": "./.nuxt/tsconfig.app.json"
+    },
+    {
+      "path": "./.nuxt/tsconfig.server.json"
+    },
+    {
+      "path": "./.nuxt/tsconfig.shared.json"
+    },
+    {
+      "path": "./.nuxt/tsconfig.node.json"
+    }
+  ]
+}
+</file>
+
+</files>
