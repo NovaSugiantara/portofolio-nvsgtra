@@ -1,1 +1,145 @@
+/* app/assets/css/main.css
+ * Design Tokens & System Specification (DESIGN.md)
+ * Supported in Light & Dark Mode
+ */
+
 @import "tailwindcss";
+@import "@fontsource/outfit/400.css";
+@import "@fontsource/outfit/600.css";
+@import "@fontsource/outfit/700.css";
+@import "@fontsource/outfit/800.css";
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/jetbrains-mono/400.css";
+
+@layer base {
+  :root {
+    /* Color Tokens - Light Mode Default */
+    --color-obsidian: #321e48;
+    --color-steel: #43637e;
+    --color-teal: #65dcd5;
+    --color-mint: #d9fff4;
+
+    /* Semantic Mappings */
+    --background-page: var(--color-mint);
+    --background-card: #ffffff;
+    --background-muted: #e8fff9;
+
+    --foreground-primary: var(--color-obsidian);
+    --foreground-secondary: var(--color-steel);
+    --foreground-muted: #668096;
+
+    --accent-primary: #2d9c96; /* Darkened for contrast on light bg */
+    --accent-hover: #1f7a75;
+    --accent-glow: rgba(101, 220, 213, 0.15);
+
+    --border-subtle: #ccebe2;
+    --border-focus: var(--accent-primary);
+
+    /* Typography & Layout Scales */
+    --font-heading: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-body: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: "JetBrains Mono", "Fira Code", monospace;
+
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
+
+    --shadow-sm: 0 1px 2px 0 rgba(50, 30, 72, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(50, 30, 72, 0.08), 0 2px 4px -1px rgba(50, 30, 72, 0.04);
+    --shadow-lg: 0 10px 15px -3px rgba(50, 30, 72, 0.1), 0 4px 6px -2px rgba(50, 30, 72, 0.05);
+
+    --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    /* Semantic Mappings - Dark Mode */
+    --background-page: var(--color-obsidian);
+    --background-card: var(--color-steel);
+    --background-muted: #3c2454;
+
+    --foreground-primary: var(--color-mint);
+    --foreground-secondary: #a3c0d9;
+    --foreground-muted: #7998b3;
+
+    --accent-primary: var(--color-teal);
+    --accent-hover: #4bbdb6;
+    --accent-glow: rgba(101, 220, 213, 0.3);
+
+    --border-subtle: rgba(101, 220, 213, 0.15);
+    --border-focus: var(--color-teal);
+
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 12px -1px rgba(0, 0, 0, 0.6);
+    --shadow-lg: 0 16px 24px -3px rgba(0, 0, 0, 0.7);
+  }
+
+  body {
+    background-color: var(--background-page);
+    color: var(--foreground-primary);
+    font-family: var(--font-body);
+    transition: var(--transition-smooth);
+    margin: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--foreground-primary);
+  }
+
+  code, pre {
+    font-family: var(--font-mono);
+  }
+}
+
+/* Hardware accelerated transition utilities (respect reduced motion) */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(3deg); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(1.05); }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-float-slow {
+  animation: float 8s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 10s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: initial !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+  .animate-float-slow, .animate-pulse-glow, .animate-fade-in-up {
+    transform: none !important;
+    animation: none !important;
+  }
+}

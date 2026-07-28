@@ -1,91 +1,139 @@
 <template>
-  <div class="container mx-auto px-4 max-w-4xl py-12">
-    <h1 class="text-3xl font-bold mb-4">Contact</h1>
-    <p class="text-gray-600 mb-8">
-      Have a question or want to collaborate? Reach out below or through any of the channels listed.
-    </p>
+  <div class="container mx-auto max-w-4xl px-4 py-16 md:py-20">
+    <div class="grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:items-start">
+      <section class="space-y-6">
+        <div class="space-y-3">
+          <p class="text-sm font-medium uppercase tracking-[0.24em] text-[#43637E]">Contact</p>
+          <h1 class="text-4xl font-extrabold tracking-tight text-[#321E48] md:text-5xl">
+            Let's start a project.
+          </h1>
+          <p class="max-w-xl text-base leading-7 text-[#43637E]">
+            Send a message for freelance work, collaboration, or a quick question.
+          </p>
+        </div>
 
-    <!-- Contact Form (full implementation in Fase 4 — shell here) -->
-    <div class="rounded-xl border p-6 mb-12 max-w-lg">
-      <form @submit.prevent="submitForm" class="space-y-4">
-        <div>
-          <label for="name" class="block text-sm font-medium mb-1">Name</label>
-          <input
-            id="name"
-            v-model="form.name"
-            type="text"
-            required
-            class="w-full rounded-md border px-3 py-2 text-sm"
-            placeholder="Your name"
-          />
-        </div>
-        <div>
-          <label for="email" class="block text-sm font-medium mb-1">Email</label>
-          <input
-            id="email"
-            v-model="form.email"
-            type="email"
-            required
-            class="w-full rounded-md border px-3 py-2 text-sm"
-            placeholder="you@example.com"
-          />
-        </div>
-        <div>
-          <label for="message" class="block text-sm font-medium mb-1">Message</label>
-          <textarea
-            id="message"
-            v-model="form.message"
-            rows="4"
-            required
-            class="w-full rounded-md border px-3 py-2 text-sm"
-            placeholder="Your message..."
-          />
-        </div>
-        <!-- Honeypot (invisible to humans) -->
-        <input type="text" name="hp" class="hidden" autocomplete="off" tabindex="-1" />
-        <button
-          type="submit"
-          :disabled="submitting"
-          class="rounded-md bg-blue-600 px-6 py-2 text-sm font-medium text-white transition hover:opacity-90 disabled:opacity-50"
-        >
-          {{ submitting ? 'Sending...' : 'Send Message' }}
-        </button>
-        <p v-if="sent" class="text-sm text-green-600">Message sent! Nova will get back to you soon.</p>
-      </form>
-    </div>
+        <div class="rounded-2xl border border-[#CCEBE2] bg-white p-6 shadow-sm">
+          <form class="space-y-5" @submit.prevent="submitForm" novalidate>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <div class="space-y-2">
+                <label for="name" class="block text-sm font-medium text-[#321E48]">Name</label>
+                <input
+                  id="name"
+                  v-model.trim="form.name"
+                  type="text"
+                  autocomplete="name"
+                  class="w-full rounded-md border border-[#CCEBE2] bg-[#D9FFF4] px-3 py-2 text-[#321E48] placeholder:text-[#43637E] focus:border-[#2D9C96] focus:outline-none focus:ring-2 focus:ring-[#65DCD5]/30"
+                  placeholder="Your name"
+                  required
+                />
+              </div>
+              <div class="space-y-2">
+                <label for="email" class="block text-sm font-medium text-[#321E48]">Email</label>
+                <input
+                  id="email"
+                  v-model.trim="form.email"
+                  type="email"
+                  autocomplete="email"
+                  class="w-full rounded-md border border-[#CCEBE2] bg-[#D9FFF4] px-3 py-2 text-[#321E48] placeholder:text-[#43637E] focus:border-[#2D9C96] focus:outline-none focus:ring-2 focus:ring-[#65DCD5]/30"
+                  placeholder="you@example.com"
+                  required
+                />
+              </div>
+            </div>
 
-    <!-- Direct Contact Info -->
-    <div v-if="profile" class="space-y-2 text-sm text-gray-600">
-      <p v-if="profile.email">
-        <span class="font-medium">Email:</span>
-        <a :href="`mailto:${profile.email}`" class="ml-1 underline">{{ profile.email }}</a>
-      </p>
-      <p v-if="profile.linkedin_url">
-        <span class="font-medium">LinkedIn:</span>
-        <a :href="profile.linkedin_url" target="_blank" rel="noopener" class="ml-1 underline">linkedin.com/in/novasugiantara</a>
-      </p>
+            <div class="space-y-2">
+              <label for="message" class="block text-sm font-medium text-[#321E48]">Message</label>
+              <textarea
+                id="message"
+                v-model.trim="form.message"
+                rows="6"
+                class="w-full rounded-md border border-[#CCEBE2] bg-[#D9FFF4] px-3 py-2 text-[#321E48] placeholder:text-[#43637E] focus:border-[#2D9C96] focus:outline-none focus:ring-2 focus:ring-[#65DCD5]/30"
+                placeholder="Tell me about the project, timeline, or context."
+                required
+              />
+            </div>
+
+            <input v-model="form.hp" type="text" name="hp" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <button
+                type="submit"
+                :disabled="status === 'loading'"
+                class="inline-flex h-11 items-center justify-center rounded-full bg-[#65DCD5] px-5 text-sm font-semibold text-[#321E48] transition hover:bg-[#4BBDB6] focus:outline-none focus:ring-2 focus:ring-[#2D9C96] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {{ status === 'loading' ? 'Sending…' : 'Send message' }}
+              </button>
+
+              <p v-if="status === 'success'" class="text-sm font-medium text-[#2D9C96]" role="status" aria-live="polite">
+                Message sent. Nova will reply by email.
+              </p>
+              <p v-else-if="status === 'error'" class="text-sm font-medium text-red-700" role="alert">
+                {{ errorMessage }}
+              </p>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <aside class="space-y-4 rounded-2xl border border-[#CCEBE2] bg-white p-6 shadow-sm">
+        <h2 class="text-lg font-semibold text-[#321E48]">Direct contact</h2>
+        <div v-if="profile" class="space-y-3 text-sm text-[#43637E]">
+          <p v-if="profile.email">
+            <span class="font-medium text-[#321E48]">Email:</span>
+            <a :href="`mailto:${profile.email}`" class="ml-1 underline decoration-[#65DCD5] decoration-2 underline-offset-4">
+              {{ profile.email }}
+            </a>
+          </p>
+          <p v-if="profile.linkedin_url">
+            <span class="font-medium text-[#321E48]">LinkedIn:</span>
+            <a :href="profile.linkedin_url" target="_blank" rel="noopener noreferrer" class="ml-1 underline decoration-[#65DCD5] decoration-2 underline-offset-4">
+              linkedin.com/in/novasugiantara
+            </a>
+          </p>
+          <p v-if="profile.phone">
+            <span class="font-medium text-[#321E48]">WhatsApp:</span>
+            <span class="ml-1">{{ profile.phone }}</span>
+          </p>
+        </div>
+      </aside>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 const { data: profile } = useProfile()
-
-const form = ref({ name: '', email: '', message: '' })
-const submitting = ref(false)
-const sent = ref(false)
+const status = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
+const errorMessage = ref('')
+const form = reactive({ name: '', email: '', message: '', hp: '' })
 
 const submitForm = async () => {
-  submitting.value = true
-  // ponytail: contact submission API in Fase 4 — client-side placeholder for now
-  await new Promise((r) => setTimeout(r, 600))
-  sent.value = true
-  submitting.value = false
-  form.value = { name: '', email: '', message: '' }
+  status.value = 'loading'
+  errorMessage.value = ''
+
+  try {
+    await $fetch('/api/contact', {
+      method: 'POST',
+      body: {
+        name: form.name,
+        email: form.email,
+        message: form.message,
+        hp: form.hp,
+      },
+    })
+
+    status.value = 'success'
+    form.name = ''
+    form.email = ''
+    form.message = ''
+    form.hp = ''
+  } catch (error) {
+    status.value = 'error'
+    errorMessage.value = error instanceof Error ? error.message : 'Failed to send message'
+  }
 }
 
 useSeoMeta({
   title: 'Contact — Nova Sugiantara',
-  description: 'Get in touch with Nova Sugiantara for freelance projects and collaborations.',
+  description: 'Contact Nova Sugiantara for freelance work, collaborations, and questions.',
 })
 </script>

@@ -1,37 +1,37 @@
 <template>
-  <div class="container mx-auto px-4 max-w-4xl py-12">
-    <div v-if="pending" class="text-gray-600">Loading project...</div>
-    <div v-else-if="project?.data" class="space-y-6">
-      <h1 class="text-4xl font-bold">{{ project.data.title }}</h1>
-      <p class="text-gray-600 max-w-prose">{{ project.data.description }}</p>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-        <div v-if="project.data.role">
-          <span class="font-medium">Role:</span> {{ project.data.role }}
-        </div>
-        <div v-if="project.data.tech_stack?.length">
-          <span class="font-medium">Tech Stack:</span>
-          <span class="ml-1 flex flex-wrap gap-1 mt-1">
-            <span
-              v-for="tech in project.data.tech_stack"
-              :key="tech"
-              class="rounded-full bg-gray-100 px-2 py-0.5 text-xs"
-            >
-              {{ tech }}
-            </span>
-          </span>
-        </div>
-        <div v-if="project.data.project_url">
-          <span class="font-medium">Live:</span>
-          <a :href="project.data.project_url" target="_blank" rel="noopener" class="ml-1 underline">Visit project</a>
-        </div>
-        <div v-if="project.data.repo_url">
-          <span class="font-medium">Code:</span>
-          <a :href="project.data.repo_url" target="_blank" rel="noopener" class="ml-1 underline">Repository</a>
+  <div class="mx-auto max-w-4xl space-y-8 px-4 py-16 md:px-6 lg:py-20">
+    <div v-if="pending" class="text-sm text-[var(--foreground-muted)]">Loading project...</div>
+    <div v-else-if="project?.data" class="space-y-8">
+      <div class="space-y-4">
+        <h1 class="text-4xl font-extrabold tracking-tight font-heading text-[var(--foreground-primary)]">{{ project.data.title }}</h1>
+        <p class="max-w-prose leading-relaxed text-[var(--foreground-secondary)]">{{ project.data.description }}</p>
+        <div class="flex flex-wrap gap-2" v-if="project.data.tech_stack?.length">
+          <span
+            v-for="tech in project.data.tech_stack"
+            :key="tech"
+            class="rounded-md bg-[var(--background-muted)] px-2 py-0.5 font-mono text-xs text-[var(--foreground-secondary)]"
+          >{{ tech }}</span>
         </div>
       </div>
-      <hr class="my-4" />
-      <NuxtLink to="/projects" class="text-sm text-blue-600 underline">← Back to Portofolio</NuxtLink>
+
+      <div class="grid gap-4 text-sm sm:grid-cols-2">
+        <div v-if="project.data.role" class="rounded-lg border border-[var(--border-subtle)] bg-[var(--background-card)] p-4">
+          <span class="font-semibold font-heading text-[var(--foreground-primary)]">Role</span>
+          <p class="mt-1 text-[var(--foreground-secondary)]">{{ project.data.role }}</p>
+        </div>
+        <div v-if="project.data.project_url" class="rounded-lg border border-[var(--border-subtle)] bg-[var(--background-card)] p-4">
+          <span class="font-semibold font-heading text-[var(--foreground-primary)]">Live</span>
+          <p class="mt-1"><a :href="project.data.project_url" target="_blank" rel="noopener" class="text-[var(--accent-primary)] underline underline-offset-2">Visit project</a></p>
+        </div>
+        <div v-if="project.data.repo_url" class="rounded-lg border border-[var(--border-subtle)] bg-[var(--background-card)] p-4">
+          <span class="font-semibold font-heading text-[var(--foreground-primary)]">Code</span>
+          <p class="mt-1"><a :href="project.data.repo_url" target="_blank" rel="noopener" class="text-[var(--accent-primary)] underline underline-offset-2">Repository</a></p>
+        </div>
+      </div>
+
+      <hr class="border-[var(--border-subtle)]" />
+
+      <NuxtLink to="/projects" class="inline-flex text-sm font-medium text-[var(--accent-primary)] underline underline-offset-4 font-heading">← Back to Portofolio</NuxtLink>
     </div>
   </div>
 </template>

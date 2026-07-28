@@ -55,3 +55,17 @@ export const blogPostSchema = z.object({
   sort_order: z.number().int().optional(),
   is_published: z.boolean().optional(),
 }).strict()
+
+export const contactSchema = z.object({
+  name: z.string().min(1).max(200),
+  email: z.string().email().max(200),
+  message: z.string().min(1).max(5000),
+}).strict()
+
+export const cvVariantSchema = z.object({
+  name: z.string().min(1).max(200),
+  is_default: z.boolean().optional(),
+  included_experience_ids: z.array(z.string()).default([]),
+  included_project_ids: z.array(z.string()).default([]),
+  included_skill_ids: z.array(z.string()).default([]),
+}).strict()
