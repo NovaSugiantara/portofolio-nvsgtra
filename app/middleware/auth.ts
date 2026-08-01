@@ -2,10 +2,16 @@ export default defineNuxtRouteMiddleware(async (to) => {
   if (!to.path.startsWith('/admin')) return
   if (to.path === '/admin/login') return
 
-  const supabase = useSupabaseBrowser()
-  const { data } = await supabase.auth.getUser()
+  const { fetchUser } = useAuth()
+  const currentUser = await fetchUser()
 
-  if (!data.user) {
-    return navigateTo('/admin/login')
+  if (!currentUser) {
+    return navigateTo(
+      {
+        path: '/admin/login',
+        query: { redirect: to.fullPath },
+      },
+      { replace: true },
+    )
   }
 })

@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Nova Sugiantara is a full stack web developer building reliable booking, payment, commerce, and AI-enabled products." />
+  <meta name="theme-color" content="#FBFCFD" />
+  <title>Nova Sugiantara — Full Stack Web Developer</title>
+
+  <script>
+    (() => {
+      const savedTheme = localStorage.getItem('nova-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'monospace']
+          },
+          colors: {
+            brand: {
+              ink: '#321E48',
+              slate: '#43637E',
+              mint: '#65DCD5',
+              mist: '#D9FFF4',
+              teal: '#1F7A75',
+              tealDark: '#185F5B'
+            }
+          },
+          boxShadow: {
+            soft: '0 16px 40px rgba(50, 30, 72, 0.08)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #FBFCFD;
+      --bg-alt: #F3F6F8;
+      --surface: #FFFFFF;
+      --surface-muted: #F6FAF9;
+      --text: #321E48;
+      --text-secondary: #43637E;
+      --muted: #5F7080;
+      --accent: #1F7A75;
+      --accent-hover: #185F5B;
+      --accent-soft: #D9FFF4;
+      --border: #DCE4E8;
+      --border-strong: #AAB8C2;
+    }
+    .dark {
+      color-scheme: dark;
+      --bg: #21162C;
+      --bg-alt: #291B36;
+      --surface: #321E48;
+      --surface-muted: #3A2850;
+      --text: #D9FFF4;
+      --text-secondary: #B7CAD7;
+      --muted: #9FB4C3;
+      --accent: #65DCD5;
+      --accent-hover: #83E7E1;
+      --accent-soft: #263F46;
+      --border: #4C3B5E;
+      --border-strong: #6A577D;
+    }
+    body { background: var(--bg); color: var(--text); }
+    .bg-page { background: var(--bg); }
+    .bg-alt { background: var(--bg-alt); }
+    .bg-surface { background: var(--surface); }
+    .bg-muted-surface { background: var(--surface-muted); }
+    .text-main { color: var(--text); }
+    .text-secondary { color: var(--text-secondary); }
+    .text-muted { color: var(--muted); }
+    .text-accent { color: var(--accent); }
+    .border-default { border-color: var(--border); }
+    .focus-ring:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+    .noise {
+      background-image: radial-gradient(circle at 1px 1px, rgba(67,99,126,.16) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+    .metric-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    @media (min-width: 640px) { .metric-grid { grid-template-columns: repeat(4, minmax(0,1fr)); } }
+    .reveal { opacity: 0; transform: translateY(14px); }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); transition: opacity .5s ease, transform .5s ease; }
+    .project-card { transition: transform .16s ease, border-color .16s ease, background-color .16s ease; }
+    .project-card:hover { transform: translateY(-3px); border-color: var(--border-strong); }
+    .nav-link[aria-current="page"]::after {
+      content: '';
+      display: block;
+      height: 2px;
+      border-radius: 999px;
+      background: var(--accent);
+      margin-top: 4px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto !important; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased selection:bg-brand-mist selection:text-brand-ink">
+  <a href="#main" class="focus-ring sr-only focus:not-sr-only fixed left-4 top-4 z-[100] rounded-lg bg-surface px-4 py-3 text-sm font-semibold text-main shadow-soft">Skip to content</a>
+
+  <header class="sticky top-0 z-50 border-b border-default bg-page/90 backdrop-blur-xl">
+    <nav class="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-12" aria-label="Primary navigation">
+      <a href="#home" class="focus-ring flex items-center gap-3 rounded-lg" aria-label="Nova Sugiantara home">
+        <span class="grid h-10 w-10 place-items-center rounded-xl bg-brand-ink font-mono text-sm font-semibold text-brand-mist dark:bg-brand-mint dark:text-brand-ink">NS</span>
+        <span class="hidden sm:block">
+          <span class="block text-sm font-semibold text-main">Nova Sugiantara</span>
+          <span class="block text-xs text-muted">Full Stack Developer</span>
+        </span>
+      </a>
+
+      <div class="hidden items-center gap-7 md:flex">
+        <a class="nav-link focus-ring rounded text-sm font-medium text-main" href="#home" aria-current="page">Home</a>
+        <a class="nav-link focus-ring rounded text-sm font-medium text-secondary hover:text-main" href="#projects">Projects</a>
+        <a class="nav-link focus-ring rounded text-sm font-medium text-secondary hover:text-main" href="#experience">Experience</a>
+        <a class="nav-link focus-ring rounded text-sm font-medium text-secondary hover:text-main" href="#about">About</a>
+        <a class="nav-link focus-ring rounded text-sm font-medium text-secondary hover:text-main" href="#contact">Contact</a>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="theme-toggle" class="focus-ring grid h-11 w-11 place-items-center rounded-lg border border-default bg-surface text-main hover:bg-muted-surface" type="button" aria-label="Switch color theme">
+          <i data-lucide="moon" class="h-5 w-5 dark:hidden"></i>
+          <i data-lucide="sun" class="hidden h-5 w-5 dark:block"></i>
+        </button>
+        <a href="mailto:nvsgtra425@gmail.com" class="focus-ring hidden rounded-lg bg-brand-teal px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-tealDark sm:inline-flex dark:bg-brand-mint dark:text-brand-ink">Start a conversation</a>
+        <button id="menu-toggle" class="focus-ring grid h-11 w-11 place-items-center rounded-lg border border-default bg-surface text-main md:hidden" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation menu">
+          <i data-lucide="menu" class="h-5 w-5"></i>
+        </button>
+      </div>
+    </nav>
+
+    <div id="mobile-menu" class="hidden border-t border-default bg-page px-5 py-5 md:hidden">
+      <div class="mx-auto grid max-w-7xl gap-2">
+        <a href="#home" class="focus-ring rounded-lg px-4 py-3 font-medium text-main hover:bg-muted-surface">Home</a>
+        <a href="#projects" class="focus-ring rounded-lg px-4 py-3 font-medium text-main hover:bg-muted-surface">Projects</a>
+        <a href="#experience" class="focus-ring rounded-lg px-4 py-3 font-medium text-main hover:bg-muted-surface">Experience</a>
+        <a href="#about" class="focus-ring rounded-lg px-4 py-3 font-medium text-main hover:bg-muted-surface">About</a>
+        <a href="#contact" class="focus-ring rounded-lg px-4 py-3 font-medium text-main hover:bg-muted-surface">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section id="home" class="relative overflow-hidden border-b border-default">
+      <div class="noise absolute inset-y-0 right-0 hidden w-1/2 opacity-50 lg:block" aria-hidden="true"></div>
+      <div class="relative mx-auto grid max-w-7xl items-center gap-14 px-5 py-20 sm:px-8 sm:py-24 lg:grid-cols-[1.35fr_.65fr] lg:px-12 lg:py-28">
+        <div class="reveal max-w-4xl">
+          <div class="mb-6 flex flex-wrap items-center gap-3">
+            <span class="inline-flex items-center gap-2 rounded-full border border-default bg-surface px-3 py-1.5 font-mono text-xs font-semibold text-secondary">
+              <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+              Open to senior full stack opportunities
+            </span>
+            <span class="font-mono text-xs text-muted">Bali, Indonesia · UTC+8</span>
+          </div>
+          <p class="mb-4 font-mono text-sm font-semibold text-accent">FULL STACK WEB DEVELOPER</p>
+          <h1 class="max-w-4xl text-4xl font-bold leading-[1.08] tracking-[-0.035em] text-main sm:text-5xl lg:text-[3.55rem]">
+            I build dependable web products for complex, high-stakes workflows.
+          </h1>
+          <p class="mt-7 max-w-3xl text-lg leading-8 text-secondary sm:text-xl">
+            Four years shipping production systems across booking, payments, commerce, and blockchain. I translate business constraints into maintainable software, then help teams deliver it with confidence.
+          </p>
+          <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a href="#projects" class="focus-ring inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-brand-teal px-5 py-3 font-semibold text-white hover:bg-brand-tealDark dark:bg-brand-mint dark:text-brand-ink">
+              View selected work <i data-lucide="arrow-down-right" class="h-4 w-4"></i>
+            </a>
+            <a href="mailto:nvsgtra425@gmail.com" class="focus-ring inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border border-default bg-surface px-5 py-3 font-semibold text-main hover:bg-muted-surface">
+              Contact me <i data-lucide="mail" class="h-4 w-4"></i>
+            </a>
+          </div>
+        </div>
+
+        <aside class="reveal rounded-2xl border border-default bg-surface p-6 shadow-soft sm:p-7" aria-label="Professional profile summary">
+          <div class="flex items-start justify-between gap-4 border-b border-default pb-6">
+            <div>
+              <p class="font-mono text-xs font-semibold text-accent">CURRENT FOCUS</p>
+              <h2 class="mt-2 text-xl font-semibold text-main">Product-minded engineering</h2>
+            </div>
+            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-muted-surface text-accent"><i data-lucide="workflow" class="h-5 w-5"></i></span>
+          </div>
+          <dl class="mt-6 grid gap-5">
+            <div>
+              <dt class="text-sm text-muted">Primary stack</dt>
+              <dd class="mt-1 font-medium text-main">Laravel, Vue, React, PostgreSQL</dd>
+            </div>
+            <div>
+              <dt class="text-sm text-muted">Production domain</dt>
+              <dd class="mt-1 font-medium text-main">Booking engines and payment systems</dd>
+            </div>
+            <div>
+              <dt class="text-sm text-muted">Team contribution</dt>
+              <dd class="mt-1 font-medium text-main">Planning, reviews, mentoring, incident response</dd>
+            </div>
+            <div>
+              <dt class="text-sm text-muted">Exploring now</dt>
+              <dd class="mt-1 font-medium text-main">AI-assisted product workflows and agents</dd>
+            </div>
+          </dl>
+          <div class="mt-7 flex gap-3 border-t border-default pt-6">
+            <a class="focus-ring inline-flex items-center gap-2 rounded text-sm font-semibold text-accent underline decoration-2 underline-offset-4" href="https://github.com/NovaSugiantara" target="_blank" rel="noreferrer">GitHub <i data-lucide="external-link" class="h-4 w-4"></i></a>
+            <a class="focus-ring inline-flex items-center gap-2 rounded text-sm font-semibold text-accent underline decoration-2 underline-offset-4" href="https://linkedin.com/in/novasugiantara" target="_blank" rel="noreferrer">LinkedIn <i data-lucide="external-link" class="h-4 w-4"></i></a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section aria-label="Key career metrics" class="border-b border-default bg-alt">
+      <div class="metric-grid mx-auto grid max-w-7xl divide-x divide-y border-x border-default px-5 sm:px-8 lg:px-12">
+        <div class="reveal p-6 sm:p-8"><strong class="block text-3xl font-semibold text-main">4+</strong><span class="mt-1 block text-sm text-muted">Years in production engineering</span></div>
+        <div class="reveal p-6 sm:p-8"><strong class="block text-3xl font-semibold text-main">5K+</strong><span class="mt-1 block text-sm text-muted">Monthly booking transactions</span></div>
+        <div class="reveal p-6 sm:p-8"><strong class="block text-3xl font-semibold text-main">65%</strong><span class="mt-1 block text-sm text-muted">Fewer payment errors</span></div>
+        <div class="reveal p-6 sm:p-8"><strong class="block text-3xl font-semibold text-main">10K+</strong><span class="mt-1 block text-sm text-muted">Users on a delivered platform</span></div>
+      </div>
+    </section>
+
+    <section id="projects" class="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
+      <div class="reveal flex flex-col justify-between gap-5 md:flex-row md:items-end">
+        <div class="max-w-2xl">
+          <p class="font-mono text-sm font-semibold text-accent">SELECTED PROJECTS</p>
+          <h2 class="mt-3 text-3xl font-semibold tracking-tight text-main sm:text-4xl">Evidence over adjectives.</h2>
+          <p class="mt-4 text-lg leading-8 text-secondary">A curated set of systems where my contribution can be explained through responsibility, decisions, and measurable outcomes.</p>
+        </div>
+        <a href="https://github.com/NovaSugiantara" target="_blank" rel="noreferrer" class="focus-ring inline-flex items-center gap-2 self-start rounded font-semibold text-accent underline decoration-2 underline-offset-4">Explore GitHub <i data-lucide="arrow-up-right" class="h-4 w-4"></i></a>
+      </div>
+
+      <div class="mt-10 grid gap-5 lg:grid-cols-12">
+        <article class="project-card reveal rounded-2xl border border-default bg-surface p-6 sm:p-8 lg:col-span-7">
+          <div class="flex items-start justify-between gap-4">
+            <span class="font-mono text-xs font-semibold text-accent">BOOKING PLATFORM</span>
+            <span class="rounded-md bg-muted-surface px-2.5 py-1 font-mono text-xs text-muted">Lead role</span>
+          </div>
+          <h3 class="mt-6 text-2xl font-semibold text-main">Omni Hotelier Booking Engine</h3>
+          <p class="mt-4 max-w-2xl leading-7 text-secondary">A production booking platform connecting properties, travelers, payment providers, and third-party travel partners through business-critical reservation workflows.</p>
+          <dl class="mt-7 grid gap-5 border-y border-default py-6 sm:grid-cols-2">
+            <div><dt class="text-sm text-muted">Contribution</dt><dd class="mt-1 font-medium text-main">Technical planning, delivery leadership, code review, incident triage</dd></div>
+            <div><dt class="text-sm text-muted">Verified impact</dt><dd class="mt-1 font-medium text-main">5K+ monthly transactions and 8+ partner integrations</dd></div>
+          </dl>
+          <div class="mt-6 flex flex-wrap gap-2">
+            <span class="rounded-md border border-default bg-muted-surface px-2.5 py-1 text-sm text-secondary">Laravel</span><span class="rounded-md border border-default bg-muted-surface px-2.5 py-1 text-sm text-secondary">React</span><span class="rounded-md border border-default bg-muted-surface px-2.5 py-1 text-sm text-secondary">Redux</span><span class="rounded-md border border-default bg-muted-surface px-2.5 py-1 text-sm text-secondary">Payment APIs</span>
+          </div>
+        </article>
+
+        <article class="project-card reveal rounded-2xl border border-default bg-brand-ink p-6 text-brand-mist sm:p-8 lg:col-span-5 dark:bg-muted-surface">
+          <span class="font-mono text-xs font-semibold text-brand-mint">PAYMENT INFRASTRUCTURE</span>
+          <h3 class="mt-6 text-2xl font-semibold">Multi-provider payment integrations</h3>
+          <p class="mt-4 leading-7 text-brand-mist/80">Integrated local and international gateways while improving failure handling, compatibility, and production observability.</p>
+          <div class="mt-8 rounded-xl border border-white/15 bg-white/5 p-5">
+            <p class="text-sm text-brand-mist/70">Measured outcome</p>
+            <p class="mt-2 text-4xl font-semibold">65%</p>
+            <p class="mt-1 text-sm text-brand-mist/80">reduction in payment processing errors</p>
+          </div>
+          <p class="mt-6 font-mono text-xs text-brand-mist/70">Midtrans · Xendit · Flywire · PayPal</p>
+        </article>
+
+        <article class="project-card reveal rounded-2xl border border-default bg-surface p-6 sm:p-8 lg:col-span-4">
+          <span class="font-mono text-xs font-semibold text-accent">PLATFORM</span>
+          <h3 class="mt-5 text-xl font-semibold text-main">Zisu MLM Platform</h3>
+          <p class="mt-3 leading-7 text-secondary">A Laravel-based business platform with account, network, and operational workflows for a large user base.</p>
+          <p class="mt-6 border-t border-default pt-5 text-sm font-medium text-main">Delivered for 10K+ users</p>
+        </article>
+
+        <article class="project-card reveal rounded-2xl border border-default bg-surface p-6 sm:p-8 lg:col-span-4">
+          <span class="font-mono text-xs font-semibold text-accent">MIGRATION</span>
+          <h3 class="mt-5 text-xl font-semibold text-main">Eurekapp.biz rebuild</h3>
+          <p class="mt-3 leading-7 text-secondary">Migrated a WordPress site to a custom stack to improve maintainability and frontend delivery performance.</p>
+          <p class="mt-6 border-t border-default pt-5 text-sm font-medium text-main">70% faster load time</p>
+        </article>
+
+        <article class="project-card reveal rounded-2xl border border-default bg-surface p-6 sm:p-8 lg:col-span-4">
+          <span class="font-mono text-xs font-semibold text-accent">BLOCKCHAIN</span>
+          <h3 class="mt-5 text-xl font-semibold text-main">NFT steganography system</h3>
+          <p class="mt-3 leading-7 text-secondary">Backend services combining Go, PostgreSQL, and blockchain-oriented data workflows.</p>
+          <p class="mt-6 border-t border-default pt-5 text-sm font-medium text-main">API response time improved by 55%</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="experience" class="border-y border-default bg-alt">
+      <div class="mx-auto grid max-w-7xl gap-12 px-5 py-20 sm:px-8 sm:py-24 lg:grid-cols-[.65fr_1.35fr] lg:px-12 lg:py-28">
+        <div class="reveal lg:sticky lg:top-28 lg:self-start">
+          <p class="font-mono text-sm font-semibold text-accent">EXPERIENCE</p>
+          <h2 class="mt-3 text-3xl font-semibold tracking-tight text-main sm:text-4xl">Growing from builder to technical coordinator.</h2>
+          <p class="mt-5 text-lg leading-8 text-secondary">My progression reflects increasing ownership across architecture, delivery, team quality, and production reliability.</p>
+        </div>
+
+        <div class="space-y-5">
+          <article class="reveal rounded-2xl border border-default bg-surface p-6 sm:p-8">
+            <div class="flex flex-col justify-between gap-3 sm:flex-row sm:items-start">
+              <div><p class="font-mono text-xs font-semibold text-accent">PT. OMNI HOTELIER INTERNATIONAL</p><h3 class="mt-2 text-xl font-semibold text-main">Booking Engine Product Coordinator / Lead Team Product Developer</h3></div>
+              <p class="shrink-0 text-sm font-medium text-muted">May 2025 — Present</p>
+            </div>
+            <p class="mt-5 leading-7 text-secondary">Own planning and delivery for a production booking engine while coordinating product, QA, and engineering decisions.</p>
+            <ul class="mt-5 grid gap-3 text-main sm:grid-cols-2">
+              <li class="flex gap-3"><i data-lucide="check" class="mt-1 h-4 w-4 shrink-0 text-accent"></i><span>Translate business requirements into engineering work</span></li>
+              <li class="flex gap-3"><i data-lucide="check" class="mt-1 h-4 w-4 shrink-0 text-accent"></i><span>Review pull requests and guide implementation quality</span></li>
+              <li class="flex gap-3"><i data-lucide="check" class="mt-1 h-4 w-4 shrink-0 text-accent"></i><span>Triage production issues by business impact</span></li>
+              <li class="flex gap-3"><i data-lucide="check" class="mt-1 h-4 w-4 shrink-0 text-accent"></i><span>Keep sprint delivery aligned across disciplines</span></li>
+            </ul>
+          </article>
+
+          <article class="reveal rounded-2xl border border-default bg-surface p-6 sm:p-8">
+            <div class="flex flex-col justify-between gap-3 sm:flex-row sm:items-start">
+              <div><p class="font-mono text-xs font-semibold text-accent">PT. OMNI HOTELIER INTERNATIONAL</p><h3 class="mt-2 text-xl font-semibold text-main">Intermediate Fullstack Developer</h3></div>
+              <p class="shrink-0 text-sm font-medium text-muted">May 2024 — May 2025</p>
+            </div>
+            <p class="mt-5 leading-7 text-secondary">Expanded payment capabilities, third-party compatibility, and team capability across production applications.</p>
+          </article>
+
+          <article class="reveal rounded-2xl border border-default bg-surface p-6 sm:p-8">
+            <div class="flex flex-col justify-between gap-3 sm:flex-row sm:items-start">
+              <div><p class="font-mono text-xs font-semibold text-accent">FREELANCE · BALIOLA · BALI GATRA</p><h3 class="mt-2 text-xl font-semibold text-main">Full Stack and Backend Engineering</h3></div>
+              <p class="shrink-0 text-sm font-medium text-muted">2021 — Present</p>
+            </div>
+            <p class="mt-5 leading-7 text-secondary">Delivered commerce, transportation, streaming, blockchain, and business platforms using Laravel, Rails, Go, and modern frontend tools.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
+      <div class="grid gap-12 lg:grid-cols-[1fr_1fr]">
+        <div class="reveal">
+          <p class="font-mono text-sm font-semibold text-accent">ENGINEERING APPROACH</p>
+          <h2 class="mt-3 text-3xl font-semibold tracking-tight text-main sm:text-4xl">Practical architecture, clear ownership, calm execution.</h2>
+          <p class="mt-6 text-lg leading-8 text-secondary">I work best where product decisions and technical constraints meet. I prefer small, reversible changes, explicit contracts, observable failure paths, and code that another engineer can safely continue.</p>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div class="reveal rounded-xl border border-default bg-surface p-5"><i data-lucide="shield-check" class="h-5 w-5 text-accent"></i><h3 class="mt-4 font-semibold text-main">Production responsibility</h3><p class="mt-2 text-sm leading-6 text-secondary">Prioritize data safety, failure recovery, and real user impact.</p></div>
+          <div class="reveal rounded-xl border border-default bg-surface p-5"><i data-lucide="git-pull-request" class="h-5 w-5 text-accent"></i><h3 class="mt-4 font-semibold text-main">Maintainable delivery</h3><p class="mt-2 text-sm leading-6 text-secondary">Use reviews, clear boundaries, and incremental implementation.</p></div>
+          <div class="reveal rounded-xl border border-default bg-surface p-5"><i data-lucide="users" class="h-5 w-5 text-accent"></i><h3 class="mt-4 font-semibold text-main">Cross-team clarity</h3><p class="mt-2 text-sm leading-6 text-secondary">Translate constraints between product, QA, and engineering.</p></div>
+          <div class="reveal rounded-xl border border-default bg-surface p-5"><i data-lucide="sparkles" class="h-5 w-5 text-accent"></i><h3 class="mt-4 font-semibold text-main">AI with purpose</h3><p class="mt-2 text-sm leading-6 text-secondary">Explore agents and LLM features when they improve real workflows.</p></div>
+        </div>
+      </div>
+
+      <div class="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div class="reveal rounded-2xl bg-muted-surface p-6"><h3 class="text-lg font-semibold text-main">Backend engineering</h3><p class="mt-3 leading-7 text-secondary">Laravel, Ruby on Rails, Node.js, Go, APIs, integrations, payment systems.</p></div>
+        <div class="reveal rounded-2xl bg-muted-surface p-6"><h3 class="text-lg font-semibold text-main">Frontend development</h3><p class="mt-3 leading-7 text-secondary">Vue.js, React, Redux, responsive UI, accessible interaction patterns.</p></div>
+        <div class="reveal rounded-2xl bg-muted-surface p-6"><h3 class="text-lg font-semibold text-main">Infrastructure and data</h3><p class="mt-3 leading-7 text-secondary">PostgreSQL, MySQL, AWS, Docker, CI/CD, production debugging.</p></div>
+      </div>
+    </section>
+
+    <section id="contact" class="border-t border-default bg-brand-ink text-brand-mist dark:bg-surface">
+      <div class="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-8 sm:py-24 lg:grid-cols-[1.1fr_.9fr] lg:px-12 lg:py-28">
+        <div class="reveal">
+          <p class="font-mono text-sm font-semibold text-brand-mint">LET'S BUILD SOMETHING RELIABLE</p>
+          <h2 class="mt-4 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">Need an engineer who can connect product intent with production reality?</h2>
+          <p class="mt-5 max-w-2xl text-lg leading-8 text-brand-mist/75">I am open to full stack, backend, product engineering, and selected freelance opportunities where ownership and technical judgment matter.</p>
+          <a href="mailto:nvsgtra425@gmail.com" class="focus-ring mt-8 inline-flex min-h-12 items-center gap-2 rounded-lg bg-brand-mint px-5 py-3 font-semibold text-brand-ink hover:bg-white">nvsgtra425@gmail.com <i data-lucide="arrow-up-right" class="h-4 w-4"></i></a>
+        </div>
+        <div class="reveal rounded-2xl border border-white/15 bg-white/5 p-6 sm:p-8">
+          <dl class="grid gap-6">
+            <div><dt class="text-sm text-brand-mist/60">Location</dt><dd class="mt-1 font-medium">Batubulan, Bali, Indonesia</dd></div>
+            <div><dt class="text-sm text-brand-mist/60">Preferred contact</dt><dd class="mt-1 font-medium">Email or LinkedIn</dd></div>
+            <div><dt class="text-sm text-brand-mist/60">Typical response</dt><dd class="mt-1 font-medium">Within two business days</dd></div>
+          </dl>
+          <div class="mt-8 flex flex-wrap gap-4 border-t border-white/15 pt-6">
+            <a class="focus-ring rounded font-semibold underline decoration-2 underline-offset-4" href="https://linkedin.com/in/novasugiantara" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a class="focus-ring rounded font-semibold underline decoration-2 underline-offset-4" href="https://github.com/NovaSugiantara" target="_blank" rel="noreferrer">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 bg-brand-ink text-brand-mist dark:bg-surface">
+    <div class="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-7 text-sm text-brand-mist/65 sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-12">
+      <p>© <span id="year"></span> Nova Sugiantara. Built with semantic HTML and progressive enhancement.</p>
+      <a href="#home" class="focus-ring inline-flex items-center gap-2 self-start rounded font-medium text-brand-mist underline underline-offset-4">Back to top <i data-lucide="arrow-up" class="h-4 w-4"></i></a>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/62881080290643?text=Hi%20Nova%2C%20I%20would%20like%20to%20discuss%20a%20project." target="_blank" rel="noreferrer" aria-label="Chat with Nova on WhatsApp" class="focus-ring fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-[#168B5B] text-white shadow-lg transition hover:-translate-y-1 hover:bg-[#117348]">
+    <i data-lucide="message-circle" class="h-6 w-6"></i>
+  </a>
+
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@motionone/dom@10.18.0/dist/motion-one.min.js"></script>
+  <script>
+    lucide.createIcons();
+
+    const root = document.documentElement;
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeMeta = document.querySelector('meta[name="theme-color"]');
+
+    function syncThemeMeta() {
+      themeMeta.setAttribute('content', root.classList.contains('dark') ? '#21162C' : '#FBFCFD');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      root.classList.toggle('dark');
+      localStorage.setItem('nova-theme', root.classList.contains('dark') ? 'dark' : 'light');
+      syncThemeMeta();
+    });
+    syncThemeMeta();
+
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => {
+      const open = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', String(!open));
+      mobileMenu.classList.toggle('hidden');
+      menuToggle.setAttribute('aria-label', open ? 'Open navigation menu' : 'Close navigation menu');
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.setAttribute('aria-label', 'Open navigation menu');
+    }));
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const revealItems = document.querySelectorAll('.reveal');
+    if (reducedMotion || !('IntersectionObserver' in window)) {
+      revealItems.forEach(item => item.classList.add('is-visible'));
+    } else {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      revealItems.forEach(item => observer.observe(item));
+    }
+
+    const navLinks = [...document.querySelectorAll('.nav-link')];
+    const sections = [...document.querySelectorAll('main section[id]')];
+    const activeObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach(link => {
+          const active = link.getAttribute('href') === `#${entry.target.id}`;
+          link.toggleAttribute('aria-current', active);
+          if (active) link.setAttribute('aria-current', 'page');
+        });
+      });
+    }, { rootMargin: '-35% 0px -55% 0px' });
+    sections.forEach(section => activeObserver.observe(section));
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

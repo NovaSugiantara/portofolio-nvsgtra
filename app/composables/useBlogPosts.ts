@@ -5,7 +5,10 @@ type BlogListItem = Pick<
   BlogPost,
   'id' | 'slug' | 'title' | 'excerpt' | 'tags' | 'published_at' | 'cover_image_url' | 'sort_order'
 >
-type BlogPostDetail = BlogPost & { content_html: string }
+type BlogPostDetail = Pick<
+  BlogPost,
+  'id' | 'slug' | 'title' | 'excerpt' | 'tags' | 'published_at' | 'cover_image_url' | 'sort_order'
+> & { content_html: string }
 
 export const useBlogPosts = () =>
   useFetch<BlogListItem[]>('/api/blog', {

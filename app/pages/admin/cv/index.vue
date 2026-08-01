@@ -1,159 +1,32 @@
 <template>
-  <div class="max-w-4xl">
-    <div class="mb-6 flex items-center justify-between">
-      <h1 class="text-2xl font-bold">CV Variants</h1>
-      <button
-        class="rounded-full bg-[var(--accent-primary)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--accent-hover)]"
-        @click="startNew"
-      >
-        + New Variant
-      </button>
-    </div>
-
-    <!-- Editor -->
-    <div v-if="editing" class="mb-8 rounded-2xl border border-[var(--border-subtle)] bg-[var(--background-card)] p-6 shadow-sm">
-      <h2 class="mb-4 text-lg font-semibold">{{ form.id ? 'Edit' : 'New' }} Variant</h2>
-      <form class="space-y-5" @submit.prevent="save">
-        <div>
-          <label class="mb-1 block text-sm font-medium">Name</label>
-          <input v-model="form.name" class="w-full rounded-md border border-[var(--border-subtle)] bg-[var(--background-muted)] px-3 py-2" required />
-        </div>
-
-        <fieldset class="space-y-3">
-          <legend class="text-sm font-medium">Include content</legend>
-          <div class="grid gap-4 md:grid-cols-3">
-            <div>
-              <p class="mb-1 text-xs uppercase tracking-wide text-[var(--foreground-muted)]">Experiences</p>
-              <div class="max-h-40 space-y-1 overflow-y-auto rounded border border-[var(--border-subtle)] p-2">
-                <label v-for="e in experiences" :key="e.id" class="flex items-center gap-2 text-sm">
-                  <input type="checkbox" :value="e.id" v-model="form.included_experience_ids" />
-                  <span>{{ e.role }} — {{ e.company }}</span>
-                </label>
-              </div>
-            </div>
-            <div>
-              <p class="mb-1 text-xs uppercase tracking-wide text-[var(--foreground-muted)]">Projects</p>
-              <div class="max-h-40 space-y-1 overflow-y-auto rounded border border-[var(--border-subtle)] p-2">
-                <label v-for="p in projects" :key="p.id" class="flex items-center gap-2 text-sm">
-                  <input type="checkbox" :value="p.id" v-model="form.included_project_ids" />
-                  <span>{{ p.title }}</span>
-                </label>
-              </div>
-            </div>
-            <div>
-              <p class="mb-1 text-xs uppercase tracking-wide text-[var(--foreground-muted)]">Skills</p>
-              <div class="max-h-40 space-y-1 overflow-y-auto rounded border border-[var(--border-subtle)] p-2">
-                <label v-for="s in skillsFlat" :key="s.id" class="flex items-center gap-2 text-sm">
-                  <input type="checkbox" :value="s.id" v-model="form.included_skill_ids" />
-                  <span>{{ s.category }}: {{ s.name }}</span>
-                </label>
-              </div>
-            </div>
-          </div>
-        </fieldset>
-
-        <label class="flex items-center gap-2 text-sm">
-          <input type="checkbox" v-model="form.is_default" />
-          Set as default variant (public download uses this)
-        </label>
-
-        <div class="flex gap-3">
-          <button type="submit" :disabled="saving" class="rounded-full bg-[var(--accent-primary)] px-4 py-2 text-sm font-semibold text-white disabled:opacity-50">
-            {{ saving ? 'Saving…' : 'Save' }}
-          </button>
-          <button type="button" class="text-sm text-[var(--foreground-muted)]" @click="cancelEdit">Cancel</button>
-        </div>
-        <p v-if="err" class="text-sm text-red-600">{{ err }}</p>
-      </form>
-    </div>
-
-    <!-- List -->
-    <p v-if="pending" class="text-sm text-[var(--foreground-muted)]">Loading…</p>
-    <div v-else class="space-y-3">
-      <div
-        v-for="v in variants"
-        :key="v.id"
-        class="flex items-center justify-between rounded-xl border border-[var(--border-subtle)] bg-[var(--background-card)] p-4"
-      >
-        <div>
-          <p class="font-semibold font-heading">{{ v.name }}
-            <span v-if="v.is_default" class="ml-2 rounded-full bg-[var(--accent-primary)] px-2 py-0.5 text-xs text-white">default</span>
-          </p>
-          <p class="text-sm text-[var(--foreground-muted)]">
-            {{ v.included_experience_ids?.length || 0 }} exp · {{ v.included_project_ids?.length || 0 }} proj · {{ v.included_skill_ids?.length || 0 }} skills
-          </p>
-        </div>
-        <div class="flex gap-3 text-sm">
-          <button class="text-[var(--accent-primary)]" @click="startEdit(v)">Edit</button>
-          <button class="text-red-600" @click="remove(v)">Delete</button>
-        </div>
-      </div>
-      <p v-if="!variants.length" class="text-sm text-[var(--foreground-muted)]">No variants yet.</p>
-    </div>
-  </div>
+  <section class="mx-auto max-w-6xl space-y-6">
+    <header class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"><div><p class="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--accent-hover)]">CV builder</p><h1 class="mt-2 text-3xl font-bold text-pretty">CV variants</h1><p class="mt-2 max-w-2xl text-sm text-[var(--foreground-secondary)]">Save tailored selections for different applications. The default variant powers the public CV download.</p></div><button type="button" class="inline-flex min-h-11 items-center justify-center rounded-md bg-[var(--accent-primary)] px-4 text-sm font-semibold text-white hover:bg-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]" @click="startNew">New variant</button></header>
+    <div v-if="actionError" class="rounded-md border border-red-700/30 bg-red-50 px-4 py-3 text-sm text-red-900" role="alert">{{ actionError }}</div><div v-if="successMessage" class="rounded-md border border-emerald-700/30 bg-emerald-50 px-4 py-3 text-sm text-emerald-900" role="status" aria-live="polite">{{ successMessage }}</div>
+    <form v-if="editing" class="space-y-6 rounded-lg border border-[var(--border-subtle)] bg-[var(--background-card)] p-4 shadow-[var(--shadow-sm)] sm:p-6" novalidate @submit.prevent="save"><div class="flex flex-wrap items-center justify-between gap-3"><h2 class="text-xl font-semibold">{{ editingId ? 'Edit variant' : 'New variant' }}</h2><span v-if="isDirty" class="text-sm font-semibold text-[var(--accent-hover)]">Unsaved changes</span></div><div><label for="variant-name" class="mb-2 block text-sm font-semibold">Variant name</label><input id="variant-name" v-model="form.name" name="name" autocomplete="off" maxlength="200" placeholder="Backend-focused…" :aria-invalid="Boolean(errors.name)" class="w-full rounded-md border border-[var(--border-subtle)] bg-[var(--background-page)] px-3 py-3 focus:border-[var(--border-focus)] focus:outline-none" /><p v-if="errors.name" class="mt-2 text-sm text-red-800" role="alert">{{ errors.name }}</p></div><fieldset class="space-y-4"><legend class="text-sm font-semibold">Include content</legend><div v-if="sourcePending" class="grid gap-4 md:grid-cols-3" aria-busy="true" aria-label="Loading CV content"><div v-for="n in 3" :key="n" class="h-48 animate-pulse rounded-md bg-[var(--background-muted)]" /></div><div v-else-if="sourceError" class="rounded-md border border-red-700/30 p-4 text-sm text-red-900" role="alert">Some source content could not be loaded. Refresh the page and try again.</div><div v-else class="grid gap-5 md:grid-cols-3"><div><h3 class="mb-2 text-sm font-semibold">Experiences</h3><div class="max-h-64 space-y-1 overflow-y-auto rounded-md border border-[var(--border-subtle)] p-2"> <label v-for="item in experiences" :key="item.id" class="flex min-h-11 items-start gap-3 rounded px-2 py-2 text-sm hover:bg-[var(--background-muted)]"><input v-model="form.included_experience_ids" type="checkbox" :value="item.id" class="mt-1 h-4 w-4 shrink-0 rounded border-[var(--border-subtle)] text-[var(--accent-primary)] focus:ring-2 focus:ring-[var(--border-focus)]" /><span class="min-w-0 break-words">{{ item.role }} <span class="text-[var(--foreground-muted)]">— {{ item.company }}</span></span></label><p v-if="!experiences.length" class="p-2 text-sm text-[var(--foreground-muted)]">No experiences available.</p></div></div><div><h3 class="mb-2 text-sm font-semibold">Projects</h3><div class="max-h-64 space-y-1 overflow-y-auto rounded-md border border-[var(--border-subtle)] p-2"><label v-for="item in projects" :key="item.id" class="flex min-h-11 items-start gap-3 rounded px-2 py-2 text-sm hover:bg-[var(--background-muted)]"><input v-model="form.included_project_ids" type="checkbox" :value="item.id" class="mt-1 h-4 w-4 shrink-0 rounded border-[var(--border-subtle)] text-[var(--accent-primary)] focus:ring-2 focus:ring-[var(--border-focus)]" /><span class="min-w-0 break-words">{{ item.title }}</span></label><p v-if="!projects.length" class="p-2 text-sm text-[var(--foreground-muted)]">No projects available.</p></div></div><div><h3 class="mb-2 text-sm font-semibold">Skills</h3><div class="max-h-64 space-y-1 overflow-y-auto rounded-md border border-[var(--border-subtle)] p-2"><label v-for="item in skills" :key="item.id" class="flex min-h-11 items-start gap-3 rounded px-2 py-2 text-sm hover:bg-[var(--background-muted)]"><input v-model="form.included_skill_ids" type="checkbox" :value="item.id" class="mt-1 h-4 w-4 shrink-0 rounded border-[var(--border-subtle)] text-[var(--accent-primary)] focus:ring-2 focus:ring-[var(--border-focus)]" /><span class="min-w-0 break-words">{{ item.category }}: {{ item.name }}</span></label><p v-if="!skills.length" class="p-2 text-sm text-[var(--foreground-muted)]">No skills available.</p></div></div></div></fieldset><label class="flex min-h-11 items-center gap-3 border-t border-[var(--border-subtle)] pt-5 text-sm font-semibold"><input v-model="form.is_default" type="checkbox" name="is_default" class="h-5 w-5 rounded border-[var(--border-subtle)] text-[var(--accent-primary)] focus:ring-2 focus:ring-[var(--border-focus)]" /> Make this the default public variant</label><p v-if="errors.references" class="text-sm text-red-800" role="alert">{{ errors.references }}</p><div class="flex flex-col-reverse gap-3 sm:flex-row"><button type="submit" class="min-h-11 rounded-md bg-[var(--accent-primary)] px-5 text-sm font-semibold text-white hover:bg-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)] disabled:opacity-60" :disabled="saving || sourcePending" :aria-busy="saving">{{ saving ? 'Saving…' : 'Save variant' }}</button><button type="button" class="min-h-11 rounded-md border border-[var(--border-subtle)] px-5 text-sm font-semibold hover:bg-[var(--background-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]" @click="cancelEdit">Cancel</button></div></form>
+    <div v-if="listPending" class="space-y-3" aria-busy="true" aria-label="Loading CV variants"><div v-for="n in 2" :key="n" class="h-24 animate-pulse rounded-lg bg-[var(--background-muted)]" /></div><div v-else-if="listError" class="rounded-lg border border-red-700/30 bg-[var(--background-card)] p-6" role="alert"><h2 class="font-semibold">CV variants could not be loaded</h2><button type="button" class="mt-4 min-h-11 rounded-md border border-[var(--border-subtle)] px-4 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]" @click="retry">Try again</button></div><div v-else-if="!variants.length" class="rounded-lg border border-dashed border-[var(--border-subtle)] bg-[var(--background-card)] p-10 text-center"><h2 class="font-semibold">No CV variants yet</h2><p class="mt-2 text-sm text-[var(--foreground-secondary)]">Create one to control which content is included in generated CVs.</p><button type="button" class="mt-5 min-h-11 rounded-md border border-[var(--accent-primary)] px-4 text-sm font-semibold text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]" @click="startNew">Create a variant</button></div><div v-else class="grid gap-3"><article v-for="variant in variants" :key="variant.id" class="rounded-lg border border-[var(--border-subtle)] bg-[var(--background-card)] p-4 shadow-[var(--shadow-sm)] sm:p-5"><div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"><div class="min-w-0"><div class="flex flex-wrap items-center gap-2"><h2 class="break-words text-lg font-semibold">{{ variant.name }}</h2><span v-if="variant.is_default" class="rounded-full bg-[var(--accent-primary)] px-2.5 py-1 text-xs font-semibold text-white">Default</span></div><p class="mt-2 text-sm text-[var(--foreground-secondary)]">{{ variant.included_experience_ids.length }} experiences · {{ variant.included_project_ids.length }} projects · {{ variant.included_skill_ids.length }} skills</p></div><div class="flex flex-wrap gap-2"><button type="button" class="min-h-11 rounded-md border border-[var(--border-subtle)] px-3 text-sm font-semibold hover:border-[var(--accent-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]" @click="startEdit(variant)">Edit</button><button v-if="!variant.is_default" type="button" class="min-h-11 rounded-md border border-[var(--border-subtle)] px-3 text-sm font-semibold hover:border-[var(--accent-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)] disabled:opacity-60" :disabled="defaultId === variant.id" @click="makeDefault(variant)">{{ defaultId === variant.id ? 'Updating…' : 'Set default' }}</button><button type="button" class="min-h-11 rounded-md border border-red-700/40 px-3 text-sm font-semibold text-red-800 hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-700" @click="openDelete(variant)">Delete</button></div></div></article></div>
+    <dialog ref="deleteDialog" class="w-[min(100%-2rem,32rem)] rounded-lg border border-[var(--border-subtle)] bg-[var(--background-card)] p-0 shadow-[var(--shadow-lg)] backdrop:bg-[var(--color-obsidian)]/50" aria-labelledby="cv-delete-title"><div class="p-6"><h2 id="cv-delete-title" class="text-xl font-semibold">Delete CV variant?</h2><p class="mt-2 text-sm text-[var(--foreground-secondary)]">“{{ deleteTarget?.name }}” will be removed. A different variant may become the default.</p><div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end"><button ref="cancelDeleteButton" type="button" class="min-h-11 rounded-md border border-[var(--border-subtle)] px-4 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]" @click="closeDelete">Cancel</button><button type="button" class="min-h-11 rounded-md bg-red-800 px-4 text-sm font-semibold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-700 disabled:opacity-60" :disabled="Boolean(deletingId)" @click="confirmDelete">{{ deletingId ? 'Deleting…' : 'Delete variant' }}</button></div></div></dialog>
+  </section>
 </template>
 
 <script setup lang="ts">
+import { z } from 'zod'
 definePageMeta({ layout: 'admin', middleware: ['auth'] })
-
-interface Variant {
-  id: string
-  name: string
-  is_default: boolean
-  included_experience_ids: string[]
-  included_project_ids: string[]
-  included_skill_ids: string[]
-}
-
-interface PickRow { id: string; role?: string; company?: string; title?: string; category?: string; name?: string }
-
-const { data: variants, pending, refresh } = await useFetch<Variant[]>('/api/admin/cv-variants')
-const { data: experiences } = await useFetch<PickRow[]>('/api/admin/experiences')
-const { data: projects } = await useFetch<PickRow[]>('/api/admin/projects')
-const { data: skills } = await useFetch<PickRow[]>('/api/admin/skills')
-const skillsFlat = computed(() => skills.value ?? [])
-
-const editing = ref(false)
-const saving = ref(false)
-const err = ref('')
-const form = ref<Partial<Variant>>({
-  name: '', is_default: false,
-  included_experience_ids: [], included_project_ids: [], included_skill_ids: [],
-})
-
-const startNew = () => {
-  form.value = { name: '', is_default: false, included_experience_ids: [], included_project_ids: [], included_skill_ids: [] }
-  editing.value = true
-  err.value = ''
-}
-const startEdit = (v: Variant) => {
-  form.value = { ...v }
-  editing.value = true
-  err.value = ''
-}
-const cancelEdit = () => { editing.value = false; err.value = '' }
-
-const save = async () => {
-  saving.value = true
-  err.value = ''
-  try {
-    if (form.value.id) {
-      await $fetch(`/api/admin/cv-variants/${form.value.id}`, { method: 'PUT', body: form.value })
-    } else {
-      await $fetch('/api/admin/cv-variants', { method: 'POST', body: form.value })
-    }
-    await refresh()
-    editing.value = false
-  } catch (e) {
-    err.value = e instanceof Error ? e.message : 'Save failed'
-  } finally {
-    saving.value = false
-  }
-}
-
-const remove = async (v: Variant) => {
-  if (!confirm(`Delete variant "${v.name}"?`)) return
-  await $fetch(`/api/admin/cv-variants/${v.id}`, { method: 'DELETE' })
-  await refresh()
-}
+interface Variant { id: string; name: string; is_default: boolean; included_experience_ids: string[]; included_project_ids: string[]; included_skill_ids: string[] }
+interface Experience { id: string; role: string; company: string }; interface Project { id: string; title: string }; interface Skill { id: string; category: string; name: string }
+const variantSchema = z.object({ name: z.string().trim().min(1, 'Variant name is required.').max(200), is_default: z.boolean(), included_experience_ids: z.array(z.string().uuid()).max(50), included_project_ids: z.array(z.string().uuid()).max(50), included_skill_ids: z.array(z.string().uuid()).max(50) }).strict()
+type Form = z.infer<typeof variantSchema>
+const { data: variantData, pending: listPending, error: listError, refresh } = await useFetch<Variant[]>('/api/admin/cv-variants'); const variants = computed(() => variantData.value ?? [])
+const { data: experienceData, pending: experiencePending, error: experienceError } = await useFetch<Experience[]>('/api/admin/experiences'); const { data: projectData, pending: projectPending, error: projectError } = await useFetch<Project[]>('/api/admin/projects'); const { data: skillData, pending: skillPending, error: skillError } = await useFetch<Skill[]>('/api/admin/skills')
+const experiences = computed(() => experienceData.value ?? []); const projects = computed(() => projectData.value ?? []); const skills = computed(() => skillData.value ?? []); const sourcePending = computed(() => experiencePending.value || projectPending.value || skillPending.value); const sourceError = computed(() => experienceError.value || projectError.value || skillError.value)
+const editing = ref(false); const saving = ref(false); const actionError = ref(''); const successMessage = ref(''); const errors = ref<Record<string, string>>({}); const form = ref<Form>({ name: '', is_default: false, included_experience_ids: [], included_project_ids: [], included_skill_ids: [] }); const editingId = ref(''); const initialSnapshot = ref(''); const ignoreLeavePrompt = ref(false); const defaultId = ref(''); const deletingId = ref(''); const deleteTarget = ref<Variant | null>(null); const deleteDialog = ref<HTMLDialogElement | null>(null); const cancelDeleteButton = ref<HTMLButtonElement | null>(null)
+const startNew = () => { form.value = { name: '', is_default: false, included_experience_ids: [], included_project_ids: [], included_skill_ids: [] }; editingId.value = ''; initialSnapshot.value = JSON.stringify(form.value); editing.value = true; errors.value = {}; actionError.value = '' }
+const startEdit = (variant: Variant) => { form.value = { name: variant.name, is_default: variant.is_default, included_experience_ids: [...variant.included_experience_ids], included_project_ids: [...variant.included_project_ids], included_skill_ids: [...variant.included_skill_ids] }; editingId.value = variant.id; initialSnapshot.value = JSON.stringify(form.value); editing.value = true; errors.value = {}; actionError.value = '' }
+const isDirty = computed(() => editing.value && JSON.stringify(form.value) !== initialSnapshot.value)
+const cancelEdit = () => { if (isDirty.value && import.meta.client && !window.confirm('You have unsaved changes. Leave without saving?')) return; editing.value = false; ignoreLeavePrompt.value = true }
+const validate = () => { errors.value = {}; const result = variantSchema.safeParse(form.value); if (result.success) { form.value = result.data; return true } for (const issue of result.error.issues) { const key = String(issue.path[0] ?? 'form'); if (!errors.value[key]) errors.value[key] = issue.message } return false }
+const save = async () => { if (!validate()) { actionError.value = 'Review the variant name and selected content before saving.'; return } saving.value = true; actionError.value = ''; successMessage.value = ''; try { const body = { name: form.value.name, is_default: form.value.is_default, included_experience_ids: form.value.included_experience_ids, included_project_ids: form.value.included_project_ids, included_skill_ids: form.value.included_skill_ids }; await $fetch(editingId.value ? `/api/admin/cv-variants/${editingId.value}` : '/api/admin/cv-variants', { method: editingId.value ? 'PUT' : 'POST', body }); await refresh(); editing.value = false; ignoreLeavePrompt.value = true; successMessage.value = 'CV variant saved.' } catch (error) { actionError.value = error instanceof Error ? error.message : 'Unable to save this CV variant. Try again.' } finally { saving.value = false } }
+const makeDefault = async (variant: Variant) => { defaultId.value = variant.id; actionError.value = ''; try { await $fetch(`/api/admin/cv-variants/${variant.id}`, { method: 'PUT', body: { is_default: true } }); successMessage.value = 'Default CV variant updated.'; await refresh() } catch (error) { actionError.value = error instanceof Error ? error.message : 'Unable to update the default variant.' } finally { defaultId.value = '' } }
+const retry = async () => { actionError.value = ''; await refresh() }; const openDelete = (variant: Variant) => { deleteTarget.value = variant; deleteDialog.value?.showModal(); nextTick(() => cancelDeleteButton.value?.focus()) }; const closeDelete = () => { deleteDialog.value?.close(); deleteTarget.value = null }
+const confirmDelete = async () => { if (!deleteTarget.value) return; deletingId.value = deleteTarget.value.id; actionError.value = ''; try { await $fetch(`/api/admin/cv-variants/${deleteTarget.value.id}`, { method: 'DELETE' }); successMessage.value = 'CV variant deleted.'; closeDelete(); await refresh() } catch (error) { actionError.value = error instanceof Error ? error.message : 'Unable to delete this variant.' } finally { deletingId.value = '' } }
+onBeforeRouteLeave(() => { if (ignoreLeavePrompt.value || !isDirty.value || saving.value || !import.meta.client) return true; return window.confirm('You have unsaved changes. Leave without saving?') }); if (import.meta.client) { const warn = (event: BeforeUnloadEvent) => { if (!isDirty.value || saving.value) return; event.preventDefault(); event.returnValue = '' }; onMounted(() => window.addEventListener('beforeunload', warn)); onBeforeUnmount(() => window.removeEventListener('beforeunload', warn)) }
 </script>

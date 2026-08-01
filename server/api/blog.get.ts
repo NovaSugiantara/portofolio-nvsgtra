@@ -1,6 +1,12 @@
-import type { H3Event } from 'h3'
+import type { Tables } from '~/types/database'
+import { createInternalServerError } from '../utils/apiErrors'
 
-export default defineEventHandler(async (_event: H3Event) => {
+type PublicBlogListItem = Pick<
+  Tables<'blog_posts'>,
+  'id' | 'slug' | 'title' | 'excerpt' | 'tags' | 'published_at' | 'cover_image_url' | 'sort_order'
+>
+
+export default defineEventHandler(async (): Promise<PublicBlogListItem[]> => {
   const supabase = useSupabasePublic()
   const { data, error } = await supabase
     .from('blog_posts')
@@ -9,8 +15,17 @@ export default defineEventHandler(async (_event: H3Event) => {
     .order('published_at', { ascending: false, nullsLast: true })
 
   if (error) {
-    throw createError({ statusCode: 500, statusMessage: error.message })
+    throw createInternalServerError()
   }
 
-  return data
+  return (data ?? []).map((post): PublicBlogListItem => ({
+    id: post.id,
+    slug: post.slug,
+    title: post.title,
+    excerpt: post.excerpt,
+    tags: post.tags,
+    published_at: post.published_at,
+    cover_image_url: post.cover_image_url,
+    sort_order: post.sort_order,
+  }))
 })

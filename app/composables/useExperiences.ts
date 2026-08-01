@@ -1,9 +1,11 @@
 import type { Database } from '~/types/database'
 
-type Experience = Database['public']['Tables']['experiences']['Row']
+export type PublicExperience = Pick<
+  Database['public']['Tables']['experiences']['Row'],
+  'id' | 'company' | 'role' | 'location' | 'start_date' | 'end_date' | 'bullets' | 'sort_order'
+>
 
 export const useExperiences = () =>
-  useFetch<Experience[]>('/api/experiences', {
+  useFetch<PublicExperience[]>('/api/experiences', {
     key: 'experiences',
-    default: () => [],
   })

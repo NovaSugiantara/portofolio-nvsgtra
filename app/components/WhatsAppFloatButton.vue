@@ -1,11 +1,12 @@
 <template>
   <a
+    v-if="waUrl"
     :href="waUrl"
     target="_blank"
     rel="noopener noreferrer"
-    class="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 shadow-lg transition hover:bg-green-600 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400 focus-visible:ring-offset-2"
-    :style="{ minWidth: '44px', minHeight: '44px' }"
-    aria-label="Chat on WhatsApp"
+    class="fixed bottom-6 right-4 z-40 inline-flex min-h-12 min-w-12 items-center justify-center rounded-full bg-[var(--whatsapp-bg)] p-3 shadow-[var(--shadow-lg)] transition-[background-color,transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:bg-[var(--whatsapp-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background-page)] motion-reduce:transition-none sm:right-6"
+    aria-label="Chat with Nova on WhatsApp"
+    title="Chat with Nova on WhatsApp"
   >
     <!-- SVG WhatsApp icon (brand green bg, white logo) -->
     <svg
@@ -21,10 +22,10 @@
 <script setup lang="ts">
 const config = useRuntimeConfig()
 const { public: { whatsappNumber, whatsappGreeting } } = config
+const { data: profile } = useProfile()
 
-const waUrl = computed(() => {
-  const num = whatsappNumber || ''
-  const greeting = whatsappGreeting || 'Halo Nova! Saya tertarik dengan portofolio Anda.'
-  return `https://wa.me/${num}?text=${encodeURIComponent(greeting)}`
-})
+const whatsappDigits = computed(() => String(whatsappNumber || profile.value?.phone || '').replace(/\D/g, ''))
+const waUrl = computed(() => whatsappDigits.value
+  ? `https://wa.me/${whatsappDigits.value}?text=${encodeURIComponent(whatsappGreeting || '')}`
+  : '')
 </script>

@@ -1,11 +1,17 @@
 import type { H3Event } from 'h3'
+import { getAdminRouteUuid, throwAdminDatabaseError, throwAdminNotFound } from '../../../utils/adminRoute'
 
 export default defineEventHandler(async (event: H3Event) => {
-  await requireOwner(event)
-  const id = getRouterParam(event, 'id')
-  const supabase = useSupabaseAdmin()
-  const { data, error } = await supabase.from('experiences').select('*').eq('id', id).maybeSingle()
-  if (error) throw createError({ statusCode: 500, statusMessage: error.message })
-  if (!data) throw createError({ statusCode: 404, statusMessage: 'Not found' })
+  const user = await requireOwner(event)
+  const id = getAdminRouteUuid(event)
+  const supabase = useSupabaseServer(event)
+  const { data, error } = await supabase
+    .from('experiences')
+    .select('*')
+    .eq('id', id)
+    .eq('owner_id', user.id)
+    .maybeSingle()
+  if (error) throwAdminDatabaseError(error)
+  if (!data) throwAdminNotFound('Experience')
   return data
 })

@@ -1,16 +1,22 @@
 import type { H3Event } from 'h3'
+import { createValidationError } from '../../../utils/apiErrors'
+import { uuidSchema } from '../../../utils/zodSchemas'
 
 export default defineEventHandler(async (event: H3Event) => {
   const user = await requireOwner(event)
-  const id = getRouterParam(event, 'id')
+  const idResult = uuidSchema.safeParse(getRouterParam(event, 'id'))
+  if (!idResult.success) throw createValidationError(idResult.error)
 
-  const supabase = useSupabaseAdmin()
-  const { error } = await supabase
+  const supabase = useSupabaseServer(event)
+  const { data, error } = await supabase
     .from('blog_posts')
     .delete()
-    .eq('id', id)
+    .eq('id', idResult.data)
     .eq('owner_id', user.id)
+    .select('id')
+    .maybeSingle()
 
-  if (error) throw createError({ statusCode: 500, statusMessage: error.message })
+  if (error) throw createError({ statusCode: 500, statusMessage: 'Unable to delete blog post' })
+  if (!data) throw createError({ statusCode: 404, statusMessage: 'Not found' })
   return { success: true }
 })
