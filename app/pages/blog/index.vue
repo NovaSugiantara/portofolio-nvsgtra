@@ -1,17 +1,12 @@
 <template>
   <section class="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-12 lg:py-24" aria-labelledby="blog-title">
-    <header class="grid gap-8 border-b border-[var(--border-subtle)] pb-10 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-end lg:gap-16">
-      <div class="max-w-3xl space-y-4">
-        <p class="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[var(--accent-primary)]">Writing</p>
-        <h1 id="blog-title" class="max-w-2xl text-pretty font-heading text-4xl font-bold tracking-[-0.04em] text-[var(--foreground-primary)] sm:text-5xl lg:text-6xl">
-          Blog
-        </h1>
-        <p class="max-w-2xl text-base leading-8 text-[var(--foreground-secondary)] sm:text-lg">
-          Notes on building useful, resilient web products.
-        </p>
-      </div>
-      <p class="max-w-xs border-t border-[var(--accent-primary)] pt-4 text-sm leading-6 text-[var(--foreground-muted)]">
-        Published notes on the decisions, systems, and lessons behind the work.
+    <header class="max-w-3xl space-y-4 border-b border-[var(--border-subtle)] pb-10">
+      <p class="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-[var(--accent-primary)]">Writing</p>
+      <h1 id="blog-title" class="max-w-2xl text-pretty font-heading text-4xl font-bold tracking-[-0.04em] text-[var(--foreground-primary)] sm:text-5xl lg:text-6xl">
+        Blog
+      </h1>
+      <p class="max-w-2xl text-base leading-8 text-[var(--foreground-secondary)] sm:text-lg">
+        Notes on building useful, resilient web products.
       </p>
     </header>
 
@@ -73,7 +68,7 @@
             {{ post.excerpt }}
           </p>
           <p v-if="post.tags?.length" class="mt-5 break-words font-mono text-xs leading-5 text-[var(--foreground-muted)]" aria-label="Post topics">
-            <Icon name="ph:tag" size="1rem" aria-hidden="true" class="mr-2 inline-block" />{{ post.tags.join(' · ') }}
+            <Icon name="ph:tag" size="1rem" aria-hidden="true" class="mr-2 inline-block" />{{ post.tags.join(', ') }}
           </p>
         </div>
         <NuxtLink
@@ -106,7 +101,7 @@ const blogImageUrl = computed(() => {
 const blogCollectionSchema = computed(() => ({
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
-  name: 'Blog — Nova Sugiantara',
+  name: 'Blog - Nova Sugiantara',
   url: `${siteOrigin}/blog`,
   ...(posts.value?.length ? {
     mainEntity: {
@@ -124,16 +119,16 @@ const serializeJsonLd = (value: unknown) =>
   JSON.stringify(value).replaceAll('<', '\\u003c').replaceAll('>', '\\u003e').replaceAll('&', '\\u0026')
 
 useSeoMeta({
-  title: 'Blog — Nova Sugiantara',
+  title: 'Blog - Nova Sugiantara',
   description: 'Blog posts by Nova Sugiantara about web development and tech.',
   ogType: 'website',
-  ogTitle: 'Blog — Nova Sugiantara',
+  ogTitle: 'Blog - Nova Sugiantara',
   ogDescription: 'Blog posts by Nova Sugiantara about web development and tech.',
   ogUrl: `${siteOrigin}/blog`,
   ogSiteName: 'Nova Sugiantara Portfolio',
   ogImage: blogImageUrl,
   ogImageAlt: 'Nova Sugiantara blog posts',
-  twitterTitle: 'Blog — Nova Sugiantara',
+  twitterTitle: 'Blog - Nova Sugiantara',
   twitterDescription: 'Blog posts by Nova Sugiantara about web development and tech.',
   twitterImage: blogImageUrl,
   twitterCard: 'summary',

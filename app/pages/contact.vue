@@ -106,7 +106,7 @@
             <button
               type="submit"
               :disabled="formStatus === 'loading'"
-              class="inline-flex min-h-11 items-center justify-center rounded-md bg-[var(--accent-primary)] px-5 text-sm font-semibold text-[var(--color-mint)] transition-[background-color,transform,opacity] duration-180 hover:-translate-y-px hover:bg-[var(--accent-hover)] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)] disabled:cursor-not-allowed disabled:opacity-60 motion-reduce:transform-none motion-reduce:transition-none"
+              class="inline-flex min-h-11 items-center justify-center rounded-md bg-[var(--accent-primary)] px-5 text-sm font-semibold text-page transition-[background-color,transform,opacity] duration-180 hover:-translate-y-px hover:bg-[var(--accent-hover)] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)] disabled:cursor-not-allowed disabled:opacity-60 motion-reduce:transform-none motion-reduce:transition-none"
             >
               <Icon name="ph:paper-plane-tilt" size="1.125rem" aria-hidden="true" class="mr-2" />
               {{ formStatus === 'loading' ? 'Sending…' : formStatus === 'error' ? 'Try again' : 'Send message' }}

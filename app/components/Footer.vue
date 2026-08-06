@@ -1,6 +1,6 @@
 <template>
   <footer class="site-footer">
-    <div class="home-container site-footer-inner">
+    <div class="site-container site-footer-inner">
       <p>&copy; {{ currentYear }} Nova Sugiantara. Full Stack Web Developer.</p>
       <nav aria-label="Footer navigation">
         <a href="https://linkedin.com/in/novasugiantara" target="_blank" rel="noopener noreferrer"><Icon name="ph:linkedin-logo" size="1.125rem" aria-hidden="true" />LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>

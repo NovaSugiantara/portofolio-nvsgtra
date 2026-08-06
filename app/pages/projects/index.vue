@@ -6,12 +6,9 @@
     </header>
 
     <section aria-labelledby="projects-heading" class="mt-20 md:mt-28">
-      <div class="flex flex-col gap-4 border-b border-[var(--border-subtle)] pb-6 md:flex-row md:items-end md:justify-between md:gap-8">
-        <div class="max-w-2xl">
-          <h2 id="projects-heading" class="text-3xl font-bold tracking-tight text-[var(--foreground-primary)] md:text-4xl">Selected project work</h2>
-          <p class="mt-3 max-w-prose leading-relaxed text-[var(--foreground-secondary)]">Start with the featured case study, then scan the recent work list for the context, role, and stack behind each project.</p>
-        </div>
-        <p class="max-w-xs text-sm leading-relaxed text-[var(--foreground-muted)]">The ordering follows the published portfolio sequence.</p>
+      <div class="max-w-2xl border-b border-[var(--border-subtle)] pb-6">
+        <h2 id="projects-heading" class="text-3xl font-bold tracking-tight text-[var(--foreground-primary)] md:text-4xl">Selected project work</h2>
+        <p class="mt-3 max-w-prose leading-relaxed text-[var(--foreground-secondary)]">Start with the featured case study, then scan the recent work list for the context, role, and stack behind each project.</p>
       </div>
 
       <div v-if="projectsLoading" class="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1.25fr)_minmax(18rem,0.75fr)]" aria-busy="true" aria-live="polite" aria-label="Loading published projects">
@@ -25,7 +22,7 @@
         <h3 class="text-xl font-semibold text-[var(--foreground-primary)]">Projects could not be loaded</h3>
         <p class="mt-2 max-w-prose leading-relaxed text-[var(--foreground-secondary)]">The published project list is temporarily unavailable. Try the request again or return to the homepage.</p>
         <div class="mt-5 flex flex-wrap items-center gap-4">
-          <button type="button" class="inline-flex min-h-11 items-center gap-2 rounded-[var(--radius-md)] bg-[var(--accent-primary)] px-4 text-sm font-semibold text-white transition-[background-color,transform] duration-180 motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-px hover:bg-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background-muted)] motion-reduce:transition-none" @click="refreshProjects"><Icon name="ph:arrow-clockwise" size="1.125rem" aria-hidden="true" />Try again</button>
+          <button type="button" class="inline-flex min-h-11 items-center gap-2 rounded-[var(--radius-md)] bg-[var(--accent-primary)] px-4 text-sm font-semibold text-page transition-[background-color,transform] duration-180 motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-px hover:bg-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background-muted)] motion-reduce:transition-none" @click="refreshProjects"><Icon name="ph:arrow-clockwise" size="1.125rem" aria-hidden="true" />Try again</button>
           <NuxtLink to="/" class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]"><Icon name="ph:house" size="1.125rem" aria-hidden="true" />Return home</NuxtLink>
         </div>
       </div>

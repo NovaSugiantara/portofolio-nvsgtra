@@ -1,12 +1,12 @@
 <template>
-  <div class="home-page">
-    <section id="home" class="home-hero" aria-labelledby="home-title">
-      <div class="home-hero-media" aria-hidden="true">
+  <div class="bg-page text-primary">
+    <section id="home" aria-labelledby="home-title" class="relative overflow-clip border-b border-line">
+      <div class="absolute inset-y-0 right-0 hidden w-[58%] bg-soft md:block" aria-hidden="true">
         <ClientOnly>
           <video
             v-if="showDesktopHeroVideo"
             ref="heroVideo"
-            class="home-hero-video"
+            class="h-full w-full object-cover [object-position:72%_center]"
             autoplay
             muted
             loop
@@ -17,97 +17,99 @@
             <source src="~/assets/video/hero-bg.webm" type="video/webm">
           </video>
         </ClientOnly>
-        <div class="home-hero-media-scrim" />
+        <div class="hero-scrim" />
       </div>
 
-      <div class="home-container home-hero-grid">
-        <div class="home-hero-copy">
-          <div class="home-hero-meta">
-            <span class="home-profile-pill">{{ homeFallback.profile.role }}</span>
-            <span>{{ displayProfile.location }} | {{ homeFallback.profile.timezone }}</span>
-          </div>
-          <p class="home-role-label">{{ homeFallback.profile.role }}</p>
-          <h1 id="home-title">{{ homeFallback.profile.headline }}</h1>
-          <p class="home-hero-summary">{{ homeFallback.profile.summary }}</p>
-          <div class="home-actions">
-            <a class="home-button home-button-primary" href="#projects">View selected work <Icon name="ph:arrow-down-right" size="1.125rem" aria-hidden="true" /></a>
-            <a class="home-button home-button-secondary" :href="`mailto:${displayProfile.email}`">Contact me <Icon name="ph:envelope-simple" size="1.125rem" aria-hidden="true" /></a>
+      <div class="site-container relative">
+        <div class="max-w-[50rem] py-16 motion-safe:animate-first-view md:py-24">
+          <p class="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-accent">{{ homeFallback.profile.role }}</p>
+          <h1 id="home-title" class="mt-4 max-w-[18ch] text-display leading-[1.08] tracking-[-0.035em]">{{ homeFallback.profile.headline }}</h1>
+          <p class="mt-6 max-w-[62ch] text-lg leading-relaxed text-secondary">{{ homeFallback.profile.summary }}</p>
+          <div class="mt-10 flex flex-wrap gap-3">
+            <a class="btn btn-primary" href="#projects">View selected work <Icon name="ph:arrow-down-right" size="1.125rem" aria-hidden="true" /></a>
+            <NuxtLink class="btn btn-secondary" to="/contact">Contact me <Icon name="ph:envelope-simple" size="1.125rem" aria-hidden="true" /></NuxtLink>
           </div>
         </div>
-
       </div>
     </section>
 
-    <section class="home-snapshot" aria-label="Professional snapshot">
-      <dl class="home-container home-snapshot-grid">
-        <div v-for="item in homeFallback.snapshot" :key="item.value">
-          <dt>{{ item.value }}</dt>
-          <dd>{{ item.label }}</dd>
-        </div>
-      </dl>
+    <section aria-label="Professional snapshot" class="border-b border-line bg-section">
+      <div class="site-container">
+        <dl class="grid grid-cols-2 gap-px border-x border-line bg-line sm:grid-cols-4">
+          <div v-for="item in homeFallback.snapshot" :key="item.value" class="bg-section p-5 sm:p-8">
+            <dt class="text-xl font-bold tracking-[-0.03em] sm:text-3xl">{{ item.value }}</dt>
+            <dd class="mt-2 max-w-[24ch] text-sm leading-normal text-faint">{{ item.label }}</dd>
+          </div>
+        </dl>
+      </div>
     </section>
 
-    <section id="projects" class="home-section home-container" aria-labelledby="projects-title">
-      <div class="home-section-heading home-section-heading-row">
-        <div>
-          <h2 id="projects-title">Selected project work</h2>
-          <p>Systems and product work explained through responsibility, technical choices, and delivery context.</p>
+    <section id="projects" aria-labelledby="projects-title" class="site-container py-16 md:py-24">
+      <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div class="max-w-[46rem]">
+          <h2 id="projects-title" class="text-3xl tracking-[-0.035em] md:text-4xl">Selected project work</h2>
+          <p class="mt-4 max-w-[65ch] text-lg leading-relaxed text-secondary">Systems and product work explained through responsibility, technical choices, and delivery context.</p>
         </div>
-        <NuxtLink class="home-text-link" to="/projects">View full portfolio <Icon name="ph:arrow-right" size="1.125rem" aria-hidden="true" /></NuxtLink>
+        <NuxtLink class="link-accent shrink-0" to="/projects">View full portfolio <Icon name="ph:arrow-right" size="1.125rem" aria-hidden="true" /></NuxtLink>
       </div>
 
-      <div class="home-project-grid">
+      <div class="mt-10 grid gap-4 md:grid-cols-2">
         <article
-          v-for="(project, index) in homeFallback.projects"
-          :key="project.title"
-          :class="projectCardClass(index)"
+          v-for="(project, index) in homeProjects"
+          :key="project.key"
+          class="rounded-lg border border-line bg-card p-5 sm:p-8"
+          :class="index === 0 ? 'md:col-span-2' : ''"
         >
-          <div class="home-project-meta">
-            <span>{{ project.category }}</span>
-            <span v-if="project.role">{{ project.role }}</span>
-          </div>
-          <h3>{{ project.title }}</h3>
-          <p>{{ project.description }}</p>
+          <p class="font-mono text-xs font-semibold uppercase tracking-[0.1em] text-faint">{{ project.meta }}</p>
+          <h3 class="mt-4 text-2xl tracking-[-0.025em]">{{ project.title }}</h3>
+          <p class="mt-4 max-w-[65ch] leading-7 text-secondary">{{ project.description }}</p>
 
-          <dl v-if="index < 2" class="home-project-details">
+          <dl v-if="project.contribution || project.outcome" class="mt-6 grid gap-6 border-y border-line py-6 sm:grid-cols-2">
             <div v-if="project.contribution">
-              <dt>Contribution</dt>
-              <dd>{{ project.contribution }}</dd>
+              <dt class="text-sm text-faint">Contribution</dt>
+              <dd class="mt-2 font-semibold leading-6">{{ project.contribution }}</dd>
             </div>
-            <div>
-              <dt>Delivery context</dt>
-              <dd>{{ project.outcome }}</dd>
+            <div v-if="project.outcome">
+              <dt class="text-sm text-faint">Delivery context</dt>
+              <dd class="mt-2 font-semibold leading-6">{{ project.outcome }}</dd>
             </div>
           </dl>
-          <p v-else class="home-project-outcome">{{ project.outcome }}</p>
 
-          <ul class="home-tech-list" :aria-label="`${project.title} technologies`">
-            <li v-for="technology in project.technologies" :key="technology">{{ technology }}</li>
+          <ul class="mt-6 flex flex-wrap gap-2" :aria-label="`${project.title} technologies`">
+            <li v-for="technology in project.technologies" :key="technology" class="rounded-sm border border-line bg-soft px-2.5 py-1 text-sm text-secondary">{{ technology }}</li>
           </ul>
+
+          <NuxtLink :to="project.href" class="link-accent mt-6">{{ project.cta }}<span v-if="project.href === '/projects'" class="sr-only"> for {{ project.title }}</span> <Icon name="ph:arrow-right" size="1.125rem" aria-hidden="true" /></NuxtLink>
         </article>
       </div>
     </section>
 
-    <section id="experience" class="home-experience" aria-labelledby="experience-title">
-      <div class="home-container home-experience-grid">
-        <div class="home-experience-intro">
-          <h2 id="experience-title">From full stack delivery to technical coordination.</h2>
-          <p>My work now spans implementation, planning, code quality, mentorship, and production responsibility.</p>
+    <section aria-labelledby="experience-title" class="border-y border-line bg-section">
+      <div class="site-container grid gap-10 py-16 md:py-24 lg:grid-cols-[minmax(0,0.65fr)_minmax(0,1.35fr)]">
+        <div class="lg:sticky lg:top-28 lg:self-start">
+          <h2 id="experience-title" class="text-3xl tracking-[-0.035em] md:text-4xl">From full stack delivery to technical coordination.</h2>
+          <p class="mt-4 max-w-[65ch] text-lg leading-relaxed text-secondary">My work now spans implementation, planning, code quality, mentorship, and production responsibility.</p>
         </div>
 
-        <ol class="home-experience-list">
+        <ol class="grid gap-4">
           <li v-for="experience in homeFallback.experiences" :key="`${experience.company}-${experience.period}`">
-            <article>
-              <div class="home-experience-header">
+            <article class="rounded-lg border border-line bg-card p-5 sm:p-8">
+              <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
                 <div>
-                  <p>{{ experience.company }}</p>
-                  <h3>{{ experience.role }}</h3>
+                  <p class="text-sm font-semibold text-faint">{{ experience.company }}</p>
+                  <h3 class="mt-1 text-lg leading-snug">{{ experience.role }}</h3>
                 </div>
-                <p>{{ experience.period }}</p>
+                <p class="shrink-0 font-mono text-sm text-faint">{{ experience.period }}</p>
               </div>
-              <p class="home-experience-description">{{ experience.description }}</p>
-              <ul v-if="experience.contributions.length" class="home-contribution-list">
-                <li v-for="contribution in experience.contributions" :key="contribution">{{ contribution }}</li>
+              <p class="mt-4 leading-7 text-secondary">{{ experience.description }}</p>
+              <ul v-if="experience.contributions.length" class="mt-4 grid gap-2">
+                <li
+                  v-for="contribution in experience.contributions"
+                  :key="contribution"
+                  class="relative pl-6 leading-6 before:absolute before:left-0 before:font-bold before:text-accent before:content-['✓']"
+                >
+                  {{ contribution }}
+                </li>
               </ul>
             </article>
           </li>
@@ -115,53 +117,55 @@
       </div>
     </section>
 
-    <section id="about" class="home-section home-container" aria-labelledby="approach-title">
-      <div class="home-approach-grid">
-        <div class="home-section-heading">
-          <h2 id="approach-title">Practical architecture, clear ownership, calm execution.</h2>
-          <p>I work where product decisions and technical constraints meet, with small changes, explicit contracts, and observable failure paths.</p>
-        </div>
-        <ul class="home-principles" role="list">
-          <li v-for="principle in homeFallback.principles" :key="principle.title">
-            <h3>{{ principle.title }}</h3>
-            <p>{{ principle.description }}</p>
-          </li>
-        </ul>
+    <section id="about" aria-labelledby="approach-title" class="site-container py-16 md:py-24">
+      <div class="max-w-[46rem]">
+        <h2 id="approach-title" class="text-3xl tracking-[-0.035em] md:text-4xl">Practical architecture, clear ownership, calm execution.</h2>
+        <p class="mt-4 max-w-[65ch] text-lg leading-relaxed text-secondary">I work where product decisions and technical constraints meet, with small changes, explicit contracts, and observable failure paths.</p>
       </div>
 
-      <ul class="home-capabilities" role="list" aria-label="Technical capabilities">
-        <li v-for="capability in capabilities" :key="capability.title">
-          <h3>{{ capability.title }}</h3>
-          <p>{{ capability.description }}</p>
+      <ul class="mt-10 grid gap-6 sm:grid-cols-2" role="list">
+        <li v-for="principle in homeFallback.principles" :key="principle.title" class="border-t border-line-strong pt-4">
+          <h3 class="text-lg tracking-[-0.015em]">{{ principle.title }}</h3>
+          <p class="mt-1 leading-7 text-secondary">{{ principle.description }}</p>
+        </li>
+      </ul>
+
+      <ul class="mt-16 grid gap-4 md:grid-cols-3" role="list" aria-label="Technical capabilities">
+        <li v-for="capability in capabilities" :key="capability.title" class="rounded-lg bg-soft p-6">
+          <h3 class="text-lg tracking-[-0.015em]">{{ capability.title }}</h3>
+          <p class="mt-1 text-sm leading-6 text-secondary">{{ capability.description }}</p>
         </li>
       </ul>
     </section>
 
-    <section id="contact" class="home-contact" aria-labelledby="contact-title">
-      <div class="home-container home-contact-grid">
+    <section id="contact" aria-labelledby="contact-title" class="bg-obsidian text-mint">
+      <div class="site-container grid gap-10 py-16 md:py-24 lg:grid-cols-2">
         <div>
-          <h2 id="contact-title">Connect product intent with production reality.</h2>
-          <p>I am open to full stack, backend, product engineering, and selected freelance work where ownership and technical judgment matter.</p>
-          <a class="home-button home-button-inverse" :href="`mailto:${displayProfile.email}`">{{ displayProfile.email }} <Icon name="ph:envelope-simple" size="1.125rem" aria-hidden="true" /></a>
+          <h2 id="contact-title" class="text-3xl tracking-[-0.035em] text-mint md:text-4xl">Connect product intent with production reality.</h2>
+          <p class="mt-4 max-w-[65ch] text-lg leading-relaxed text-mint/80">I am open to full stack, backend, product engineering, and selected freelance work where ownership and technical judgment matter.</p>
+          <NuxtLink class="btn btn-inverse mt-10" to="/contact">Contact me <Icon name="ph:paper-plane-tilt" size="1.125rem" aria-hidden="true" /></NuxtLink>
         </div>
-        <div class="home-contact-details">
-          <dl>
+
+        <div class="rounded-lg border border-mint/20 bg-mint/5 p-5 sm:p-8">
+          <dl class="grid gap-6">
             <div>
-              <dt>Location</dt>
-              <dd>{{ displayProfile.location }}</dd>
+              <dt class="text-sm text-mint/60">Location</dt>
+              <dd class="mt-2 font-semibold leading-6">{{ displayProfile.location }}</dd>
             </div>
             <div>
-              <dt>Professional focus</dt>
-              <dd>Full stack and backend product engineering</dd>
+              <dt class="text-sm text-mint/60">Professional focus</dt>
+              <dd class="mt-2 font-semibold leading-6">Full stack and backend product engineering</dd>
             </div>
             <div>
-              <dt>Preferred contact</dt>
-              <dd>Email or LinkedIn</dd>
+              <dt class="text-sm text-mint/60">Direct email</dt>
+              <dd class="mt-2 font-semibold leading-6">
+                <a :href="`mailto:${displayProfile.email}`" class="text-mint underline underline-offset-4">{{ displayProfile.email }}</a>
+              </dd>
             </div>
           </dl>
-          <div class="home-contact-links">
-            <a :href="displayProfile.linkedinUrl" target="_blank" rel="noopener noreferrer"><Icon name="ph:linkedin-logo" size="1.125rem" aria-hidden="true" />LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
-            <a :href="displayProfile.githubUrl" target="_blank" rel="noopener noreferrer"><Icon name="ph:github-logo" size="1.125rem" aria-hidden="true" />GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+          <div class="mt-6 flex flex-wrap gap-4 border-t border-mint/20 pt-6">
+            <a :href="displayProfile.linkedinUrl" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 font-semibold text-mint underline underline-offset-4"><Icon name="ph:linkedin-logo" size="1.125rem" aria-hidden="true" />LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
+            <a :href="displayProfile.githubUrl" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center gap-2 font-semibold text-mint underline underline-offset-4"><Icon name="ph:github-logo" size="1.125rem" aria-hidden="true" />GitHub<span class="sr-only"> (opens in a new tab)</span></a>
           </div>
         </div>
       </div>
@@ -173,8 +177,21 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { homeFallback } from '~/data/homeFallback'
 
+interface HomeProjectCard {
+  key: string
+  title: string
+  meta: string
+  description: string
+  contribution?: string
+  outcome?: string
+  technologies: string[]
+  href: string
+  cta: string
+}
+
 const { data: profile } = useProfile()
 const { data: skills } = useSkills()
+const { data: projects } = useProjects()
 
 const displayProfile = computed(() => ({
   fullName: profile.value?.full_name?.trim() || homeFallback.profile.fullName,
@@ -186,6 +203,32 @@ const displayProfile = computed(() => ({
   avatarUrl: profile.value?.avatar_url?.trim() || undefined,
 }))
 
+const homeProjects = computed<HomeProjectCard[]>(() => {
+  const liveProjects = (projects.value ?? []).slice(0, 3).map((project) => ({
+    key: String(project.id),
+    title: project.title,
+    meta: project.role?.trim() || 'Project work',
+    description: project.description?.trim() || 'No public project summary is available.',
+    technologies: (project.tech_stack ?? []).slice(0, 4),
+    href: `/projects/${project.slug}`,
+    cta: 'Read case study',
+  }))
+
+  if (liveProjects.length) return liveProjects
+
+  return homeFallback.projects.slice(0, 3).map((project) => ({
+    key: project.title,
+    title: project.title,
+    meta: project.role ?? project.category,
+    description: project.description,
+    contribution: project.contribution,
+    outcome: project.outcome,
+    technologies: project.technologies.slice(0, 4),
+    href: '/projects',
+    cta: 'View portfolio',
+  }))
+})
+
 const capabilities = computed(() => {
   const liveCapabilities = Object.entries(skills.value ?? {})
     .filter(([, list]) => list.length)
@@ -195,12 +238,6 @@ const capabilities = computed(() => {
     }))
 
   return liveCapabilities.length ? liveCapabilities : homeFallback.capabilities
-})
-
-const projectCardClass = (index: number) => ({
-  'home-project-card': true,
-  'home-project-card-lead': index === 0,
-  'home-project-card-inverse': index === 1,
 })
 
 const heroVideo = ref<HTMLVideoElement | null>(null)

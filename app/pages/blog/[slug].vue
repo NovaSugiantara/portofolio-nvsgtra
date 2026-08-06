@@ -14,7 +14,7 @@
       </p>
       <NuxtLink
         to="/blog"
-        class="mt-5 inline-flex min-h-11 items-center gap-2 rounded-md bg-[var(--accent-primary)] px-4 text-sm font-semibold text-[var(--color-mint)] transition-colors hover:bg-[var(--accent-hover)] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)]"
+        class="mt-5 inline-flex min-h-11 items-center gap-2 rounded-md bg-[var(--accent-primary)] px-4 text-sm font-semibold text-page transition-colors hover:bg-[var(--accent-hover)] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)]"
       >
         <Icon name="ph:arrow-left" size="1.125rem" aria-hidden="true" />Back to blog
       </NuxtLink>
@@ -56,7 +56,7 @@
             <span class="inline-flex items-center gap-2"><Icon name="ph:calendar-blank" size="1rem" aria-hidden="true" />{{ formatPublishedDate(post.published_at) }}</span>
           </time>
           <span v-if="post.published_at && post.tags?.length" aria-hidden="true">·</span>
-          <span v-if="post.tags?.length" class="inline-flex items-center gap-2 break-words font-mono text-xs"><Icon name="ph:tag" size="1rem" aria-hidden="true" />{{ post.tags.join(' · ') }}</span>
+          <span v-if="post.tags?.length" class="inline-flex items-center gap-2 break-words font-mono text-xs"><Icon name="ph:tag" size="1rem" aria-hidden="true" />{{ post.tags.join(', ') }}</span>
         </div>
         <p v-if="post.excerpt" class="max-w-2xl text-lg leading-8 text-[var(--foreground-secondary)] sm:text-xl">{{ post.excerpt }}</p>
       </header>
@@ -117,16 +117,16 @@ const serializeJsonLd = (value: unknown) =>
   JSON.stringify(value).replaceAll('<', '\\u003c').replaceAll('>', '\\u003e').replaceAll('&', '\\u0026')
 
 useSeoMeta({
-  title: () => post.value?.title ? `${post.value.title} — Nova Sugiantara` : 'Blog Post — Nova Sugiantara',
+  title: () => post.value?.title ? `${post.value.title} - Nova Sugiantara` : 'Blog Post - Nova Sugiantara',
   description: () => post.value?.excerpt?.slice(0, 160) ?? 'Read Nova Sugiantara’s latest blog post.',
   ogType: 'article',
   ogSiteName: 'Nova Sugiantara Portfolio',
-  ogTitle: () => post.value?.title ? `${post.value.title} — Nova Sugiantara` : 'Blog Post — Nova Sugiantara',
+  ogTitle: () => post.value?.title ? `${post.value.title} - Nova Sugiantara` : 'Blog Post - Nova Sugiantara',
   ogDescription: () => post.value?.excerpt?.slice(0, 160) ?? 'Read Nova Sugiantara’s latest blog post.',
   ogImage: postImageUrl,
   ogUrl: () => canonicalUrl.value,
   twitterCard: 'summary_large_image',
-  twitterTitle: () => post.value?.title ? `${post.value.title} — Nova Sugiantara` : 'Blog Post — Nova Sugiantara',
+  twitterTitle: () => post.value?.title ? `${post.value.title} - Nova Sugiantara` : 'Blog Post - Nova Sugiantara',
   twitterDescription: () => post.value?.excerpt?.slice(0, 160) ?? 'Read Nova Sugiantara’s latest blog post.',
   twitterImage: postImageUrl,
 })

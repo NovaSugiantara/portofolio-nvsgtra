@@ -1,6 +1,6 @@
 <template>
   <header class="site-header" @keydown="handleNavigationKeydown">
-    <nav class="site-nav home-container" aria-label="Primary navigation">
+    <nav class="site-nav site-container" aria-label="Primary navigation">
       <NuxtLink to="/" class="site-brand" aria-label="Nova Sugiantara home" @click="closeMenu(false)">
         <span class="site-brand-mark" aria-hidden="true">NS</span>
         <span class="site-brand-copy">
@@ -70,7 +70,7 @@
         class="site-mobile-menu"
         aria-label="Mobile navigation"
       >
-        <ul class="home-container" role="list">
+        <ul class="site-container" role="list">
           <li v-for="item in navItems" :key="`mobile-${item.to}`">
             <NuxtLink
               :to="item.to"
