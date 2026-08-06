@@ -26,5 +26,13 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ["nuxt-icons"],
+  modules: ['@nuxt/icon'],
+  icon: {
+    provider: 'none',
+    serverBundle: false,
+    clientBundle: {
+      scan: true,
+      icons: ['ph:sun', 'ph:moon', 'ph:list', 'ph:x'],
+    },
+  },
 })

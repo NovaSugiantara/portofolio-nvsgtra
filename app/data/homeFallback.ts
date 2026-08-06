@@ -29,7 +29,6 @@ interface HomeFallback {
     headline: string
     summary: string
   }
-  focus: readonly { label: string, value: string }[]
   snapshot: readonly { value: string, label: string }[]
   projects: readonly HomeProject[]
   experiences: readonly HomeExperience[]
@@ -50,12 +49,6 @@ export const homeFallback: HomeFallback = {
     headline: 'Full stack engineering from product idea to production.',
     summary: 'I build production web applications across frontend and backend, then help teams plan, review, and ship them with confidence.',
   },
-  focus: [
-    { label: 'Primary stack', value: 'Laravel, Vue, React, PostgreSQL' },
-    { label: 'Product work', value: 'Web platforms, integrations, and internal workflows' },
-    { label: 'Team contribution', value: 'Planning, code review, mentoring, and production support' },
-    { label: 'Exploring now', value: 'AI-assisted product workflows and intelligent automation' },
-  ],
   snapshot: [
     { value: '4+ years', label: 'Designing and shipping production web applications' },
     { value: 'Full stack', label: 'Frontend, backend, data, and infrastructure' },

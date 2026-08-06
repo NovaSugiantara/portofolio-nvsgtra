@@ -25,15 +25,15 @@
         <h3 class="text-xl font-semibold text-[var(--foreground-primary)]">Projects could not be loaded</h3>
         <p class="mt-2 max-w-prose leading-relaxed text-[var(--foreground-secondary)]">The published project list is temporarily unavailable. Try the request again or return to the homepage.</p>
         <div class="mt-5 flex flex-wrap items-center gap-4">
-          <button type="button" class="inline-flex min-h-11 items-center rounded-[var(--radius-md)] bg-[var(--accent-primary)] px-4 text-sm font-semibold text-white transition-[background-color,transform] duration-180 motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-px hover:bg-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background-muted)] motion-reduce:transition-none" @click="refreshProjects">Try again</button>
-          <NuxtLink to="/" class="inline-flex min-h-11 items-center text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]">Return home</NuxtLink>
+          <button type="button" class="inline-flex min-h-11 items-center gap-2 rounded-[var(--radius-md)] bg-[var(--accent-primary)] px-4 text-sm font-semibold text-white transition-[background-color,transform] duration-180 motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-px hover:bg-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background-muted)] motion-reduce:transition-none" @click="refreshProjects"><Icon name="ph:arrow-clockwise" size="1.125rem" aria-hidden="true" />Try again</button>
+          <NuxtLink to="/" class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]"><Icon name="ph:house" size="1.125rem" aria-hidden="true" />Return home</NuxtLink>
         </div>
       </div>
 
       <div v-else-if="!publishedProjects.length" class="mt-8 max-w-2xl rounded-[var(--radius-lg)] border border-dashed border-[var(--border-strong)] bg-[var(--background-muted)] p-6 sm:p-8" role="status">
         <h3 class="text-xl font-semibold text-[var(--foreground-primary)]">No published projects yet</h3>
         <p class="mt-2 max-w-prose leading-relaxed text-[var(--foreground-secondary)]">There are no public case studies to show at this address. Return home to continue exploring Nova Sugiantara’s portfolio.</p>
-        <NuxtLink to="/" class="mt-5 inline-flex min-h-11 items-center text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]">Return home</NuxtLink>
+        <NuxtLink to="/" class="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]"><Icon name="ph:house" size="1.125rem" aria-hidden="true" />Return home</NuxtLink>
       </div>
 
       <div v-else class="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1.25fr)_minmax(18rem,0.75fr)] lg:gap-14">
@@ -64,7 +64,7 @@
                 </dd>
               </div>
             </dl>
-            <span class="mt-8 inline-flex min-h-11 items-center text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4">Read case study <span aria-hidden="true" class="ml-2 transition-transform duration-180 motion-safe:group-hover:translate-x-1 motion-reduce:transition-none">→</span></span>
+            <span class="mt-8 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4">Read case study <Icon name="ph:arrow-right" size="1.125rem" aria-hidden="true" class="transition-transform duration-180 motion-safe:group-hover:translate-x-1 motion-reduce:transition-none" /></span>
           </div>
         </NuxtLink>
 
@@ -84,7 +84,7 @@
                     <li v-for="technology in project.tech_stack.slice(0, 3)" :key="technology" class="font-mono text-xs text-[var(--foreground-muted)]">{{ technology }}</li>
                   </ul>
                 </div>
-                <span aria-hidden="true" class="mt-1 shrink-0 text-lg text-[var(--accent-primary)] transition-transform duration-180 motion-safe:group-hover:translate-x-1 motion-reduce:transition-none">↗</span>
+                <Icon name="ph:arrow-right" size="1.125rem" aria-hidden="true" class="mt-1 shrink-0 text-[var(--accent-primary)] transition-transform duration-180 motion-safe:group-hover:translate-x-1 motion-reduce:transition-none" />
               </NuxtLink>
             </li>
           </ul>

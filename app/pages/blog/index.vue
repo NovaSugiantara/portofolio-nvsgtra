@@ -33,10 +33,10 @@
       </p>
       <button
         type="button"
-        class="mt-5 inline-flex min-h-11 items-center justify-center rounded-md bg-[var(--accent-primary)] px-4 text-sm font-semibold text-[var(--color-mint)] transition-colors hover:bg-[var(--accent-hover)] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)]"
+        class="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-[var(--accent-primary)] px-4 text-sm font-semibold text-[var(--color-mint)] transition-colors hover:bg-[var(--accent-hover)] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)]"
         @click="refresh()"
       >
-        Try again
+        <Icon name="ph:arrow-clockwise" size="1.125rem" aria-hidden="true" />Try again
       </button>
     </section>
 
@@ -59,7 +59,7 @@
             :datetime="post.published_at"
             class="font-mono text-xs uppercase tracking-[0.12em] text-[var(--foreground-muted)]"
           >
-            {{ formatPublishedDate(post.published_at) }}
+            <span class="inline-flex items-center gap-2"><Icon name="ph:calendar-blank" size="1rem" aria-hidden="true" />{{ formatPublishedDate(post.published_at) }}</span>
           </time>
           <NuxtLink
             :to="`/blog/${post.slug}`"
@@ -73,14 +73,14 @@
             {{ post.excerpt }}
           </p>
           <p v-if="post.tags?.length" class="mt-5 break-words font-mono text-xs leading-5 text-[var(--foreground-muted)]" aria-label="Post topics">
-            {{ post.tags.join(' · ') }}
+            <Icon name="ph:tag" size="1rem" aria-hidden="true" class="mr-2 inline-block" />{{ post.tags.join(' · ') }}
           </p>
         </div>
         <NuxtLink
           :to="`/blog/${post.slug}`"
           class="inline-flex min-h-11 w-fit items-center self-start text-sm font-semibold text-[var(--accent-primary)] underline decoration-[var(--accent-primary)] decoration-2 underline-offset-4 transition-colors duration-[180ms] hover:text-[var(--accent-hover)] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--border-focus)] lg:justify-self-end"
         >
-          Read article<span class="sr-only">: {{ post.title }}</span><span aria-hidden="true" class="ml-2">↗</span>
+          Read article<span class="sr-only">: {{ post.title }}</span><Icon name="ph:arrow-right" size="1.125rem" aria-hidden="true" class="ml-2" />
         </NuxtLink>
       </li>
     </ul>

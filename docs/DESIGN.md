@@ -539,7 +539,7 @@ Use a consistent line icon set when an icon improves recognition.
 
 1. Icons must not replace visible text for primary navigation.
 2. Decorative icons should be avoided.
-3. Icon only buttons require accessible names and tooltips when meaning is not universally clear.
+3. Icon only buttons require accessible names and tooltips.
 4. External links should indicate that they open a separate destination when useful.
 5. Social links should use recognizable icons with visible or screen reader labels.
 
@@ -870,8 +870,8 @@ Avoid repeating the full primary navigation and a large technology list unless t
 ### 11.12 Theme control
 
 1. Show the current theme state.
-2. Use a text label, accessible name, or segmented control.
-3. Do not rely on sun and moon icons alone.
+2. An icon-only control may use sun and moon icons when its dynamic `aria-label` and tooltip describe the action.
+3. Keep the icon state synchronized with the active theme.
 4. Preserve keyboard focus after the theme changes.
 5. Announce the new state to assistive technology when necessary.
 
@@ -1081,7 +1081,7 @@ Use fluid scaling within safe limits. Headings must not force awkward single wor
 
 1. Motion must communicate state, hierarchy, or continuity.
 2. Motion must not delay access to content.
-3. Continuous decorative animation is not permitted.
+3. Continuous decorative animation is not permitted except for the approved homepage hero video.
 4. Essential information must not depend on animation.
 5. Reduced motion preferences must be respected.
 
@@ -1112,7 +1112,7 @@ Use fluid scaling within safe limits. Headings must not force awkward single wor
 3. Rotating borders
 4. Floating decorative elements
 5. Repeating glow pulses
-6. Autoplay illustration movement
+6. Autoplay illustration movement, except for the muted homepage hero video
 7. Scroll linked transformations for decoration
 8. Large card tilt effects
 
@@ -1444,7 +1444,7 @@ The initial release must not use:
 8. Fake code snippets
 9. Skill progress bars
 10. Percentage based skill ratings
-11. Autoplay animations
+11. Autoplay animations, except for the muted desktop homepage hero video that is disabled by reduced motion
 12. Large technology badge collections
 13. Animated portrait frames
 14. Hover only project information

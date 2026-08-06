@@ -7,10 +7,11 @@
             v-if="showDesktopHeroVideo"
             ref="heroVideo"
             class="home-hero-video"
+            autoplay
             muted
             loop
             playsinline
-            preload="metadata"
+            preload="auto"
             tabindex="-1"
           >
             <source src="~/assets/video/hero-bg.webm" type="video/webm">
@@ -29,34 +30,11 @@
           <h1 id="home-title">{{ homeFallback.profile.headline }}</h1>
           <p class="home-hero-summary">{{ homeFallback.profile.summary }}</p>
           <div class="home-actions">
-            <a class="home-button home-button-primary" href="#projects">View selected work</a>
-            <a class="home-button home-button-secondary" :href="`mailto:${displayProfile.email}`">Contact me</a>
+            <a class="home-button home-button-primary" href="#projects">View selected work <Icon name="ph:arrow-down-right" size="1.125rem" aria-hidden="true" /></a>
+            <a class="home-button home-button-secondary" :href="`mailto:${displayProfile.email}`">Contact me <Icon name="ph:envelope-simple" size="1.125rem" aria-hidden="true" /></a>
           </div>
         </div>
 
-        <aside class="home-focus" aria-labelledby="home-focus-title">
-          <div class="home-focus-header">
-            <div>
-              <p>Current focus</p>
-              <h2 id="home-focus-title">Product-minded engineering</h2>
-            </div>
-            <span class="home-focus-mark" aria-hidden="true">NS</span>
-          </div>
-          <dl class="home-focus-list">
-            <div v-for="item in homeFallback.focus" :key="item.label">
-              <dt>{{ item.label }}</dt>
-              <dd>{{ item.value }}</dd>
-            </div>
-          </dl>
-          <div class="home-social-links">
-            <a :href="displayProfile.githubUrl" target="_blank" rel="noopener noreferrer">
-              GitHub <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span>
-            </a>
-            <a :href="displayProfile.linkedinUrl" target="_blank" rel="noopener noreferrer">
-              LinkedIn <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span>
-            </a>
-          </div>
-        </aside>
       </div>
     </section>
 
@@ -75,7 +53,7 @@
           <h2 id="projects-title">Selected project work</h2>
           <p>Systems and product work explained through responsibility, technical choices, and delivery context.</p>
         </div>
-        <NuxtLink class="home-text-link" to="/projects">View full portfolio <span aria-hidden="true">→</span></NuxtLink>
+        <NuxtLink class="home-text-link" to="/projects">View full portfolio <Icon name="ph:arrow-right" size="1.125rem" aria-hidden="true" /></NuxtLink>
       </div>
 
       <div class="home-project-grid">
@@ -164,7 +142,7 @@
         <div>
           <h2 id="contact-title">Connect product intent with production reality.</h2>
           <p>I am open to full stack, backend, product engineering, and selected freelance work where ownership and technical judgment matter.</p>
-          <a class="home-button home-button-inverse" :href="`mailto:${displayProfile.email}`">{{ displayProfile.email }}</a>
+          <a class="home-button home-button-inverse" :href="`mailto:${displayProfile.email}`">{{ displayProfile.email }} <Icon name="ph:envelope-simple" size="1.125rem" aria-hidden="true" /></a>
         </div>
         <div class="home-contact-details">
           <dl>
@@ -182,8 +160,8 @@
             </div>
           </dl>
           <div class="home-contact-links">
-            <a :href="displayProfile.linkedinUrl" target="_blank" rel="noopener noreferrer">LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
-            <a :href="displayProfile.githubUrl" target="_blank" rel="noopener noreferrer">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+            <a :href="displayProfile.linkedinUrl" target="_blank" rel="noopener noreferrer"><Icon name="ph:linkedin-logo" size="1.125rem" aria-hidden="true" />LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
+            <a :href="displayProfile.githubUrl" target="_blank" rel="noopener noreferrer"><Icon name="ph:github-logo" size="1.125rem" aria-hidden="true" />GitHub<span class="sr-only"> (opens in a new tab)</span></a>
           </div>
         </div>
       </div>

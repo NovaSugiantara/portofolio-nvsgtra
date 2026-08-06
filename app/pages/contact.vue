@@ -108,14 +108,15 @@
               :disabled="formStatus === 'loading'"
               class="inline-flex min-h-11 items-center justify-center rounded-md bg-[var(--accent-primary)] px-5 text-sm font-semibold text-[var(--color-mint)] transition-[background-color,transform,opacity] duration-180 hover:-translate-y-px hover:bg-[var(--accent-hover)] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)] disabled:cursor-not-allowed disabled:opacity-60 motion-reduce:transform-none motion-reduce:transition-none"
             >
+              <Icon name="ph:paper-plane-tilt" size="1.125rem" aria-hidden="true" class="mr-2" />
               {{ formStatus === 'loading' ? 'Sending…' : formStatus === 'error' ? 'Try again' : 'Send message' }}
             </button>
 
-            <p v-if="formStatus === 'success'" class="text-sm font-medium text-[var(--accent-primary)]" role="status" aria-live="polite">
-              Sent: your message was received.
+            <p v-if="formStatus === 'success'" class="inline-flex items-center gap-2 text-sm font-medium text-[var(--accent-primary)]" role="status" aria-live="polite">
+              <Icon name="ph:check-circle" size="1.125rem" aria-hidden="true" />Sent: your message was received.
             </p>
-            <p v-else-if="formStatus === 'error'" class="border border-[var(--border-strong)] bg-[var(--background-muted)] px-3 py-2 text-sm leading-6 text-[var(--foreground-primary)]" role="alert" aria-live="assertive">
-              <span class="font-semibold">Error:</span> {{ errorMessage }}
+            <p v-else-if="formStatus === 'error'" class="flex items-start gap-2 border border-[var(--border-strong)] bg-[var(--background-muted)] px-3 py-2 text-sm leading-6 text-[var(--foreground-primary)]" role="alert" aria-live="assertive">
+              <Icon name="ph:warning-circle" size="1.125rem" aria-hidden="true" class="mt-1 shrink-0" /><span><span class="font-semibold">Error:</span> {{ errorMessage }}</span>
             </p>
           </div>
         </form>
@@ -137,7 +138,7 @@
         </p>
         <dl v-else class="mt-6 space-y-5 text-sm leading-6 text-[var(--foreground-secondary)]">
           <div v-if="profile?.email">
-            <dt class="font-semibold text-[var(--foreground-primary)]">Email</dt>
+            <dt class="flex items-center gap-2 font-semibold text-[var(--foreground-primary)]"><Icon name="ph:envelope-simple" size="1.125rem" aria-hidden="true" />Email</dt>
             <dd class="mt-1 break-words">
               <a :href="`mailto:${profile.email}`" class="underline decoration-[var(--accent-primary)] decoration-2 underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--border-focus)]">
                 {{ profile.email }}
@@ -145,23 +146,23 @@
             </dd>
           </div>
           <div v-if="profile?.linkedin_url">
-            <dt class="font-semibold text-[var(--foreground-primary)]">LinkedIn</dt>
+            <dt class="flex items-center gap-2 font-semibold text-[var(--foreground-primary)]"><Icon name="ph:linkedin-logo" size="1.125rem" aria-hidden="true" />LinkedIn</dt>
             <dd class="mt-1 break-words">
               <a :href="profile.linkedin_url" target="_blank" rel="noopener noreferrer" aria-label="Open LinkedIn profile in a new tab" class="underline decoration-[var(--accent-primary)] decoration-2 underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--border-focus)]">
-                Open LinkedIn profile <span aria-hidden="true">↗</span>
+                Open LinkedIn profile <Icon name="ph:arrow-up-right" size="1rem" aria-hidden="true" class="inline-block" />
               </a>
             </dd>
           </div>
           <div v-if="profile?.website_url">
-            <dt class="font-semibold text-[var(--foreground-primary)]">Website</dt>
+            <dt class="flex items-center gap-2 font-semibold text-[var(--foreground-primary)]"><Icon name="ph:globe" size="1.125rem" aria-hidden="true" />Website</dt>
             <dd class="mt-1 break-words">
               <a :href="profile.website_url" target="_blank" rel="noopener noreferrer" aria-label="Open Nova Sugiantara website in a new tab" class="underline decoration-[var(--accent-primary)] decoration-2 underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--border-focus)]">
-                Open website <span aria-hidden="true">↗</span>
+                Open website <Icon name="ph:arrow-up-right" size="1rem" aria-hidden="true" class="inline-block" />
               </a>
             </dd>
           </div>
           <div v-if="profile?.phone">
-            <dt class="font-semibold text-[var(--foreground-primary)]">Phone</dt>
+            <dt class="flex items-center gap-2 font-semibold text-[var(--foreground-primary)]"><Icon name="ph:phone" size="1.125rem" aria-hidden="true" />Phone</dt>
             <dd class="mt-1 break-words">
               <a :href="`tel:${profile.phone}`" class="underline decoration-[var(--accent-primary)] decoration-2 underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--border-focus)]">
                 {{ profile.phone }}
@@ -169,7 +170,7 @@
             </dd>
           </div>
           <div v-if="profile?.location">
-            <dt class="font-semibold text-[var(--foreground-primary)]">Location</dt>
+            <dt class="flex items-center gap-2 font-semibold text-[var(--foreground-primary)]"><Icon name="ph:map-pin" size="1.125rem" aria-hidden="true" />Location</dt>
             <dd class="mt-1">{{ profile.location }}</dd>
           </div>
         </dl>

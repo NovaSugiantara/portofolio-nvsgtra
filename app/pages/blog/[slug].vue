@@ -14,16 +14,16 @@
       </p>
       <NuxtLink
         to="/blog"
-        class="mt-5 inline-flex min-h-11 items-center rounded-md bg-[var(--accent-primary)] px-4 text-sm font-semibold text-[var(--color-mint)] transition-colors hover:bg-[var(--accent-hover)] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)]"
+        class="mt-5 inline-flex min-h-11 items-center gap-2 rounded-md bg-[var(--accent-primary)] px-4 text-sm font-semibold text-[var(--color-mint)] transition-colors hover:bg-[var(--accent-hover)] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)]"
       >
-        Back to blog
+        <Icon name="ph:arrow-left" size="1.125rem" aria-hidden="true" />Back to blog
       </NuxtLink>
       <button
         type="button"
-        class="mt-5 ml-3 inline-flex min-h-11 items-center rounded-md border border-[var(--border-subtle)] px-4 text-sm font-semibold text-[var(--foreground-primary)] transition-colors hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)]"
+        class="mt-5 ml-3 inline-flex min-h-11 items-center gap-2 rounded-md border border-[var(--border-subtle)] px-4 text-sm font-semibold text-[var(--foreground-primary)] transition-colors hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)]"
         @click="refresh()"
       >
-        Try again
+        <Icon name="ph:arrow-clockwise" size="1.125rem" aria-hidden="true" />Try again
       </button>
     </section>
 
@@ -34,18 +34,18 @@
       </p>
       <NuxtLink
         to="/blog"
-        class="mt-5 inline-flex min-h-11 items-center rounded-md border border-[var(--border-subtle)] px-4 text-sm font-semibold text-[var(--foreground-primary)] transition-colors hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)]"
+        class="mt-5 inline-flex min-h-11 items-center gap-2 rounded-md border border-[var(--border-subtle)] px-4 text-sm font-semibold text-[var(--foreground-primary)] transition-colors hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)]"
       >
-        Browse the blog
+        <Icon name="ph:arrow-left" size="1.125rem" aria-hidden="true" />Browse the blog
       </NuxtLink>
     </section>
 
     <article v-else class="mx-auto max-w-3xl" aria-labelledby="article-title">
       <NuxtLink
         to="/blog"
-        class="inline-flex min-h-11 items-center text-sm font-semibold text-[var(--accent-primary)] underline decoration-[var(--accent-primary)] decoration-2 underline-offset-4 transition-colors hover:text-[var(--accent-hover)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--border-focus)]"
+        class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline decoration-[var(--accent-primary)] decoration-2 underline-offset-4 transition-colors hover:text-[var(--accent-hover)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--border-focus)]"
       >
-        Back to blog
+        <Icon name="ph:arrow-left" size="1.125rem" aria-hidden="true" />Back to blog
       </NuxtLink>
 
       <header class="mt-10 space-y-5 border-b border-[var(--border-subtle)] pb-10">
@@ -53,10 +53,10 @@
         <h1 id="article-title" class="max-w-3xl text-pretty font-heading text-4xl font-bold tracking-[-0.04em] text-[var(--foreground-primary)] sm:text-5xl lg:text-6xl">{{ post.title }}</h1>
         <div class="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-[var(--foreground-muted)]" aria-label="Article metadata">
           <time v-if="post.published_at" :datetime="post.published_at" class="font-mono">
-            {{ formatPublishedDate(post.published_at) }}
+            <span class="inline-flex items-center gap-2"><Icon name="ph:calendar-blank" size="1rem" aria-hidden="true" />{{ formatPublishedDate(post.published_at) }}</span>
           </time>
           <span v-if="post.published_at && post.tags?.length" aria-hidden="true">·</span>
-          <span v-if="post.tags?.length" class="break-words font-mono text-xs">{{ post.tags.join(' · ') }}</span>
+          <span v-if="post.tags?.length" class="inline-flex items-center gap-2 break-words font-mono text-xs"><Icon name="ph:tag" size="1rem" aria-hidden="true" />{{ post.tags.join(' · ') }}</span>
         </div>
         <p v-if="post.excerpt" class="max-w-2xl text-lg leading-8 text-[var(--foreground-secondary)] sm:text-xl">{{ post.excerpt }}</p>
       </header>

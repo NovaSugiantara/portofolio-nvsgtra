@@ -26,9 +26,10 @@
           type="button"
           class="site-theme-toggle"
           :aria-label="isDark ? 'Switch to light theme' : 'Switch to dark theme'"
+          :title="isDark ? 'Switch to light theme' : 'Switch to dark theme'"
           @click="toggleTheme"
         >
-          {{ isDark ? 'Light' : 'Dark' }}
+          <Icon :name="isDark ? 'ph:sun' : 'ph:moon'" size="1.25rem" aria-hidden="true" />
         </button>
         <a
           class="site-cv-link"
@@ -36,6 +37,7 @@
           target="_blank"
           rel="noopener noreferrer"
         >
+          <Icon name="ph:file-arrow-up" size="1.125rem" aria-hidden="true" />
           Open CV<span class="sr-only"> in a new tab</span>
         </a>
         <button
@@ -45,9 +47,10 @@
           :aria-expanded="menuOpen"
           aria-controls="public-navigation-menu"
           :aria-label="menuOpen ? 'Close navigation menu' : 'Open navigation menu'"
+          :title="menuOpen ? 'Close navigation menu' : 'Open navigation menu'"
           @click="toggleMenu"
         >
-          <span aria-hidden="true">{{ menuOpen ? 'Close' : 'Menu' }}</span>
+          <Icon :name="menuOpen ? 'ph:x' : 'ph:list'" size="1.35rem" aria-hidden="true" />
         </button>
       </div>
     </nav>

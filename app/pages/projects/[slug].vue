@@ -3,9 +3,9 @@
     <nav aria-label="Breadcrumb" class="mb-10 text-sm text-[var(--foreground-muted)]">
       <ol class="flex flex-wrap items-center gap-x-3 gap-y-2">
         <li><NuxtLink to="/" class="underline decoration-[var(--accent-primary)] underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]">Home</NuxtLink></li>
-        <li aria-hidden="true">/</li>
+        <li aria-hidden="true"><Icon name="ph:caret-right" size="0.875rem" /></li>
         <li><NuxtLink to="/projects" class="underline decoration-[var(--accent-primary)] underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]">Portofolio</NuxtLink></li>
-        <li aria-hidden="true">/</li>
+        <li aria-hidden="true"><Icon name="ph:caret-right" size="0.875rem" /></li>
         <li aria-current="page" class="min-w-0 max-w-full break-words text-[var(--foreground-secondary)]">{{ project?.title ?? 'Project details' }}</li>
       </ol>
     </nav>
@@ -21,15 +21,15 @@
       <h1 class="text-2xl font-bold text-[var(--foreground-primary)]">Project details unavailable</h1>
       <p class="mt-2 max-w-prose leading-relaxed text-[var(--foreground-secondary)]">This project could not be loaded right now. Try the request again or return to the project index.</p>
       <div class="mt-5 flex flex-wrap items-center gap-4">
-        <button type="button" class="inline-flex min-h-11 items-center rounded-[var(--radius-md)] bg-[var(--accent-primary)] px-4 text-sm font-semibold text-white transition-[background-color,transform] duration-200 motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-px hover:bg-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background-muted)] motion-reduce:transition-none" @click="refreshProject">Try again</button>
-        <NuxtLink to="/projects" class="inline-flex min-h-11 items-center text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]">View all project work</NuxtLink>
+        <button type="button" class="inline-flex min-h-11 items-center gap-2 rounded-[var(--radius-md)] bg-[var(--accent-primary)] px-4 text-sm font-semibold text-white transition-[background-color,transform] duration-200 motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-px hover:bg-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background-muted)] motion-reduce:transition-none" @click="refreshProject"><Icon name="ph:arrow-clockwise" size="1.125rem" aria-hidden="true" />Try again</button>
+        <NuxtLink to="/projects" class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]"><Icon name="ph:arrow-left" size="1.125rem" aria-hidden="true" />View all project work</NuxtLink>
       </div>
     </section>
 
     <section v-else-if="!project" class="max-w-2xl rounded-[var(--radius-lg)] border border-dashed border-[var(--border-strong)] bg-[var(--background-muted)] p-6 sm:p-8" role="status">
       <h1 class="text-2xl font-bold text-[var(--foreground-primary)]">Project not found</h1>
       <p class="mt-2 max-w-prose leading-relaxed text-[var(--foreground-secondary)]">This project is not published or the address is incorrect. Browse the published project index to choose another case study.</p>
-      <NuxtLink to="/projects" class="mt-5 inline-flex min-h-11 items-center text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]">View all project work</NuxtLink>
+      <NuxtLink to="/projects" class="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]"><Icon name="ph:arrow-left" size="1.125rem" aria-hidden="true" />View all project work</NuxtLink>
     </section>
 
     <article v-else class="grid min-w-0 gap-12 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-16" aria-labelledby="project-title">
@@ -66,22 +66,22 @@
               </ul>
             </dd>
           </div>
-          <div v-if="isSafeExternalUrl(project.project_url) || isSafeExternalUrl(project.repo_url)" class="space-y-4 py-4">
-            <div v-if="isSafeExternalUrl(project.project_url)">
+          <template v-if="isSafeExternalUrl(project.project_url) || isSafeExternalUrl(project.repo_url)">
+            <div v-if="isSafeExternalUrl(project.project_url)" class="py-4">
               <dt class="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--foreground-muted)]">Project link</dt>
-              <dd class="mt-2"><a :href="project.project_url!" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" :aria-label="`Open ${project.title} project link in a new tab`" class="text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]">View project <span aria-hidden="true">↗</span></a></dd>
+              <dd class="mt-2"><a :href="project.project_url!" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" :aria-label="`Open ${project.title} project link in a new tab`" class="inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]">View project <Icon name="ph:arrow-up-right" size="1.125rem" aria-hidden="true" /></a></dd>
             </div>
-            <div v-if="isSafeExternalUrl(project.repo_url)">
+            <div v-if="isSafeExternalUrl(project.repo_url)" class="py-4">
               <dt class="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--foreground-muted)]">Repository</dt>
-              <dd class="mt-2"><a :href="project.repo_url!" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" :aria-label="`Open ${project.title} repository in a new tab`" class="text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]">View repository <span aria-hidden="true">↗</span></a></dd>
+              <dd class="mt-2"><a :href="project.repo_url!" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" :aria-label="`Open ${project.title} repository in a new tab`" class="inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]">View repository <Icon name="ph:github-logo" size="1.125rem" aria-hidden="true" /></a></dd>
             </div>
-          </div>
+          </template>
         </dl>
       </aside>
     </article>
 
     <footer class="mt-14 border-t border-[var(--border-subtle)] pt-6 lg:mt-20">
-      <NuxtLink to="/projects" class="inline-flex min-h-11 items-center text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]">← Back to Portofolio</NuxtLink>
+      <NuxtLink to="/projects" class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]"><Icon name="ph:arrow-left" size="1.125rem" aria-hidden="true" />Back to Portofolio</NuxtLink>
     </footer>
   </div>
 </template>
