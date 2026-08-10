@@ -117,17 +117,17 @@ const serializeJsonLd = (value: unknown) =>
   JSON.stringify(value).replaceAll('<', '\\u003c').replaceAll('>', '\\u003e').replaceAll('&', '\\u0026')
 
 useSeoMeta({
-  title: () => post.value?.title ? `${post.value.title} - Nova Sugiantara` : 'Blog Post - Nova Sugiantara',
-  description: () => post.value?.excerpt?.slice(0, 160) ?? 'Read Nova Sugiantara’s latest blog post.',
+  title: () => post.value?.title ? `${post.value.title} - Nova Sugiantara` : 'Article - Nova Sugiantara',
+  description: () => post.value?.excerpt?.slice(0, 160) ?? 'An article by Nova Sugiantara on building and shipping web products.',
   ogType: 'article',
   ogSiteName: 'Nova Sugiantara Portfolio',
-  ogTitle: () => post.value?.title ? `${post.value.title} - Nova Sugiantara` : 'Blog Post - Nova Sugiantara',
-  ogDescription: () => post.value?.excerpt?.slice(0, 160) ?? 'Read Nova Sugiantara’s latest blog post.',
+  ogTitle: () => post.value?.title ? `${post.value.title} - Nova Sugiantara` : 'Article - Nova Sugiantara',
+  ogDescription: () => post.value?.excerpt?.slice(0, 160) ?? 'An article by Nova Sugiantara on building and shipping web products.',
   ogImage: postImageUrl,
   ogUrl: () => canonicalUrl.value,
   twitterCard: 'summary_large_image',
-  twitterTitle: () => post.value?.title ? `${post.value.title} - Nova Sugiantara` : 'Blog Post - Nova Sugiantara',
-  twitterDescription: () => post.value?.excerpt?.slice(0, 160) ?? 'Read Nova Sugiantara’s latest blog post.',
+  twitterTitle: () => post.value?.title ? `${post.value.title} - Nova Sugiantara` : 'Article - Nova Sugiantara',
+  twitterDescription: () => post.value?.excerpt?.slice(0, 160) ?? 'An article by Nova Sugiantara on building and shipping web products.',
   twitterImage: postImageUrl,
 })
 

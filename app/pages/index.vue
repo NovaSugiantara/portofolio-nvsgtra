@@ -48,7 +48,7 @@
       <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div class="max-w-[46rem]">
           <h2 id="projects-title" class="text-3xl tracking-[-0.035em] md:text-4xl">Selected project work</h2>
-          <p class="mt-4 max-w-[65ch] text-lg leading-relaxed text-secondary">Systems and product work explained through responsibility, technical choices, and delivery context.</p>
+          <p class="mt-4 max-w-[65ch] text-lg leading-relaxed text-secondary">I present each project through its context, my contribution, and the decisions behind the delivery.</p>
         </div>
         <NuxtLink class="link-accent shrink-0" to="/projects">View full portfolio <Icon name="ph:arrow-right" size="1.125rem" aria-hidden="true" /></NuxtLink>
       </div>

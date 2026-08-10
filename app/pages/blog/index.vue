@@ -120,16 +120,16 @@ const serializeJsonLd = (value: unknown) =>
 
 useSeoMeta({
   title: 'Blog - Nova Sugiantara',
-  description: 'Blog posts by Nova Sugiantara about web development and tech.',
+  description: 'Nova Sugiantara’s writing on building and shipping production web applications across Laravel, Vue.js, React, Ruby on Rails, and Go.',
   ogType: 'website',
   ogTitle: 'Blog - Nova Sugiantara',
-  ogDescription: 'Blog posts by Nova Sugiantara about web development and tech.',
+  ogDescription: 'Nova Sugiantara’s writing on building and shipping production web applications across Laravel, Vue.js, React, Ruby on Rails, and Go.',
   ogUrl: `${siteOrigin}/blog`,
   ogSiteName: 'Nova Sugiantara Portfolio',
   ogImage: blogImageUrl,
   ogImageAlt: 'Nova Sugiantara blog posts',
   twitterTitle: 'Blog - Nova Sugiantara',
-  twitterDescription: 'Blog posts by Nova Sugiantara about web development and tech.',
+  twitterDescription: 'Nova Sugiantara’s writing on building and shipping production web applications across Laravel, Vue.js, React, Ruby on Rails, and Go.',
   twitterImage: blogImageUrl,
   twitterCard: 'summary',
 })

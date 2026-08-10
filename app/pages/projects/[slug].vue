@@ -4,7 +4,7 @@
       <ol class="flex flex-wrap items-center gap-x-3 gap-y-2">
         <li><NuxtLink to="/" class="underline decoration-[var(--accent-primary)] underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]">Home</NuxtLink></li>
         <li aria-hidden="true"><Icon name="ph:caret-right" size="0.875rem" /></li>
-        <li><NuxtLink to="/projects" class="underline decoration-[var(--accent-primary)] underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]">Portofolio</NuxtLink></li>
+        <li><NuxtLink to="/projects" class="underline decoration-[var(--accent-primary)] underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]">Portfolio</NuxtLink></li>
         <li aria-hidden="true"><Icon name="ph:caret-right" size="0.875rem" /></li>
         <li aria-current="page" class="min-w-0 max-w-full break-words text-[var(--foreground-secondary)]">{{ project?.title ?? 'Project details' }}</li>
       </ol>
@@ -81,7 +81,7 @@
     </article>
 
     <footer class="mt-14 border-t border-[var(--border-subtle)] pt-6 lg:mt-20">
-      <NuxtLink to="/projects" class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]"><Icon name="ph:arrow-left" size="1.125rem" aria-hidden="true" />Back to Portofolio</NuxtLink>
+      <NuxtLink to="/projects" class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]"><Icon name="ph:arrow-left" size="1.125rem" aria-hidden="true" />Back to Portfolio</NuxtLink>
     </footer>
   </div>
 </template>

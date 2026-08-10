@@ -1,8 +1,8 @@
 <template>
   <div class="mx-auto max-w-7xl px-5 py-14 sm:px-8 md:py-20 lg:px-12">
     <header class="max-w-3xl">
-      <h1 class="text-balance text-4xl font-extrabold tracking-tight text-[var(--foreground-primary)] md:text-5xl">Full Stack Web Developer portfolio</h1>
-      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-[var(--foreground-secondary)]">Explore Nova Sugiantara’s selected projects, professional experience, and technical skills across React, Vue.js, Laravel, Ruby on Rails, AWS, and Go.</p>
+      <h1 class="text-balance text-4xl font-extrabold tracking-tight text-[var(--foreground-primary)] md:text-5xl">Selected work</h1>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-[var(--foreground-secondary)]">A portfolio of projects across React, Vue.js, Laravel, Ruby on Rails, AWS, and Go, with the context and my role behind each one.</p>
     </header>
 
     <section aria-labelledby="projects-heading" class="mt-20 md:mt-28">
@@ -29,7 +29,7 @@
 
       <div v-else-if="!publishedProjects.length" class="mt-8 max-w-2xl rounded-[var(--radius-lg)] border border-dashed border-[var(--border-strong)] bg-[var(--background-muted)] p-6 sm:p-8" role="status">
         <h3 class="text-xl font-semibold text-[var(--foreground-primary)]">No published projects yet</h3>
-        <p class="mt-2 max-w-prose leading-relaxed text-[var(--foreground-secondary)]">There are no public case studies to show at this address. Return home to continue exploring Nova Sugiantara’s portfolio.</p>
+        <p class="mt-2 max-w-prose leading-relaxed text-[var(--foreground-secondary)]">No public case studies are published yet. Return home to continue exploring Nova Sugiantara’s portfolio.</p>
         <NuxtLink to="/" class="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]"><Icon name="ph:house" size="1.125rem" aria-hidden="true" />Return home</NuxtLink>
       </div>
 
@@ -118,7 +118,7 @@ const portfolioImageUrl = computed(() => projectImageUrl(publishedProjects.value
 const portfolioSchema = computed(() => ({
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
-  name: 'Full Stack Web Developer portfolio - Nova Sugiantara',
+  name: 'Selected work - Nova Sugiantara',
   url: canonicalUrl.value,
   ...(publishedProjects.value.length ? {
     mainEntity: {
@@ -137,16 +137,16 @@ const serializeJsonLd = (value: unknown) =>
   JSON.stringify(value).replaceAll('<', '\\u003c').replaceAll('>', '\\u003e').replaceAll('&', '\\u0026')
 
 useSeoMeta({
-  title: 'Full Stack Web Developer portfolio - Nova Sugiantara',
-  description: 'Explore Nova Sugiantara’s selected projects, professional experience, and technical skills across React, Vue.js, Laravel, Ruby on Rails, AWS, and Go.',
-  ogTitle: 'Full Stack Web Developer portfolio - Nova Sugiantara',
-  ogDescription: 'Explore Nova Sugiantara’s selected projects, professional experience, and technical skills across React, Vue.js, Laravel, Ruby on Rails, AWS, and Go.',
+  title: 'Selected work - Nova Sugiantara',
+  description: 'Nova Sugiantara’s selected project work across React, Vue.js, Laravel, Ruby on Rails, AWS, and Go, with the context and role behind each project.',
+  ogTitle: 'Selected work - Nova Sugiantara',
+  ogDescription: 'Nova Sugiantara’s selected project work across React, Vue.js, Laravel, Ruby on Rails, AWS, and Go, with the context and role behind each project.',
   ogUrl: canonicalUrl,
   ogType: 'website',
   ogImage: portfolioImageUrl,
   ogImageAlt: 'Selected portfolio project',
-  twitterTitle: 'Full Stack Web Developer portfolio - Nova Sugiantara',
-  twitterDescription: 'Explore Nova Sugiantara’s selected projects, professional experience, and technical skills across React, Vue.js, Laravel, Ruby on Rails, AWS, and Go.',
+  twitterTitle: 'Selected work - Nova Sugiantara',
+  twitterDescription: 'Nova Sugiantara’s selected project work across React, Vue.js, Laravel, Ruby on Rails, AWS, and Go, with the context and role behind each project.',
   twitterImage: portfolioImageUrl,
   twitterCard: 'summary_large_image',
 })

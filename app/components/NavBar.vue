@@ -97,7 +97,7 @@ let desktopQuery: MediaQueryList | undefined
 
 const navItems = [
   { label: 'Home', to: '/' },
-  { label: 'Portofolio', to: '/projects' },
+  { label: 'Portfolio', to: '/projects' },
   { label: 'Blog', to: '/blog' },
   { label: 'Contact', to: '/contact' },
 ] as const
