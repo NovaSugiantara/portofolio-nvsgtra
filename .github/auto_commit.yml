@@ -1,0 +1,42 @@
+name: Auto Commit Bot
+
+on:
+  workflow_dispatch:
+
+  schedule:
+     - cron: "0 */2 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  auto-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Auto commit
+        run: |
+          arr=(
+            "chore(automation): refresh repository activity timestamp"
+            "chore(automation): update scheduled workflow marker"
+            "chore(automation): record repository heartbeat"
+          )
+
+          RANDOM_INDEX=$((RANDOM % ${#arr[@]}))
+          COMMIT_MSG="${arr[$RANDOM_INDEX]}"
+
+          echo "Commit message: $COMMIT_MSG"
+
+          git config user.name "NovaSugiantara"
+          git config user.email "novasugiantara425@gmail.com"
+
+          LAST_UPDATED="LAST_UPDATED"
+          date -u +"%Y-%m-%dT%H:%M:%SZ" > "$LAST_UPDATED"
+
+          git add "$LAST_UPDATED"
+          git diff --cached --quiet || git commit -m "$COMMIT_MSG"
+          git push
