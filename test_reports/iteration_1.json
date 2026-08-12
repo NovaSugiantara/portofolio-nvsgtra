@@ -1,0 +1,39 @@
+{
+  "summary": "First testing pass on Nova Sugiantara portfolio (Nuxt 4 + FastAPI proxy + MongoDB). Backend: 14/14 pytest cases pass, covering health, contact CRUD (validation, honeypot, persistence, no _id leak), Nuxt-proxied data endpoints (profile/projects/blog/skills/experiences), blog detail, and CV PDF generation. Frontend: Home, Portfolio, Portfolio detail, Blog list (3 posts), Blog detail (renders markdown H2/lists), Contact page (fields present, HTML5 required validation blocks empty submit), theme dark/light toggle works and persists across reload, Open CV link present with correct href. Direct UI submission of the contact form could not be confirmed in the last automation attempt because Cloudflare served a bot-verification interstitial on repeated Playwright reloads, but the underlying POST /api/contact flow is confirmed working via backend tests (200 + persisted in Mongo + honeypot silently ignored).",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "/api/contact", "issue": "Rate limit (5/60s) is keyed on x-forwarded-for; behind ingress every automated/real client shares the same egress and can lock each other out. Consider using the real client IP header or scoping per-session."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/backend_test.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "Doc mismatch in the review request: it references slugs /projects/dev-portfolio-1774 and /blog/dev-portfolio-1774 which do NOT exist in the seed data. Real slugs are e.g. /projects/omni-hotelier-booking-engine and /blog/shipping-a-booking-engine-without-losing-a-night-of-sleep. Update the request or add a redirect.",
+    "Consider raising the /api/contact rate limit or scoping it per session/token so a single shared egress IP (ingress/preview) cannot lock out legitimate users. Currently 5/60s per IP."
+  ],
+  "critical_code_review_comments": [
+    "server.py uses deprecated @app.on_event('startup'/'shutdown'); prefer FastAPI lifespan context manager.",
+    "MongoClient (sync pymongo) is called from async handlers (/api/contact, /api/contact-messages). For low traffic this is fine, but under load it blocks the event loop; consider motor (async driver).",
+    "Contact rate limiter is in-memory and per-process; will not work correctly across multiple workers.",
+    "Reverse-proxy forwards Host header from client because only HOP_BY_HOP + 'host' are stripped from response, but request-side 'host' is preserved. Confirmed harmless here but worth normalizing to NUXT_ORIGIN host.",
+    "No CORS middleware; acceptable because the frontend is same-origin through ingress, but flag if a separate origin is ever added."
+  ],
+  "updated_files": [
+    "/app/backend/tests/backend_test.py"
+  ],
+  "success_rate": {"backend": "100%", "frontend": "~95% (all pages/flows verified; only end-to-end UI contact submit unverified due to Cloudflare bot challenge on Playwright, backend POST verified)"},
+  "test_credentials": "N/A (public site, no auth)",
+  "seed_data_creation": "Test contact messages inserted via backend_test.py using TEST_ prefixed names/emails. Not cleaned up (no delete endpoint). Safe to ignore.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "backend_test.py hits the public preview URL directly. Note the /api/contact rate limit is 5/60s per IP; if tests are re-run within a minute you may get 429s. Real seed data slugs to use in tests: projects: omni-hotelier-booking-engine, zisu-mlm-platform, lait-bus-booking-system, eurekapp-migration, nft-steganography-system; blog: shipping-a-booking-engine-without-losing-a-night-of-sleep. Blog detail body field is 'content_html' (rendered HTML from markdown). Cloudflare intermittently serves a bot challenge to Playwright headless; retry with a small delay if UI tests get a 'Performing security verification' page.",
+  "rca_of_the_issue": "N/A — no functional bugs found."
+}
