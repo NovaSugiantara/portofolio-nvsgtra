@@ -24,3 +24,8 @@ logs
 !.env.example
 
 .tmp/
+*.env
+credentials.json
+*.pem
+*.key
+.credentials
