@@ -1,11 +1,11 @@
 <template>
-  <div class="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:px-12 lg:py-24">
+  <div class="site-container py-16 lg:py-24">
     <header class="max-w-3xl">
       <h1 class="text-pretty font-heading text-4xl font-bold tracking-[-0.03em] text-[var(--foreground-primary)] sm:text-5xl">
-        Tell me about the work.
+        Tell me what you want to build.
       </h1>
       <p class="mt-5 max-w-2xl text-base leading-7 text-[var(--foreground-secondary)] sm:text-lg sm:leading-8">
-        Share a project context, technical question, or collaboration idea. A clear starting point helps keep the conversation focused.
+        A few sentences is enough: what the website or app should do, who it is for, and when you need it. I will reply with questions or a rough plan.
       </p>
     </header>
 
@@ -14,7 +14,7 @@
         <div class="border-b border-[var(--border-subtle)] pb-5">
           <h2 id="message-heading" class="font-heading text-2xl font-semibold tracking-[-0.02em] text-[var(--foreground-primary)] sm:text-3xl">Send a message</h2>
           <p id="form-instructions" class="mt-3 text-sm leading-6 text-[var(--foreground-secondary)]">
-            Required fields are marked. Include the project, question, or context you want to discuss.
+            Name, email, and message are required. Your message goes straight to my inbox.
           </p>
         </div>
 
@@ -70,9 +70,36 @@
             </div>
           </div>
 
+          <div class="grid gap-6 sm:grid-cols-2">
+            <div class="space-y-2">
+              <label for="project_type" class="block text-sm font-semibold text-[var(--foreground-primary)]">
+                What kind of project? <span class="font-normal text-[var(--foreground-muted)]">(optional)</span>
+              </label>
+              <div class="relative">
+                <select id="project_type" v-model="form.project_type" name="project_type" class="min-h-11 w-full appearance-none rounded-md border border-[var(--border-subtle)] bg-[var(--background-page)] px-3 py-2.5 pr-10 text-base text-[var(--foreground-primary)] focus-visible:border-[var(--border-focus)] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--border-focus)]">
+                  <option value="">Choose one…</option>
+                  <option v-for="option in PROJECT_TYPES" :key="option.value" :value="option.value">{{ option.label }}</option>
+                </select>
+                <Icon name="ph:caret-down" size="1rem" aria-hidden="true" class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+              </div>
+            </div>
+            <div class="space-y-2">
+              <label for="start_time" class="block text-sm font-semibold text-[var(--foreground-primary)]">
+                When do you want to start? <span class="font-normal text-[var(--foreground-muted)]">(optional)</span>
+              </label>
+              <div class="relative">
+                <select id="start_time" v-model="form.start_time" name="start_time" class="min-h-11 w-full appearance-none rounded-md border border-[var(--border-subtle)] bg-[var(--background-page)] px-3 py-2.5 pr-10 text-base text-[var(--foreground-primary)] focus-visible:border-[var(--border-focus)] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--border-focus)]">
+                  <option value="">Choose one…</option>
+                  <option v-for="option in START_TIMES" :key="option.value" :value="option.value">{{ option.label }}</option>
+                </select>
+                <Icon name="ph:caret-down" size="1rem" aria-hidden="true" class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[var(--foreground-muted)]" />
+              </div>
+            </div>
+          </div>
+
           <div class="space-y-2">
             <label for="message" class="block text-sm font-semibold text-[var(--foreground-primary)]">
-              Project context or question <span class="font-normal text-[var(--foreground-muted)]">(required)</span>
+              What do you need? <span class="font-normal text-[var(--foreground-muted)]">(required)</span>
             </label>
             <textarea
               id="message"
@@ -84,7 +111,7 @@
               :aria-invalid="Boolean(fieldErrors.message)"
               :class="fieldClass('message')"
               class="w-full resize-y rounded-md border bg-[var(--background-page)] px-3 py-2.5 text-base leading-7 text-[var(--foreground-primary)] placeholder:text-[var(--foreground-muted)] focus-visible:border-[var(--border-focus)] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--border-focus)]"
-              placeholder="Tell me about the project, question, or context…"
+              placeholder="For example: a company website with 5 pages and a booking form, live by March…"
               required
               @input="clearFieldError('message')"
             />
@@ -113,7 +140,7 @@
             </button>
 
             <p v-if="formStatus === 'success'" class="inline-flex items-center gap-2 text-sm font-medium text-[var(--accent-primary)]" role="status" aria-live="polite">
-              <Icon name="ph:check-circle" size="1.125rem" aria-hidden="true" />Sent: your message was received.
+              <Icon name="ph:check-circle" size="1.125rem" aria-hidden="true" />Sent. I will reply to the email address you gave.
             </p>
             <p v-else-if="formStatus === 'error'" class="flex items-start gap-2 border border-[var(--border-strong)] bg-[var(--background-muted)] px-3 py-2 text-sm leading-6 text-[var(--foreground-primary)]" role="alert" aria-live="assertive">
               <Icon name="ph:warning-circle" size="1.125rem" aria-hidden="true" class="mt-1 shrink-0" /><span><span class="font-semibold">Error:</span> {{ errorMessage }}</span>
@@ -122,9 +149,12 @@
         </form>
       </section>
 
-      <aside class="border-t border-[var(--border-subtle)] pt-6 lg:border-t-0 lg:border-l lg:pl-6" aria-labelledby="direct-contact-heading">
-        <h2 id="direct-contact-heading" class="font-heading text-xl font-semibold tracking-[-0.02em] text-[var(--foreground-primary)]">Prefer direct contact?</h2>
-        <p class="mt-3 text-sm leading-6 text-[var(--foreground-secondary)]">Use the published links below.</p>
+      <aside class="border-t border-[var(--border-subtle)] pt-6 lg:border-t-0 lg:border-l lg:pl-6" data-wa-cta aria-labelledby="direct-contact-heading">
+        <h2 id="direct-contact-heading" class="font-heading text-xl font-semibold tracking-[-0.02em] text-[var(--foreground-primary)]">Prefer to chat?</h2>
+        <p class="mt-3 text-sm leading-6 text-[var(--foreground-secondary)]">WhatsApp is usually the fastest way to reach me.</p>
+        <a v-if="waUrl" :href="waUrl" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp mt-5 w-full">
+          <Icon name="ph:whatsapp-logo" size="1.25rem" aria-hidden="true" />Chat on WhatsApp<span class="sr-only"> (opens in a new tab)</span>
+        </a>
 
         <div v-if="isProfileLoading" class="mt-6 space-y-3" aria-busy="true" aria-label="Loading contact details">
           <div class="h-4 w-4/5 animate-pulse rounded bg-[var(--background-muted)]" />
@@ -153,14 +183,6 @@
               </a>
             </dd>
           </div>
-          <div v-if="profile?.website_url">
-            <dt class="flex items-center gap-2 font-semibold text-[var(--foreground-primary)]"><Icon name="ph:globe" size="1.125rem" aria-hidden="true" />Website</dt>
-            <dd class="mt-1 break-words">
-              <a :href="profile.website_url" target="_blank" rel="noopener noreferrer" aria-label="Open Nova Sugiantara website in a new tab" class="underline decoration-[var(--accent-primary)] decoration-2 underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--border-focus)]">
-                Open website <Icon name="ph:arrow-up-right" size="1rem" aria-hidden="true" class="inline-block" />
-              </a>
-            </dd>
-          </div>
           <div v-if="profile?.phone">
             <dt class="flex items-center gap-2 font-semibold text-[var(--foreground-primary)]"><Icon name="ph:phone" size="1.125rem" aria-hidden="true" />Phone</dt>
             <dd class="mt-1 break-words">
@@ -181,11 +203,13 @@
 
 <script setup lang="ts">
 import { z } from 'zod'
+import { PROJECT_TYPES, START_TIMES } from '#shared/contactOptions'
 
 const { data: profile, status: profileStatus, error: profileError } = useProfile()
+const waUrl = useWhatsAppLink()
 const formStatus = ref<'idle' | 'loading' | 'success' | 'error'>('idle')
 const errorMessage = ref('')
-const form = reactive({ name: '', email: '', message: '', hp: '' })
+const form = reactive({ name: '', email: '', message: '', project_type: '', start_time: '', hp: '' })
 
 const contactFormSchema = z.object({
   name: z.string().trim().min(1, 'Enter your name.').max(200, 'Keep your name under 200 characters.'),
@@ -196,11 +220,8 @@ const contactFormSchema = z.object({
 type ContactField = 'name' | 'email' | 'message'
 const fieldErrors = reactive<Record<ContactField, string>>({ name: '', email: '', message: '' })
 const isProfileLoading = computed(() => profileStatus.value === 'idle' || profileStatus.value === 'pending')
-const hasContactDetails = computed(() => Boolean(profile.value?.email || profile.value?.phone || profile.value?.linkedin_url || profile.value?.website_url))
+const hasContactDetails = computed(() => Boolean(profile.value?.email || profile.value?.phone || profile.value?.linkedin_url))
 const hasValidationErrors = computed(() => Object.values(fieldErrors).some(Boolean))
-const siteOrigin = useRequestURL().origin
-const canonicalUrl = computed(() => `${siteOrigin}/contact`)
-const profileImageUrl = computed(() => profile.value?.avatar_url ? new URL(profile.value.avatar_url, siteOrigin).toString() : undefined)
 
 const clearFieldError = (field: ContactField) => {
   fieldErrors[field] = ''
@@ -249,6 +270,8 @@ const submitForm = async () => {
       method: 'POST',
       body: {
         ...payload,
+        project_type: form.project_type,
+        start_time: form.start_time,
         hp: form.hp,
       },
     })
@@ -257,30 +280,23 @@ const submitForm = async () => {
     form.name = ''
     form.email = ''
     form.message = ''
+    form.project_type = ''
+    form.start_time = ''
     form.hp = ''
-  } catch {
+  } catch (error: unknown) {
     formStatus.value = 'error'
-    errorMessage.value = 'We couldn’t send your message. Please try again or use a direct contact link.'
+    const statusCode = (error as { statusCode?: number })?.statusCode
+    errorMessage.value = statusCode === 429
+      ? 'Too many messages from this connection. Please wait a few minutes, or use WhatsApp or email.'
+      : statusCode === 503
+        ? 'The form is not available right now. Please use WhatsApp or email instead.'
+        : 'Your message could not be sent. Please try again, or use WhatsApp or email.'
   }
 }
 
-useSeoMeta({
-  title: 'Contact Nova Sugiantara - Full Stack Web Developer',
-  description: 'Contact Nova Sugiantara about full-stack web development, booking systems, payment integrations, and work across Laravel, Vue.js, React, Ruby on Rails, and AWS.',
-  ogType: 'website',
-  ogTitle: 'Contact Nova Sugiantara - Full Stack Web Developer',
-  ogDescription: 'Contact Nova Sugiantara about full-stack web development, booking systems, payment integrations, and work across Laravel, Vue.js, React, Ruby on Rails, and AWS.',
-  ogUrl: canonicalUrl,
-  ogSiteName: 'Nova Sugiantara Portfolio',
-  ogImage: profileImageUrl,
-  ogImageAlt: () => profile.value?.full_name ? `${profile.value.full_name} portrait` : undefined,
-  twitterTitle: 'Contact Nova Sugiantara - Full Stack Web Developer',
-  twitterDescription: 'Contact Nova Sugiantara about full-stack web development, booking systems, payment integrations, and work across Laravel, Vue.js, React, Ruby on Rails, and AWS.',
-  twitterImage: profileImageUrl,
-  twitterCard: 'summary',
-})
-
-useHead({
-  link: [{ rel: 'canonical', href: canonicalUrl }],
+usePageSeo({
+  title: 'Contact · Nova Sugiantara',
+  description: 'Get in touch with Nova Sugiantara about a custom website or web app. Message on WhatsApp, by email, or through the form.',
+  path: '/contact',
 })
 </script>

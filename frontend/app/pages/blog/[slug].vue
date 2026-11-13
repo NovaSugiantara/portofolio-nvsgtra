@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-16 lg:px-12 lg:py-20">
+  <div class="site-container py-12 sm:py-16 lg:py-20">
     <div v-if="isLoading" class="mx-auto max-w-3xl space-y-6" aria-busy="true" aria-label="Loading article">
       <div class="h-3 w-28 animate-pulse rounded bg-[var(--background-muted)]" />
       <div class="h-12 w-4/5 animate-pulse rounded bg-[var(--background-muted)]" />
@@ -74,15 +74,45 @@
 
       <!-- content_html is rendered only after server-side Markdown sanitization. -->
       <div class="article-copy mt-10 max-w-[45rem] text-base leading-8 text-[var(--foreground-secondary)]" v-html="post.content_html" />
+
+      <aside class="mt-16 rounded-lg border border-line bg-soft p-6 sm:p-8" aria-labelledby="article-cta-title" data-wa-cta>
+        <h2 id="article-cta-title" class="text-xl font-semibold tracking-[-0.02em]">Need a website or web app built this way?</h2>
+        <p class="mt-2 max-w-[60ch] leading-7 text-secondary">I build custom websites and web apps for businesses in Indonesia and abroad. Tell me what you need and I will reply with questions or a rough plan.</p>
+        <div class="mt-5 flex flex-wrap gap-3">
+          <a v-if="waUrl" class="btn btn-whatsapp" :href="waUrl" target="_blank" rel="noopener noreferrer"><Icon name="ph:whatsapp-logo" size="1.25rem" aria-hidden="true" />Chat on WhatsApp<span class="sr-only"> (opens in a new tab)</span></a>
+          <NuxtLink class="btn" :class="waUrl ? 'btn-secondary' : 'btn-primary'" to="/contact">Send a message</NuxtLink>
+        </div>
+      </aside>
+
+      <nav v-if="nextPost" class="mt-12 border-t border-line pt-8" aria-label="Next article">
+        <p class="text-sm text-faint">Read next</p>
+        <NuxtLink :to="`/blog/${nextPost.slug}`" class="group mt-2 flex items-start justify-between gap-4 no-underline">
+          <span class="text-xl font-semibold tracking-[-0.02em] text-primary group-hover:text-accent">{{ nextPost.title }}</span>
+          <Icon name="ph:arrow-right" size="1.25rem" aria-hidden="true" class="mt-1 shrink-0 text-accent transition-transform motion-safe:group-hover:translate-x-1" />
+        </NuxtLink>
+      </nav>
     </article>
   </div>
 </template>
 
 <script setup lang="ts">
 const route = useRoute()
-const { data: post, status, error, refresh } = useBlogPost(route.params.slug as string)
-const { data: profile } = useProfile()
+const slug = String(route.params.slug)
+const { data: post, status, error, refresh } = await useBlogPost(slug)
+const toAbsolute = useSiteUrl()
+const waUrl = useWhatsAppLink()
+const { data: allPosts } = useBlogPosts()
+const nextPost = computed(() => {
+  const list = allPosts.value ?? []
+  const index = list.findIndex((item) => item.slug === slug)
+  return list.length > 1 ? list[(index + 1) % list.length] : null
+})
 const isLoading = computed(() => status.value === 'idle' || status.value === 'pending')
+
+// Unknown slugs are a real 404 so search engines drop them instead of indexing an empty page.
+if (error.value?.statusCode === 404 || error.value?.statusCode === 400) {
+  throw createError({ statusCode: 404, statusMessage: 'Article not found', fatal: true })
+}
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
@@ -91,54 +121,31 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 })
 const formatPublishedDate = (value: string) => dateFormatter.format(new Date(value))
 
-const siteOrigin = useRequestURL().origin
-const canonicalUrl = computed(() => `${siteOrigin}/blog/${route.params.slug}`)
-const postImageUrl = computed(() => post.value?.cover_image_url ? new URL(post.value.cover_image_url, siteOrigin).toString() : undefined)
-const articleSchema = computed(() => {
-  if (!post.value) return undefined
-
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: post.value.title,
-    ...(post.value.excerpt ? { description: post.value.excerpt } : {}),
-    ...(postImageUrl.value ? { image: [postImageUrl.value] } : {}),
-    ...(post.value.published_at ? { datePublished: post.value.published_at } : {}),
-    author: {
-      '@type': 'Person',
-      name: profile.value?.full_name ?? 'Nova Sugiantara',
-    },
-    mainEntityOfPage: canonicalUrl.value,
-    url: canonicalUrl.value,
-  }
+usePageSeo({
+  title: () => post.value?.title ? `${post.value.title} · Nova Sugiantara` : 'Article · Nova Sugiantara',
+  description: () => post.value?.excerpt?.slice(0, 160) ?? 'An article by Nova Sugiantara on building and running web products.',
+  path: `/blog/${slug}`,
+  type: 'article',
+  image: () => post.value?.cover_image_url,
+  schema: () => post.value
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: post.value.title,
+        ...(post.value.excerpt ? { description: post.value.excerpt } : {}),
+        image: toAbsolute(post.value.cover_image_url || '/og.jpg'),
+        ...(post.value.published_at ? { datePublished: post.value.published_at, dateModified: post.value.published_at } : {}),
+        ...(post.value.tags?.length ? { keywords: post.value.tags.join(', ') } : {}),
+        author: { '@type': 'Person', name: 'Nova Sugiantara', url: toAbsolute('/') },
+        mainEntityOfPage: toAbsolute(`/blog/${slug}`),
+        inLanguage: 'en',
+      }
+    : null,
 })
-
-const serializeJsonLd = (value: unknown) =>
-  JSON.stringify(value).replaceAll('<', '\\u003c').replaceAll('>', '\\u003e').replaceAll('&', '\\u0026')
 
 useSeoMeta({
-  title: () => post.value?.title ? `${post.value.title} - Nova Sugiantara` : 'Article - Nova Sugiantara',
-  description: () => post.value?.excerpt?.slice(0, 160) ?? 'An article by Nova Sugiantara on building and shipping web products.',
-  ogType: 'article',
-  ogSiteName: 'Nova Sugiantara Portfolio',
-  ogTitle: () => post.value?.title ? `${post.value.title} - Nova Sugiantara` : 'Article - Nova Sugiantara',
-  ogDescription: () => post.value?.excerpt?.slice(0, 160) ?? 'An article by Nova Sugiantara on building and shipping web products.',
-  ogImage: postImageUrl,
-  ogUrl: () => canonicalUrl.value,
-  twitterCard: 'summary_large_image',
-  twitterTitle: () => post.value?.title ? `${post.value.title} - Nova Sugiantara` : 'Article - Nova Sugiantara',
-  twitterDescription: () => post.value?.excerpt?.slice(0, 160) ?? 'An article by Nova Sugiantara on building and shipping web products.',
-  twitterImage: postImageUrl,
-})
-
-useHead({
-  link: [{ rel: 'canonical', href: canonicalUrl }],
-  script: [
-    {
-      type: 'application/ld+json',
-      children: () => (articleSchema.value ? serializeJsonLd(articleSchema.value) : ''),
-    },
-  ],
+  articlePublishedTime: () => post.value?.published_at ?? undefined,
+  articleAuthor: () => [toAbsolute('/')],
 })
 </script>
 

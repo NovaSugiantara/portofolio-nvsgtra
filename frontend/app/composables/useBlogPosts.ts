@@ -1,14 +1,7 @@
-import type { Database } from '~/types/database'
+import type { SeedBlogPost } from '~~/server/data/portfolio'
 
-type BlogPost = Database['public']['Tables']['blog_posts']['Row']
-type BlogListItem = Pick<
-  BlogPost,
-  'id' | 'slug' | 'title' | 'excerpt' | 'tags' | 'published_at' | 'cover_image_url' | 'sort_order'
->
-type BlogPostDetail = Pick<
-  BlogPost,
-  'id' | 'slug' | 'title' | 'excerpt' | 'tags' | 'published_at' | 'cover_image_url' | 'sort_order'
-> & { content_html: string }
+type BlogListItem = Omit<SeedBlogPost, 'content'> & { reading_minutes: number }
+type BlogPostDetail = Omit<SeedBlogPost, 'content'> & { content_html: string }
 
 export const useBlogPosts = () =>
   useFetch<BlogListItem[]>('/api/blog', {

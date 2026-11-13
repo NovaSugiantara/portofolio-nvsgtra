@@ -1,162 +1,110 @@
 <template>
-  <div class="mx-auto max-w-7xl px-5 py-14 sm:px-8 md:py-20 lg:px-12">
-    <header class="max-w-3xl">
-      <h1 class="text-balance text-4xl font-extrabold tracking-tight text-[var(--foreground-primary)] md:text-5xl">Selected work</h1>
-      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-[var(--foreground-secondary)]">A portfolio of projects across React, Vue.js, Laravel, Ruby on Rails, AWS, and Go, with the context and my role behind each one.</p>
+  <div>
+    <header class="border-b border-line">
+      <div class="site-container py-14 md:py-20">
+        <p class="eyebrow">Portfolio</p>
+        <h1 class="mt-3 max-w-[18ch] text-4xl font-semibold tracking-[-0.04em] md:text-6xl md:leading-[1.02]">Work you can open and check</h1>
+        <p class="mt-5 max-w-[60ch] text-lg leading-relaxed text-secondary">Each project says who built it and what my part was. The featured work and challenge builds all have a live link.</p>
+      </div>
     </header>
 
-    <section aria-labelledby="projects-heading" class="mt-20 md:mt-28">
-      <div class="max-w-2xl border-b border-[var(--border-subtle)] pb-6">
-        <h2 id="projects-heading" class="text-3xl font-bold tracking-tight text-[var(--foreground-primary)] md:text-4xl">Selected project work</h2>
-        <p class="mt-3 max-w-prose leading-relaxed text-[var(--foreground-secondary)]">Start with the featured case study, then scan the recent work list for the context, role, and stack behind each project.</p>
+    <div class="site-container py-14 md:py-20">
+      <div v-if="error" class="max-w-2xl rounded-lg border border-line bg-soft p-6 sm:p-8" role="alert">
+        <h2 class="text-xl font-semibold">Projects could not be loaded</h2>
+        <p class="mt-2 leading-relaxed text-secondary">Try again in a moment.</p>
+        <button type="button" class="btn btn-primary mt-5" @click="refresh()"><Icon name="ph:arrow-clockwise" size="1.125rem" aria-hidden="true" />Try again</button>
       </div>
 
-      <div v-if="projectsLoading" class="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1.25fr)_minmax(18rem,0.75fr)]" aria-busy="true" aria-live="polite" aria-label="Loading published projects">
-        <div class="min-h-80 animate-pulse rounded-[var(--radius-lg)] bg-[var(--background-muted)]" />
-        <div class="space-y-4">
-          <div v-for="slot in 3" :key="slot" class="h-28 animate-pulse rounded-[var(--radius-md)] bg-[var(--background-muted)]" />
-        </div>
-      </div>
-
-      <div v-else-if="projectsError" class="mt-8 max-w-2xl rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--background-muted)] p-6 sm:p-8" role="alert">
-        <h3 class="text-xl font-semibold text-[var(--foreground-primary)]">Projects could not be loaded</h3>
-        <p class="mt-2 max-w-prose leading-relaxed text-[var(--foreground-secondary)]">The published project list is temporarily unavailable. Try the request again or return to the homepage.</p>
-        <div class="mt-5 flex flex-wrap items-center gap-4">
-          <button type="button" class="inline-flex min-h-11 items-center gap-2 rounded-[var(--radius-md)] bg-[var(--accent-primary)] px-4 text-sm font-semibold text-page transition-[background-color,transform] duration-180 motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-px hover:bg-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background-muted)] motion-reduce:transition-none" @click="refreshProjects"><Icon name="ph:arrow-clockwise" size="1.125rem" aria-hidden="true" />Try again</button>
-          <NuxtLink to="/" class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]"><Icon name="ph:house" size="1.125rem" aria-hidden="true" />Return home</NuxtLink>
-        </div>
-      </div>
-
-      <div v-else-if="!publishedProjects.length" class="mt-8 max-w-2xl rounded-[var(--radius-lg)] border border-dashed border-[var(--border-strong)] bg-[var(--background-muted)] p-6 sm:p-8" role="status">
-        <h3 class="text-xl font-semibold text-[var(--foreground-primary)]">No published projects yet</h3>
-        <p class="mt-2 max-w-prose leading-relaxed text-[var(--foreground-secondary)]">No public case studies are published yet. Return home to continue exploring Nova Sugiantara’s portfolio.</p>
-        <NuxtLink to="/" class="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]"><Icon name="ph:house" size="1.125rem" aria-hidden="true" />Return home</NuxtLink>
-      </div>
-
-      <div v-else class="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1.25fr)_minmax(18rem,0.75fr)] lg:gap-14">
-        <NuxtLink
-          v-if="featuredProject"
-          :to="`/projects/${featuredProject.slug}`"
-          class="group flex min-w-0 flex-col overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--background-card)] transition-[border-color,box-shadow,transform] duration-200 motion-safe:hover:-translate-y-0.5 motion-safe:hover:border-[var(--border-strong)] motion-safe:hover:shadow-[var(--shadow-md)] motion-safe:active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)] focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--background-page)] motion-reduce:transition-none"
-        >
-          <img v-if="projectImageUrl(featuredProject.cover_image_url)" :src="projectImageUrl(featuredProject.cover_image_url)" :alt="`${featuredProject.title} cover`" width="1280" height="720" class="aspect-[16/9] w-full object-cover" loading="eager" decoding="async" />
-          <div class="flex flex-1 flex-col p-6 sm:p-8">
-            <p class="text-sm font-semibold text-[var(--accent-primary)]">Featured case study</p>
-            <h3 class="mt-3 text-2xl font-semibold tracking-tight text-[var(--foreground-primary)] group-hover:text-[var(--accent-hover)] md:text-3xl">{{ featuredProject.title }}</h3>
-            <div class="mt-6 border-t border-[var(--border-subtle)] pt-5">
-              <p class="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--foreground-muted)]">Context</p>
-              <p class="mt-2 max-w-prose leading-relaxed text-[var(--foreground-secondary)]">{{ featuredProject.description || 'No public project summary is available.' }}</p>
+      <template v-else>
+        <section v-if="workProjects.length" aria-labelledby="work-heading">
+          <h2 id="work-heading" class="text-sm font-semibold uppercase tracking-[0.08em] text-faint">Client and product work</h2>
+          <article v-for="project in workProjects" :key="project.id" class="group mt-6 grid items-center gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-14">
+            <NuxtLink :to="`/projects/${project.slug}`" class="block" tabindex="-1" aria-hidden="true">
+              <WorkShot :src="project.cover_image_url" :alt="project.cover_alt" :url="project.project_url" eager />
+            </NuxtLink>
+            <div>
+              <p class="text-sm font-semibold text-accent">{{ project.role }}</p>
+              <h3 class="mt-2 text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
+                <NuxtLink :to="`/projects/${project.slug}`" class="text-primary no-underline hover:text-accent">{{ project.title }}</NuxtLink>
+              </h3>
+              <p class="mt-4 leading-7 text-secondary">{{ project.summary }}</p>
+              <TechList :items="project.tech_stack" class="mt-5" />
+              <NuxtLink class="link-accent mt-5" :to="`/projects/${project.slug}`">Read the case study<span class="sr-only">: {{ project.title }}</span> <Icon name="ph:arrow-right" size="1.125rem" aria-hidden="true" /></NuxtLink>
             </div>
-            <dl class="mt-6 grid gap-5 border-t border-[var(--border-subtle)] pt-5 sm:grid-cols-2">
-              <div v-if="featuredProject.role">
-                <dt class="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--foreground-muted)]">Role</dt>
-                <dd class="mt-2 text-sm font-medium text-[var(--foreground-primary)]">{{ featuredProject.role }}</dd>
-              </div>
-              <div v-if="featuredProject.tech_stack?.length">
-                <dt class="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--foreground-muted)]">Stack</dt>
-                <dd class="mt-2">
-                  <ul class="flex flex-wrap gap-2" aria-label="Featured project stack">
-                    <li v-for="technology in featuredProject.tech_stack.slice(0, 4)" :key="technology" class="rounded-[var(--radius-sm)] border border-[var(--border-subtle)] px-2 py-1 font-mono text-xs text-[var(--foreground-secondary)]">{{ technology }}</li>
-                  </ul>
-                </dd>
-              </div>
-            </dl>
-            <span class="mt-8 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4">Read case study <Icon name="ph:arrow-right" size="1.125rem" aria-hidden="true" class="transition-transform duration-180 motion-safe:group-hover:translate-x-1 motion-reduce:transition-none" /></span>
-          </div>
-        </NuxtLink>
-
-        <section v-if="recentProjects.length" aria-labelledby="recent-heading" class="min-w-0">
-          <div class="flex items-baseline justify-between gap-4">
-            <h3 id="recent-heading" class="text-xl font-semibold text-[var(--foreground-primary)]">Recent work</h3>
-            <span class="text-sm text-[var(--foreground-muted)]">More case studies</span>
-          </div>
-          <ul class="mt-4 divide-y divide-[var(--border-subtle)] border-y border-[var(--border-subtle)]">
-            <li v-for="project in recentProjects" :key="project.id">
-              <NuxtLink :to="`/projects/${project.slug}`" class="group flex min-w-0 items-start justify-between gap-4 py-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--border-focus)]">
-                <div class="min-w-0">
-                  <h4 class="break-words text-lg font-semibold text-[var(--foreground-primary)] group-hover:text-[var(--accent-hover)]">{{ project.title }}</h4>
-                  <p v-if="project.role" class="mt-2 text-sm leading-relaxed text-[var(--foreground-secondary)]"><span class="font-semibold text-[var(--foreground-primary)]">Role:</span> {{ project.role }}</p>
-                  <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-[var(--foreground-secondary)]"><span class="font-semibold text-[var(--foreground-primary)]">Context:</span> {{ project.description || 'No public project summary is available.' }}</p>
-                  <ul v-if="project.tech_stack?.length" class="mt-3 flex flex-wrap gap-x-3 gap-y-1" aria-label="Project stack">
-                    <li v-for="technology in project.tech_stack.slice(0, 3)" :key="technology" class="font-mono text-xs text-[var(--foreground-muted)]">{{ technology }}</li>
-                  </ul>
-                </div>
-                <Icon name="ph:arrow-right" size="1.125rem" aria-hidden="true" class="mt-1 shrink-0 text-[var(--accent-primary)] transition-transform duration-180 motion-safe:group-hover:translate-x-1 motion-reduce:transition-none" />
-              </NuxtLink>
-            </li>
-          </ul>
+          </article>
         </section>
-      </div>
-    </section>
+
+        <section v-if="challengeProjects.length" aria-labelledby="challenge-heading" class="mt-20 md:mt-28">
+          <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <h2 id="challenge-heading" class="text-sm font-semibold uppercase tracking-[0.08em] text-faint">Challenge builds</h2>
+              <p class="mt-3 max-w-[62ch] leading-7 text-secondary">Solo entries for VibeDev challenges. Everyone gets the same brief and each entry is scored out of 100. Built with AI coding tools, reviewed and finished by me.</p>
+            </div>
+            <a class="link-accent shrink-0" href="https://www.vibedev.id/nop" target="_blank" rel="noopener noreferrer">All 16 entries on VibeDev <Icon name="ph:arrow-up-right" size="1.125rem" aria-hidden="true" /><span class="sr-only"> (opens in a new tab)</span></a>
+          </div>
+          <div class="mt-8 grid gap-10 md:grid-cols-2 md:gap-8">
+            <article v-for="project in challengeProjects" :key="project.id" class="group flex flex-col">
+              <NuxtLink :to="`/projects/${project.slug}`" class="block" tabindex="-1" aria-hidden="true">
+                <WorkShot :src="project.cover_image_url" :alt="project.cover_alt" :url="project.project_url" />
+              </NuxtLink>
+              <p v-if="project.challenge" class="figure mt-5 text-sm text-faint">Score {{ project.challenge.score }}/100 · #{{ project.challenge.rank }} of {{ project.challenge.entrants }} entrants</p>
+              <h3 class="mt-2 text-xl font-semibold tracking-[-0.025em]">
+                <NuxtLink :to="`/projects/${project.slug}`" class="text-primary no-underline hover:text-accent">{{ project.title }}</NuxtLink>
+              </h3>
+              <p class="mt-2 max-w-[52ch] leading-7 text-secondary">{{ project.summary }}</p>
+            </article>
+          </div>
+        </section>
+
+        <section v-if="earlier.length" aria-labelledby="earlier-heading" class="mt-20 border-t border-line pt-12 md:mt-28">
+          <div class="grid gap-8 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)] lg:gap-16">
+            <div>
+              <h2 id="earlier-heading" class="text-2xl font-semibold tracking-[-0.03em]">Earlier projects</h2>
+              <p class="mt-3 max-w-[44ch] leading-7 text-secondary">Freelance and employer projects from 2021 to 2023. They are no longer online or not public, so they are listed for context only.</p>
+            </div>
+            <ul class="divide-y divide-line border-y border-line" role="list">
+              <li v-for="item in earlier" :key="item.id" class="grid gap-1 py-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:gap-6">
+                <div class="min-w-0">
+                  <h3 class="font-semibold">{{ item.title }}</h3>
+                  <p class="mt-0.5 text-sm leading-6 text-secondary">{{ item.context }}</p>
+                </div>
+                <p class="text-sm text-faint sm:text-right">{{ item.period }}<span class="block font-mono text-xs">{{ item.tech_stack.join(' · ') }}</span></p>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </template>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { PublicProject } from '~/composables/useProjects'
+const { data: projects, error, refresh } = useProjects()
+const { data: earlier } = useEarlierWork()
+const toAbsolute = useSiteUrl()
 
-const { data: projects, status: projectsStatus, error: projectsError, refresh: refreshProjects } = useProjects()
-const requestUrl = useRequestURL()
+const workProjects = computed(() => projects.value.filter((project) => project.kind === 'work'))
+const challengeProjects = computed(() => projects.value.filter((project) => project.kind === 'challenge'))
 
-const projectsLoading = computed(() => projectsStatus.value === 'idle' || projectsStatus.value === 'pending')
-const publishedProjects = computed(() => projects.value ?? [])
-const featuredProject = computed<PublicProject | null>(() => publishedProjects.value[0] ?? null)
-const recentProjects = computed(() => publishedProjects.value.slice(1))
-
-const projectImageUrl = (value: string | null | undefined) => {
-  if (!value) return undefined
-
-  try {
-    const url = new URL(value, requestUrl.origin)
-    return ['http:', 'https:'].includes(url.protocol) ? url.toString() : undefined
-  } catch {
-    return undefined
-  }
-}
-
-const canonicalUrl = computed(() => new URL('/projects', requestUrl.origin).toString())
-const portfolioImageUrl = computed(() => projectImageUrl(publishedProjects.value.find((project) => project.cover_image_url)?.cover_image_url))
-const portfolioSchema = computed(() => ({
-  '@context': 'https://schema.org',
-  '@type': 'CollectionPage',
-  name: 'Selected work - Nova Sugiantara',
-  url: canonicalUrl.value,
-  ...(publishedProjects.value.length ? {
+usePageSeo({
+  title: 'Portfolio · Nova Sugiantara',
+  description: 'Live work by Nova Sugiantara: a hotel booking engine built with a team, and solo web app builds from VibeDev challenges, each with what I did on it.',
+  path: '/projects',
+  // Shared JPEG card: some social platforms do not render WebP previews.
+  schema: () => ({
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Portfolio · Nova Sugiantara',
+    url: toAbsolute('/projects'),
     mainEntity: {
       '@type': 'ItemList',
-      itemListElement: publishedProjects.value.map((project, index) => ({
+      itemListElement: projects.value.map((project, index) => ({
         '@type': 'ListItem',
         position: index + 1,
         name: project.title,
-        url: new URL(`/projects/${project.slug}`, requestUrl.origin).toString(),
+        url: toAbsolute(`/projects/${project.slug}`),
       })),
     },
-  } : {}),
-}))
-
-const serializeJsonLd = (value: unknown) =>
-  JSON.stringify(value).replaceAll('<', '\\u003c').replaceAll('>', '\\u003e').replaceAll('&', '\\u0026')
-
-useSeoMeta({
-  title: 'Selected work - Nova Sugiantara',
-  description: 'Nova Sugiantara’s selected project work across React, Vue.js, Laravel, Ruby on Rails, AWS, and Go, with the context and role behind each project.',
-  ogTitle: 'Selected work - Nova Sugiantara',
-  ogDescription: 'Nova Sugiantara’s selected project work across React, Vue.js, Laravel, Ruby on Rails, AWS, and Go, with the context and role behind each project.',
-  ogUrl: canonicalUrl,
-  ogType: 'website',
-  ogImage: portfolioImageUrl,
-  ogImageAlt: 'Selected portfolio project',
-  twitterTitle: 'Selected work - Nova Sugiantara',
-  twitterDescription: 'Nova Sugiantara’s selected project work across React, Vue.js, Laravel, Ruby on Rails, AWS, and Go, with the context and role behind each project.',
-  twitterImage: portfolioImageUrl,
-  twitterCard: 'summary_large_image',
-})
-
-useHead({
-  link: [{ rel: 'canonical', href: canonicalUrl }],
-  script: [{
-    key: 'portfolio-collection-jsonld',
-    type: 'application/ld+json',
-    children: () => serializeJsonLd(portfolioSchema.value),
-  }],
+  }),
 })
 </script>

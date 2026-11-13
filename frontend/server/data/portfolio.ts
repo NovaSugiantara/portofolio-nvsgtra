@@ -20,17 +20,47 @@ export interface SeedProfile {
   avatar_url: string | null
 }
 
+export interface SeedChallenge {
+  platform: string
+  profile_url: string
+  format: 'duel' | 'brawl'
+  rank: number
+  entrants: number
+  score: number
+  submitted_at: string
+}
+
 export interface SeedProject {
   id: string
   slug: string
+  kind: 'work' | 'challenge'
   title: string
+  /** One sentence shown on cards. */
+  summary: string
+  /** Longer context for the case study page. */
   description: string | null
+  /** What Nova personally did. Kept separate from team outcomes on purpose. */
+  contributions: string[]
+  /** Who else was involved, so team work is never presented as solo work. */
+  team_note: string | null
   tech_stack: string[]
   role: string | null
   project_url: string | null
+  project_url_label: string | null
   repo_url: string | null
   cover_image_url: string | null
+  cover_alt: string | null
+  challenge: SeedChallenge | null
   sort_order: number
+}
+
+/** Older projects that are no longer online. Listed for context only, without case study pages. */
+export interface SeedEarlierWork {
+  id: string
+  title: string
+  context: string
+  period: string
+  tech_stack: string[]
 }
 
 export interface SeedSkill {
@@ -85,95 +115,158 @@ export interface SeedBlogPost {
 export const profile: SeedProfile = {
   id: 'profile-1',
   full_name: 'Nova Sugiantara',
-  headline: 'Full Stack Web Developer building products from idea to production.',
+  headline: 'Websites and web apps, built to run in production.',
   summary:
-    'I design and ship production web applications across JavaScript (React, Vue) and Ruby/PHP (Rails, Laravel), with 4+ years owning payment gateways, booking engines, and blockchain platforms end to end. I also lead teams through sprint planning, code review, and mentorship.',
+    'I am a full stack developer based in Bali. I lead booking engine development at Omni Hotelier, and I take on custom website and web app projects for businesses in Indonesia and abroad.',
   location: 'Batubulan, Bali, Indonesia',
-  email: 'nvsgtra425@gmail.com',
+  email: 'bussinesswithnopa@gmail.com',
   phone: null,
   linkedin_url: 'https://linkedin.com/in/novasugiantara',
   website_url: 'https://novasugiantara.web.id',
   avatar_url: null,
 }
 
+const VIBEDEV_PROFILE = 'https://www.vibedev.id/nop'
+
 export const projects: SeedProject[] = [
   {
     id: 'proj-booking-engine',
     slug: 'omni-hotelier-booking-engine',
-    title: 'Omni Hotelier Booking Engine',
+    kind: 'work',
+    title: 'Hotel booking engine',
+    summary:
+      'The direct booking flow a hotel puts on its own website: room search, rates and promotions, currency switching, and checkout.',
     description:
-      'Led the Omni Hotelier booking engine from technical planning through delivery — coordinating product, QA, and engineering across sprints. The engine powers real-time availability, multi-currency pricing, and a checkout flow wired to several payment gateways.',
-    tech_stack: ['React', 'Redux', 'Laravel', 'REST APIs', 'MySQL'],
-    role: 'Product Coordinator / Lead Developer',
-    project_url: null,
+      'Omni Hotelier builds software for hotels. The booking engine is the part a guest sees: they pick dates, compare rooms and packages, apply a promo code, and pay without leaving the hotel\'s own site. I joined the team in 2023 as a developer and now lead development of the booking engine.',
+    contributions: [
+      'Lead booking engine development on React, Redux, and Laravel',
+      'Plan sprints and break product requirements into engineering tasks',
+      'Review pull requests for correctness, consistency, and maintainability',
+      'Triage production bugs by their impact on hotels and guests',
+      'Integrated payment gateways including Midtrans, Xendit, and Flywire',
+    ],
+    team_note:
+      'This is a team product. Design, QA, and several other engineers work on it with me. The screenshot shows a demo property.',
+    tech_stack: ['React', 'Redux', 'Laravel', 'MySQL', 'REST APIs'],
+    role: 'Lead developer, Omni Hotelier',
+    project_url: 'https://swastiecocottages.reserveonline.id/book/336',
+    project_url_label: 'Open the demo property',
     repo_url: null,
-    cover_image_url: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1280&q=80',
+    cover_image_url: '/work/booking-engine.webp',
+    cover_alt: 'Booking page for a demo property, with a photo gallery, room tabs, a date and guest search bar, and a reservation summary.',
+    challenge: null,
     sort_order: 1,
   },
   {
-    id: 'proj-zisu-mlm',
-    slug: 'zisu-mlm-platform',
-    title: 'Zisu MLM Platform',
+    id: 'proj-bookshelf-pace',
+    slug: 'reading-pace-estimator',
+    kind: 'challenge',
+    title: 'Reading pace estimator',
+    summary:
+      'Add the books you plan to read, set how many pages you read a day, and see when you will finish each one.',
     description:
-      'Built a Laravel multi-level-marketing platform with account, network, and operational workflows, including user management for 10,000+ users, commission calculation, and an operational admin dashboard.',
-    tech_stack: ['Laravel', 'JavaScript', 'MySQL', 'REST APIs'],
-    role: 'Full Stack Developer',
-    project_url: null,
+      'A small single page app built for a VibeDev challenge. Every entrant gets the same brief and the entries are scored out of 100. I build these with AI coding tools, then review, test, and polish the result myself.',
+    contributions: [
+      'Turned the brief into a two step flow: add a book, then adjust the daily pace',
+      'Designed an empty state that tells a first time visitor what to do',
+      'Kept the pace control usable by keyboard as well as by dragging',
+    ],
+    team_note: 'Solo entry.',
+    tech_stack: [],
+    role: 'Solo build',
+    project_url: 'https://bookshelf-reading-pace-nop-vibedev.vercel.app',
+    project_url_label: 'Open the live app',
     repo_url: null,
-    cover_image_url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1280&q=80',
+    cover_image_url: '/work/bookshelf.webp',
+    cover_alt: 'Reading Room app with a form to add a book, a daily pages slider set to 30, and an empty shelf prompt.',
+    challenge: {
+      platform: 'VibeDev',
+      profile_url: VIBEDEV_PROFILE,
+      format: 'duel',
+      rank: 1,
+      entrants: 2,
+      score: 82,
+      submitted_at: '2026-08-25',
+    },
     sort_order: 2,
   },
   {
-    id: 'proj-lait-bus',
-    slug: 'lait-bus-booking-system',
-    title: 'Lait Bus Booking System',
+    id: 'proj-garage-sale-tags',
+    slug: 'garage-sale-tag-generator',
+    kind: 'challenge',
+    title: 'Garage sale tag generator',
+    summary:
+      'Enter each item and its price, then print a sheet of tags ready to cut out.',
     description:
-      'Developed a bus booking system in Ruby on Rails serving 50+ daily routes, including seat selection, schedule management, and ticketing with e-receipts.',
-    tech_stack: ['Ruby on Rails', 'PostgreSQL', 'Stimulus'],
-    role: 'Full Stack Developer',
-    project_url: null,
+      'Another VibeDev challenge entry. The brief asked for a pricing tag tool; I focused on getting from an empty page to a printable sheet with as few steps as possible.',
+    contributions: [
+      'Split the screen into two numbered steps so the order is obvious',
+      'Built a print layout separate from the on-screen layout',
+      'Disabled printing until at least one tag exists, with a clear empty state',
+    ],
+    team_note: 'Solo entry.',
+    tech_stack: [],
+    role: 'Solo build',
+    project_url: 'https://garage-sale-pricing-tag-nop-vibedev.vercel.app',
+    project_url_label: 'Open the live app',
     repo_url: null,
-    cover_image_url: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1280&q=80',
+    cover_image_url: '/work/garage-sale.webp',
+    cover_alt: 'Garage Sale Tags app with an add item form for name, price, and condition, next to an empty print sheet.',
+    challenge: {
+      platform: 'VibeDev',
+      profile_url: VIBEDEV_PROFILE,
+      format: 'duel',
+      rank: 1,
+      entrants: 2,
+      score: 77,
+      submitted_at: '2026-08-27',
+    },
     sort_order: 3,
   },
+]
+
+export const earlierWork: SeedEarlierWork[] = [
   {
-    id: 'proj-eurekapp',
-    slug: 'eurekapp-migration',
-    title: 'Eurekapp.biz Migration',
-    description:
-      'Migrated Eurekapp.biz from WordPress to a custom stack, cutting page load time by roughly 70% through server-side rendering, image optimisation, and a leaner asset pipeline.',
-    tech_stack: ['PHP', 'JavaScript', 'CSS'],
-    role: 'Full Stack Developer',
-    project_url: null,
-    repo_url: null,
-    cover_image_url: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=1280&q=80',
-    sort_order: 4,
+    id: 'earlier-lait-bus',
+    title: 'Lait bus booking system',
+    context: 'Seat selection, schedules, and ticketing for a bus operator.',
+    period: 'Freelance',
+    tech_stack: ['Ruby on Rails', 'PostgreSQL'],
   },
   {
-    id: 'proj-nft-steg',
-    slug: 'nft-steganography-system',
-    title: 'NFT Steganography System',
-    description:
-      'Developed blockchain-integrated services in Ruby on Rails and PostgreSQL, plus an NFT steganography system in Go that embeds and verifies hidden ownership metadata inside minted assets.',
-    tech_stack: ['Go', 'Ruby on Rails', 'PostgreSQL', 'Web3'],
-    role: 'Backend Developer',
-    project_url: null,
-    repo_url: null,
-    cover_image_url: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=1280&q=80',
-    sort_order: 5,
+    id: 'earlier-zisu',
+    title: 'Zisu membership platform',
+    context: 'Accounts, member networks, and commission workflows.',
+    period: 'Freelance',
+    tech_stack: ['Laravel', 'MySQL'],
   },
   {
-    id: 'proj-minyak-taru',
-    slug: 'minyak-taru-bali-ecommerce',
-    title: 'Minyak Taru Bali E-commerce',
-    description:
-      'Built a Balinese wellness e-commerce store with a catalogue, cart, and payment processing, plus an order and inventory dashboard for the shop owner.',
-    tech_stack: ['Laravel', 'Vue.js', 'Midtrans', 'MySQL'],
-    role: 'Full Stack Developer',
-    project_url: null,
-    repo_url: null,
-    cover_image_url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1280&q=80',
-    sort_order: 6,
+    id: 'earlier-eurekapp',
+    title: 'Eurekapp.biz migration',
+    context: 'Moved a WordPress site to a custom PHP stack.',
+    period: 'Freelance',
+    tech_stack: ['PHP', 'JavaScript'],
+  },
+  {
+    id: 'earlier-minyak-taru',
+    title: 'Minyak Taru Bali online store',
+    context: 'Catalogue, cart, and payment for a small wellness brand.',
+    period: 'Freelance',
+    tech_stack: ['Laravel', 'Vue.js', 'Midtrans'],
+  },
+  {
+    id: 'earlier-nft',
+    title: 'NFT steganography service',
+    context: 'Embedding and verifying ownership data inside minted images.',
+    period: 'Baliola, 2022 to 2023',
+    tech_stack: ['Go', 'Ruby on Rails'],
+  },
+  {
+    id: 'earlier-videolegend',
+    title: 'Videolegend.tv',
+    context: 'A streaming site with paid access.',
+    period: 'Bali Gatra, 2021 to 2022',
+    tech_stack: ['PHP', 'JavaScript'],
   },
 ]
 
@@ -308,7 +401,7 @@ export const blogPosts: SeedBlogPost[] = [
       'What actually keeps a real-time booking engine stable in production: idempotent writes, explicit failure paths, and a checkout you can reason about.',
     tags: ['booking', 'architecture', 'production'],
     published_at: '2025-11-18T09:00:00.000Z',
-    cover_image_url: 'https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?auto=format&fit=crop&w=1200&q=80',
+    cover_image_url: null,
     sort_order: 1,
     content: `A booking engine looks simple from the outside: pick a date, pay, get a confirmation. Underneath, it is one of the least forgiving systems you can build. Money moves, inventory is finite, and users retry when they are anxious.
 
@@ -342,7 +435,7 @@ The engine that ships and stays up is almost always the one that made fewer clev
       'Midtrans, Xendit, Flywire — every gateway is different, but the integration shape that keeps you sane is always the same.',
     tags: ['payments', 'integration', 'laravel'],
     published_at: '2025-09-02T09:00:00.000Z',
-    cover_image_url: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1200&q=80',
+    cover_image_url: null,
     sort_order: 2,
     content: `After integrating a handful of payment gateways, you stop seeing the differences and start seeing the pattern. Every provider is a variation on the same three moving parts.
 
@@ -372,7 +465,7 @@ Wrap all three behind a single interface in your application, and swapping or ad
       'A personal site should be fast, accessible, and easy to update. Here is how Nuxt, a tiny design system, and server-side rendering got me there.',
     tags: ['nuxt', 'vue', 'frontend'],
     published_at: '2025-06-14T09:00:00.000Z',
-    cover_image_url: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1200&q=80',
+    cover_image_url: null,
     sort_order: 3,
     content: `I rebuild my portfolio roughly once a year, and each time I ask the same question: what is the least amount of technology that makes this genuinely good?
 

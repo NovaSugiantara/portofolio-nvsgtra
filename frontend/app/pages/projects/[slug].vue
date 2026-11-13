@@ -1,167 +1,112 @@
 <template>
-  <div class="mx-auto max-w-6xl px-5 py-10 sm:px-8 md:py-14 lg:px-12 lg:py-20">
-    <nav aria-label="Breadcrumb" class="mb-10 text-sm text-[var(--foreground-muted)]">
-      <ol class="flex flex-wrap items-center gap-x-3 gap-y-2">
-        <li><NuxtLink to="/" class="underline decoration-[var(--accent-primary)] underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]">Home</NuxtLink></li>
-        <li aria-hidden="true"><Icon name="ph:caret-right" size="0.875rem" /></li>
-        <li><NuxtLink to="/projects" class="underline decoration-[var(--accent-primary)] underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]">Portfolio</NuxtLink></li>
-        <li aria-hidden="true"><Icon name="ph:caret-right" size="0.875rem" /></li>
-        <li aria-current="page" class="min-w-0 max-w-full break-words text-[var(--foreground-secondary)]">{{ project?.title ?? 'Project details' }}</li>
-      </ol>
-    </nav>
-
-    <section v-if="isLoading" class="max-w-3xl space-y-6" aria-busy="true" aria-live="polite" aria-label="Loading project details">
-      <div class="h-5 w-32 animate-pulse rounded-[var(--radius-sm)] bg-[var(--background-muted)]" />
-      <div class="h-14 max-w-2xl animate-pulse rounded-[var(--radius-md)] bg-[var(--background-muted)]" />
-      <div class="h-24 max-w-3xl animate-pulse rounded-[var(--radius-md)] bg-[var(--background-muted)]" />
-      <p class="text-sm text-[var(--foreground-muted)]">Loading project…</p>
-    </section>
-
-    <section v-else-if="projectError" class="max-w-2xl rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--background-muted)] p-6 sm:p-8" role="alert">
-      <h1 class="text-2xl font-bold text-[var(--foreground-primary)]">Project details unavailable</h1>
-      <p class="mt-2 max-w-prose leading-relaxed text-[var(--foreground-secondary)]">This project could not be loaded right now. Try the request again or return to the project index.</p>
-      <div class="mt-5 flex flex-wrap items-center gap-4">
-        <button type="button" class="inline-flex min-h-11 items-center gap-2 rounded-[var(--radius-md)] bg-[var(--accent-primary)] px-4 text-sm font-semibold text-page transition-[background-color,transform] duration-200 motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-px hover:bg-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background-muted)] motion-reduce:transition-none" @click="refreshProject"><Icon name="ph:arrow-clockwise" size="1.125rem" aria-hidden="true" />Try again</button>
-        <NuxtLink to="/projects" class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]"><Icon name="ph:arrow-left" size="1.125rem" aria-hidden="true" />View all project work</NuxtLink>
+  <div v-if="project">
+    <header class="border-b border-line">
+      <div class="site-container py-10 md:py-16">
+        <nav aria-label="Breadcrumb" class="text-sm text-faint">
+          <ol class="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <li><NuxtLink to="/projects" class="text-secondary underline underline-offset-4 hover:text-accent">Portfolio</NuxtLink></li>
+            <li aria-hidden="true"><Icon name="ph:caret-right" size="0.875rem" /></li>
+            <li aria-current="page" class="min-w-0 break-words">{{ project.title }}</li>
+          </ol>
+        </nav>
+        <p class="eyebrow mt-8">{{ project.kind === 'work' ? 'Product work' : 'Challenge build' }}</p>
+        <h1 id="project-title" class="mt-3 max-w-[20ch] text-4xl font-semibold tracking-[-0.04em] md:text-6xl md:leading-[1.02]">{{ project.title }}</h1>
+        <p class="mt-5 max-w-[60ch] text-lg leading-relaxed text-secondary">{{ project.summary }}</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a v-if="liveUrl" class="btn btn-primary" :href="liveUrl" target="_blank" rel="noopener noreferrer">{{ project.project_url_label || 'Open the project' }} <Icon name="ph:arrow-up-right" size="1.125rem" aria-hidden="true" /><span class="sr-only"> (opens in a new tab)</span></a>
+          <NuxtLink class="btn btn-secondary" to="/contact">Talk about a similar project</NuxtLink>
+        </div>
       </div>
-    </section>
+    </header>
 
-    <section v-else-if="!project" class="max-w-2xl rounded-[var(--radius-lg)] border border-dashed border-[var(--border-strong)] bg-[var(--background-muted)] p-6 sm:p-8" role="status">
-      <h1 class="text-2xl font-bold text-[var(--foreground-primary)]">Project not found</h1>
-      <p class="mt-2 max-w-prose leading-relaxed text-[var(--foreground-secondary)]">This project is not published or the address is incorrect. Browse the published project index to choose another case study.</p>
-      <NuxtLink to="/projects" class="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]"><Icon name="ph:arrow-left" size="1.125rem" aria-hidden="true" />View all project work</NuxtLink>
-    </section>
-
-    <article v-else class="grid min-w-0 gap-12 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-16" aria-labelledby="project-title">
+    <article class="site-container grid min-w-0 gap-12 py-12 md:py-16 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-16" aria-labelledby="project-title">
       <div class="min-w-0">
-        <header class="max-w-3xl">
-          <p v-if="project.role" class="text-sm font-semibold text-[var(--accent-primary)]"><span class="text-[var(--foreground-muted)]">Role:</span> {{ project.role }}</p>
-          <h1 id="project-title" class="mt-3 text-balance text-4xl font-extrabold tracking-tight text-[var(--foreground-primary)] md:text-5xl">{{ project.title }}</h1>
-        </header>
+        <WorkShot :src="project.cover_image_url" :alt="project.cover_alt" :url="project.project_url" eager />
 
-        <section aria-labelledby="context-heading" class="mt-10 max-w-3xl border-y border-[var(--border-subtle)] py-6 sm:py-8">
-          <h2 id="context-heading" class="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--foreground-muted)]">Context</h2>
-          <p class="mt-3 max-w-prose text-lg leading-relaxed text-[var(--foreground-secondary)]">{{ project.description || 'No public project summary is available.' }}</p>
+        <section v-if="project.description" aria-labelledby="context-heading" class="mt-12 max-w-[65ch]">
+          <h2 id="context-heading" class="text-2xl font-semibold tracking-[-0.03em]">Context</h2>
+          <p class="mt-3 text-lg leading-8 text-secondary">{{ project.description }}</p>
         </section>
 
-        <figure v-if="projectImageUrl" class="mt-10 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--background-muted)]">
-          <img :src="projectImageUrl" :alt="`${project.title} cover`" width="1280" height="720" class="max-h-[36rem] w-full object-cover" loading="eager" decoding="async" />
-          <figcaption class="sr-only">Cover image for {{ project.title }}</figcaption>
-        </figure>
-        <p v-else class="mt-10 max-w-3xl rounded-[var(--radius-md)] border border-dashed border-[var(--border-subtle)] p-4 text-sm text-[var(--foreground-muted)]" role="status">Project cover image is not available.</p>
+        <section v-if="project.contributions.length" aria-labelledby="part-heading" class="mt-10 max-w-[65ch]">
+          <h2 id="part-heading" class="text-2xl font-semibold tracking-[-0.03em]">My part</h2>
+          <ul class="mt-4 grid gap-3">
+            <li v-for="item in project.contributions" :key="item" class="flex gap-3 leading-7 text-secondary">
+              <Icon name="ph:check" size="1.125rem" aria-hidden="true" class="mt-1 shrink-0 text-accent" />{{ item }}
+            </li>
+          </ul>
+          <p v-if="project.team_note" class="mt-6 rounded-md border border-line bg-soft px-4 py-3 text-sm leading-6 text-secondary">{{ project.team_note }}</p>
+        </section>
       </div>
 
-      <aside aria-label="Project details" class="min-w-0 lg:pt-1">
-        <h2 class="text-xl font-semibold text-[var(--foreground-primary)]">Project details</h2>
-        <dl class="mt-5 divide-y divide-[var(--border-subtle)] border-y border-[var(--border-subtle)]">
+      <aside aria-label="Project facts" class="min-w-0">
+        <dl class="divide-y divide-line border-y border-line text-sm">
           <div v-if="project.role" class="py-4">
-            <dt class="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--foreground-muted)]">Role</dt>
-            <dd class="mt-2 text-sm leading-relaxed text-[var(--foreground-secondary)]">{{ project.role }}</dd>
+            <dt class="text-faint">Role</dt>
+            <dd class="mt-1 font-semibold">{{ project.role }}</dd>
           </div>
-          <div v-if="project.tech_stack?.length" class="py-4">
-            <dt class="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--foreground-muted)]">Stack</dt>
-            <dd class="mt-3">
-              <ul class="flex flex-wrap gap-2" aria-label="Technologies used">
-                <li v-for="technology in project.tech_stack" :key="technology" class="rounded-[var(--radius-sm)] border border-[var(--border-subtle)] px-2 py-1 font-mono text-xs text-[var(--foreground-secondary)]">{{ technology }}</li>
-              </ul>
-            </dd>
+          <div v-if="project.challenge" class="py-4">
+            <dt class="text-faint">Result</dt>
+            <dd class="figure mt-1 font-semibold">{{ project.challenge.score }}/100 · #{{ project.challenge.rank }} of {{ project.challenge.entrants }}</dd>
+            <dd class="mt-1 text-faint">{{ project.challenge.platform }} {{ project.challenge.format }}, {{ formatDate(project.challenge.submitted_at) }}</dd>
+            <dd class="mt-2"><a :href="project.challenge.profile_url" target="_blank" rel="noopener noreferrer" class="text-accent underline underline-offset-4">Check on VibeDev<span class="sr-only"> (opens in a new tab)</span></a></dd>
           </div>
-          <template v-if="isSafeExternalUrl(project.project_url) || isSafeExternalUrl(project.repo_url)">
-            <div v-if="isSafeExternalUrl(project.project_url)" class="py-4">
-              <dt class="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--foreground-muted)]">Project link</dt>
-              <dd class="mt-2"><a :href="project.project_url!" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" :aria-label="`Open ${project.title} project link in a new tab`" class="inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]">View project <Icon name="ph:arrow-up-right" size="1.125rem" aria-hidden="true" /></a></dd>
-            </div>
-            <div v-if="isSafeExternalUrl(project.repo_url)" class="py-4">
-              <dt class="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--foreground-muted)]">Repository</dt>
-              <dd class="mt-2"><a :href="project.repo_url!" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" :aria-label="`Open ${project.title} repository in a new tab`" class="inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]">View repository <Icon name="ph:github-logo" size="1.125rem" aria-hidden="true" /></a></dd>
-            </div>
-          </template>
+          <div v-if="project.tech_stack.length" class="py-4">
+            <dt class="text-faint">Stack</dt>
+            <dd class="mt-2"><TechList :items="project.tech_stack" /></dd>
+          </div>
+          <div v-if="liveUrl" class="py-4">
+            <dt class="text-faint">Live link</dt>
+            <dd class="mt-1 break-all"><a :href="liveUrl" target="_blank" rel="noopener noreferrer" class="text-accent underline underline-offset-4">{{ hostOf(liveUrl) }}<span class="sr-only"> (opens in a new tab)</span></a></dd>
+          </div>
         </dl>
+        <NuxtLink to="/projects" class="link-accent mt-6"><Icon name="ph:arrow-left" size="1.125rem" aria-hidden="true" />All work</NuxtLink>
       </aside>
     </article>
-
-    <footer class="mt-14 border-t border-[var(--border-subtle)] pt-6 lg:mt-20">
-      <NuxtLink to="/projects" class="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[var(--accent-primary)] underline underline-offset-4 hover:text-[var(--accent-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]"><Icon name="ph:arrow-left" size="1.125rem" aria-hidden="true" />Back to Portfolio</NuxtLink>
-    </footer>
   </div>
 </template>
 
 <script setup lang="ts">
 const route = useRoute()
-const { data: project, status, error: projectError, refresh: refreshProject } = useProjectBySlug(String(route.params.slug))
-const requestUrl = useRequestURL()
+const slug = String(route.params.slug)
+const { data: project } = await useProjectBySlug(slug)
+const toAbsolute = useSiteUrl()
 
-const isLoading = computed(() => status.value === 'idle' || status.value === 'pending')
-const projectImageUrl = computed(() => {
-  const value = project.value?.cover_image_url
-  if (!value) return undefined
+// A missing project is a real 404, not a 200 page that says "not found" (a soft 404 for search engines).
+if (!project.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Project not found', fatal: true })
+}
 
-  try {
-    const url = new URL(value, requestUrl.origin)
-    return ['http:', 'https:'].includes(url.protocol) ? url.toString() : undefined
-  } catch {
-    return undefined
-  }
-})
-
-const isSafeExternalUrl = (value: string | null | undefined) => {
+const isSafeUrl = (value: string | null | undefined) => {
   if (!value) return false
-
   try {
-    const url = new URL(value)
-    return ['http:', 'https:'].includes(url.protocol)
+    return ['http:', 'https:'].includes(new URL(value).protocol)
   } catch {
     return false
   }
 }
 
-const canonicalUrl = computed(() => new URL(route.path, requestUrl.origin).toString())
-const fallbackSeoTitle = computed(() => projectError.value ? 'Project details unavailable - Nova Sugiantara' : 'Project not found - Nova Sugiantara')
-const fallbackSeoDescription = computed(() => projectError.value ? 'Project details are temporarily unavailable.' : 'This portfolio project is not published or the address is incorrect.')
-const projectSchema = computed(() => {
-  if (!project.value) return undefined
+const liveUrl = computed(() => isSafeUrl(project.value?.project_url) ? project.value!.project_url! : '')
+const hostOf = (value: string) => new URL(value).host
+const formatDate = (value: string) => new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(value))
 
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'CreativeWork',
-    name: project.value.title,
-    ...(project.value.description ? { description: project.value.description } : {}),
-    ...(projectImageUrl.value ? { image: [projectImageUrl.value] } : {}),
-    ...(isSafeExternalUrl(project.value.project_url) ? { url: project.value.project_url } : { url: canonicalUrl.value }),
-    ...(isSafeExternalUrl(project.value.repo_url) ? { codeRepository: project.value.repo_url } : {}),
-    author: {
-      '@type': 'Person',
-      name: 'Nova Sugiantara',
-      url: requestUrl.origin,
-    },
-  }
-})
-
-const serializeJsonLd = (value: unknown) =>
-  JSON.stringify(value).replaceAll('<', '\\u003c').replaceAll('>', '\\u003e').replaceAll('&', '\\u0026')
-
-useSeoMeta({
-  title: () => project.value ? `${project.value.title} - Nova Sugiantara` : fallbackSeoTitle.value,
-  description: () => project.value?.description?.slice(0, 160) ?? fallbackSeoDescription.value,
-  ogTitle: () => project.value?.title ? `${project.value.title} - Nova Sugiantara` : fallbackSeoTitle.value,
-  ogDescription: () => project.value?.description?.slice(0, 160) ?? fallbackSeoDescription.value,
-  ogUrl: canonicalUrl,
-  ogType: 'website',
-  ogSiteName: 'Nova Sugiantara Portfolio',
-  ogImage: projectImageUrl,
-  ogImageAlt: () => project.value ? `${project.value.title} cover` : undefined,
-  twitterTitle: () => project.value?.title ? `${project.value.title} - Nova Sugiantara` : fallbackSeoTitle.value,
-  twitterDescription: () => project.value?.description?.slice(0, 160) ?? fallbackSeoDescription.value,
-  twitterImage: projectImageUrl,
-  twitterCard: 'summary_large_image',
-})
-
-useHead({
-  link: [{ rel: 'canonical', href: canonicalUrl }],
-  script: [{
-    key: 'project-creative-work-jsonld',
-    type: 'application/ld+json',
-    children: () => (projectSchema.value ? serializeJsonLd(projectSchema.value) : ''),
-  }],
+usePageSeo({
+  title: () => `${project.value?.title} · Nova Sugiantara`,
+  description: () => project.value?.summary ?? '',
+  path: `/projects/${slug}`,
+  // Shared JPEG card: some social platforms do not render WebP previews.
+  schema: () => project.value
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'CreativeWork',
+        name: project.value.title,
+        description: project.value.summary,
+        url: toAbsolute(`/projects/${slug}`),
+        image: project.value.cover_image_url ? toAbsolute(project.value.cover_image_url) : undefined,
+        ...(liveUrl.value ? { sameAs: liveUrl.value } : {}),
+        ...(project.value.challenge ? { dateCreated: project.value.challenge.submitted_at } : {}),
+        creator: { '@type': 'Person', name: 'Nova Sugiantara', url: toAbsolute('/') },
+      }
+    : null,
 })
 </script>

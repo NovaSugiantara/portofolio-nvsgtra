@@ -5,11 +5,8 @@
  */
 
 @import "tailwindcss";
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter/700.css";
-@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource-variable/geist/wght.css";
+@import "@fontsource-variable/geist-mono/wght.css";
 
 /* Tailwind v4 theme bridge: utilities resolve to the semantic tokens below,
  * so light/dark flips stay in exactly one place (:root / .dark). */
@@ -81,9 +78,10 @@
     --border-strong: #aab8c2;
     --border-focus: var(--accent-primary);
 
-    --font-heading: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+    /* One variable family keeps DESIGN.md's single-family rule but reads less default than Inter. */
+    --font-heading: "Geist Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-body: "Geist Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: "Geist Mono Variable", ui-monospace, "SFMono-Regular", monospace;
 
     --space-xs: 0.5rem;
     --space-sm: 0.75rem;
@@ -99,7 +97,7 @@
     --text-lg: 1.25rem;
     --text-xl: 1.5625rem;
     --text-2xl: 1.953rem;
-    --text-display: clamp(2.65rem, 4vw + 1rem, 3.55rem);
+    --text-display: clamp(2.5rem, 4.5vw + 1rem, 4.25rem);
 
     --radius-sm: 4px;
     --radius-md: 8px;
@@ -592,6 +590,86 @@
   font-weight: 700;
   text-underline-offset: 0.3em;
   white-space: nowrap;
+}
+
+.btn-whatsapp {
+  border: 1px solid var(--whatsapp-bg);
+  background: var(--whatsapp-bg);
+  color: #ffffff;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-whatsapp:hover {
+    border-color: var(--whatsapp-hover);
+    background: var(--whatsapp-hover);
+    color: #ffffff;
+  }
+}
+
+/* Small uppercase label above a heading. Mono keeps it technical without a second family. */
+.eyebrow {
+  color: var(--accent-primary);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Numbers in facts and scores line up. */
+.figure {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Screenshot frame: a quiet browser chrome so real work reads as a live product, not a stock photo. */
+.shot {
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--background-card);
+  box-shadow: var(--shadow-md);
+}
+
+.shot-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--background-section);
+  padding: 0.625rem 0.875rem;
+}
+
+.shot-bar > span {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--radius-full);
+  background: var(--border-strong);
+}
+
+.shot-bar > p {
+  min-width: 0;
+  margin-left: 0.5rem;
+  overflow: hidden;
+  color: var(--foreground-muted);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shot img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .shot {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-lg);
+  }
 }
 
 /* Hero media scrim: blends the optional desktop video into the page surface. */

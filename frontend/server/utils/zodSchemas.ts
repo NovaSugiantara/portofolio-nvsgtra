@@ -1,3 +1,4 @@
+import { PROJECT_TYPE_VALUES, START_TIME_VALUES } from '#shared/contactOptions'
 import { z } from 'zod'
 
 const MAX_TEXT_LENGTH = 5000
@@ -114,6 +115,9 @@ export const contactPayloadSchema = z.object({
   name: textSchema(200),
   email: z.string().trim().email().max(320),
   message: textSchema(5000),
+  // Optional qualifiers. Empty string means the visitor skipped the question.
+  project_type: z.enum(PROJECT_TYPE_VALUES).or(z.literal('')).optional(),
+  start_time: z.enum(START_TIME_VALUES).or(z.literal('')).optional(),
 }).strict()
 
 // Keep honeypot validation separate, then compose it for the existing handler.

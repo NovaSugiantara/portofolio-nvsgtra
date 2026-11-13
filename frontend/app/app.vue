@@ -10,6 +10,11 @@
 <script setup lang="ts">
 useHead({
   meta: [{ name: 'theme-color', content: '#fbfcfd' }],
+  link: [
+    { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+    { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+    { rel: 'manifest', href: '/site.webmanifest' },
+  ],
   script: [{
     key: 'theme-init',
     tagPosition: 'head',

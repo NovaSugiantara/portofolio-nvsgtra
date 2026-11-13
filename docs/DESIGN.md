@@ -575,8 +575,8 @@ Use one primary sans serif family for headings and body copy. An optional monosp
 Recommended stack:
 
 ```text
-Primary: Inter, system-ui, sans-serif
-Monospace: JetBrains Mono, ui-monospace, monospace
+Primary: Geist Variable, system-ui, sans-serif
+Monospace: Geist Mono Variable, ui-monospace, monospace
 ```
 
 A different high quality sans serif may be used, but headings and body should not use separate display families unless there is a clear readability benefit.
@@ -585,7 +585,7 @@ A different high quality sans serif may be used, but headings and body should no
 
 | Style | Fluid size | Line height | Weight | Intended use |
 | --- | --- | ---: | ---: | --- |
-| Display | 40px to 56px | 1.08 to 1.15 | 650 to 700 | Homepage headline |
+| Display | 40px to 68px | 1.02 to 1.1 | 650 | Homepage headline |
 | Page title | 34px to 44px | 1.15 | 650 to 700 | Main page heading |
 | Section title | 26px to 32px | 1.2 | 600 to 700 | Major sections |
 | Card title | 19px to 22px | 1.3 | 600 | Project and experience titles |

@@ -5,7 +5,7 @@
         <span class="site-brand-mark" aria-hidden="true">NS</span>
         <span class="site-brand-copy">
           <strong>Nova Sugiantara</strong>
-          <span>Full Stack Developer</span>
+          <span>Full stack web developer</span>
         </span>
       </NuxtLink>
 
@@ -31,15 +31,21 @@
         >
           <Icon :name="isDark ? 'ph:sun' : 'ph:moon'" size="1.25rem" aria-hidden="true" />
         </button>
+        <!-- Primary header action serves clients; the CV stays available in the Experience section. -->
         <a
+          v-if="waUrl"
           class="site-cv-link"
-          href="/api/cv/generate?variant=default"
+          :href="waUrl"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Icon name="ph:file-arrow-up" size="1.125rem" aria-hidden="true" />
-          Open CV<span class="sr-only"> in a new tab</span>
+          <Icon name="ph:whatsapp-logo" size="1.125rem" aria-hidden="true" />
+          Start a project<span class="sr-only"> on WhatsApp (opens in a new tab)</span>
         </a>
+        <NuxtLink v-else class="site-cv-link" to="/contact">
+          <Icon name="ph:paper-plane-tilt" size="1.125rem" aria-hidden="true" />
+          Start a project
+        </NuxtLink>
         <button
           ref="menuButton"
           type="button"
@@ -88,6 +94,7 @@
 </template>
 
 <script setup lang="ts">
+const waUrl = useWhatsAppLink()
 const menuOpen = ref(false)
 const isDark = ref(false)
 const menuButton = ref<HTMLButtonElement | null>(null)
