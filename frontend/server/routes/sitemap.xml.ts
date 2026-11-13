@@ -1,11 +1,11 @@
+import { blogPosts, projects } from '../data/portfolio'
+
 type SitemapEntry = {
   loc: string
   lastmod?: string
-  changefreq: 'monthly' | 'weekly'
-  priority: string
 }
 
-const escapeXml = (value: string) => value.replace(/[<>&'\"]/g, (character) => ({
+const escapeXml = (value: string) => value.replace(/[<>&'"]/g, (character) => ({
   '<': '&lt;',
   '>': '&gt;',
   '&': '&amp;',
@@ -13,49 +13,42 @@ const escapeXml = (value: string) => value.replace(/[<>&'\"]/g, (character) => (
   '"': '&quot;',
 }[character] ?? character))
 
-export default defineEventHandler(async (_event) => {
-  const supabase = useSupabasePublic()
-  const [{ data: posts }, { data: projects }] = await Promise.all([
-    supabase.from('blog_posts').select('slug,updated_at').eq('is_published', true),
-    supabase.from('projects').select('slug,updated_at').eq('is_published', true),
-  ])
+const toDate = (value: string | null | undefined) => value ? new Date(value).toISOString().split('T')[0] : undefined
 
-  const baseUrl = 'https://novasugiantara.web.id'
-  const today = new Date().toISOString().split('T')[0]
+/**
+ * Built from the same static data the pages use, so every public detail page is listed.
+ * `lastmod` only appears when a real date exists; a date that changes on every build
+ * teaches search engines to ignore it. changefreq and priority are omitted because Google ignores them.
+ */
+export default defineEventHandler((event) => {
+  const siteUrl = String(useRuntimeConfig(event).public.siteUrl || 'https://novasugiantara.web.id').replace(/\/+$/, '')
+  const latestPost = blogPosts.map((post) => post.published_at).filter(Boolean).sort().at(-1)
+  const latestChallenge = projects.map((project) => project.challenge?.submitted_at).filter(Boolean).sort().at(-1)
 
   const urls: SitemapEntry[] = [
-    { loc: '/', lastmod: today, changefreq: 'monthly', priority: '1.0' },
-    { loc: '/projects', lastmod: today, changefreq: 'monthly', priority: '0.9' },
-    { loc: '/blog', lastmod: today, changefreq: 'weekly', priority: '0.8' },
-    { loc: '/contact', lastmod: today, changefreq: 'monthly', priority: '0.6' },
-    ...(projects ?? []).map((project) => ({
+    { loc: '/' },
+    { loc: '/projects', lastmod: toDate(latestChallenge) },
+    { loc: '/blog', lastmod: toDate(latestPost) },
+    { loc: '/contact' },
+    ...projects.map((project) => ({
       loc: `/projects/${project.slug}`,
-      ...(project.updated_at ? { lastmod: new Date(project.updated_at).toISOString().split('T')[0] } : {}),
-      changefreq: 'monthly' as const,
-      priority: '0.7',
+      lastmod: toDate(project.challenge?.submitted_at),
     })),
-    ...(posts ?? []).map((post) => ({
+    ...blogPosts.map((post) => ({
       loc: `/blog/${post.slug}`,
-      ...(post.updated_at ? { lastmod: new Date(post.updated_at).toISOString().split('T')[0] } : {}),
-      changefreq: 'monthly' as const,
-      priority: '0.7',
+      lastmod: toDate(post.published_at),
     })),
   ]
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls
-  .map(
-      (entry) => `  <url>
-    <loc>${escapeXml(`${baseUrl}${entry.loc}`)}</loc>
-    ${entry.lastmod ? `<lastmod>${entry.lastmod}</lastmod>` : ''}
-    <changefreq>${entry.changefreq}</changefreq>
-    <priority>${entry.priority}</priority>
-  </url>`
-  )
-  .join('\n')}
-</urlset>`
+${urls.map((entry) => `  <url>
+    <loc>${escapeXml(`${siteUrl}${entry.loc}`)}</loc>${entry.lastmod ? `
+    <lastmod>${entry.lastmod}</lastmod>` : ''}
+  </url>`).join('\n')}
+</urlset>
+`
 
-  setHeader(_event, 'Content-Type', 'application/xml')
+  setHeader(event, 'Content-Type', 'application/xml; charset=utf-8')
   return xml
 })

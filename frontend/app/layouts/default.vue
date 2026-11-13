@@ -16,13 +16,10 @@
 </template>
 
 <script setup lang="ts">
+// Page-level title, description, canonical, and image come from usePageSeo in each page.
 useSeoMeta({
-  title: 'Nova Sugiantara - Full Stack Web Developer',
-  description:
-    'Portfolio of Nova Sugiantara, a Full Stack Developer with 4+ years building web applications with React, Vue.js, Laravel, and Ruby on Rails, including payment, booking, and blockchain systems.',
-  ogSiteName: 'Nova Sugiantara Portfolio',
-  ogType: 'website',
-  twitterCard: 'summary_large_image',
+  ogSiteName: 'Nova Sugiantara',
+  ogLocale: 'en_US',
 })
 
 useHead({

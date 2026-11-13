@@ -1,7 +1,6 @@
-import type { Database } from '~/types/database'
+import type { SeedSkill } from '~~/server/data/portfolio'
 
-type Skill = Database['public']['Tables']['skills']['Row']
-type GroupedSkills = Record<string, Skill[]>
+type GroupedSkills = Record<string, SeedSkill[]>
 
 export const useSkills = () =>
   useFetch<GroupedSkills>('/api/skills', {

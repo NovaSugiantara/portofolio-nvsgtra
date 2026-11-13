@@ -1,11 +1,9 @@
-import type { Database } from '~/types/database'
+import type { SeedExperience } from '~~/server/data/portfolio'
 
-export type PublicExperience = Pick<
-  Database['public']['Tables']['experiences']['Row'],
-  'id' | 'company' | 'role' | 'location' | 'start_date' | 'end_date' | 'bullets' | 'sort_order'
->
+export type PublicExperience = SeedExperience
 
 export const useExperiences = () =>
   useFetch<PublicExperience[]>('/api/experiences', {
     key: 'experiences',
+    default: () => [],
   })

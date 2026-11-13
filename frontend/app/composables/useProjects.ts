@@ -1,28 +1,23 @@
-import type { Database } from '~/types/database'
+import type { SeedEarlierWork, SeedProject } from '~~/server/data/portfolio'
 
-import { computed } from 'vue'
-
-export type PublicProject = Pick<
-  Database['public']['Tables']['projects']['Row'],
-  | 'id'
-  | 'slug'
-  | 'title'
-  | 'description'
-  | 'tech_stack'
-  | 'role'
-  | 'project_url'
-  | 'repo_url'
-  | 'cover_image_url'
-  | 'sort_order'
->
+export type PublicProject = SeedProject
+export type EarlierWork = SeedEarlierWork
 
 export const useProjects = () =>
   useFetch<PublicProject[]>('/api/projects', {
     key: 'projects',
+    default: () => [],
   })
 
-export const useProjectBySlug = (slug: string) => {
-  const result = useProjects()
+export const useEarlierWork = () =>
+  useFetch<EarlierWork[]>('/api/earlier-work', {
+    key: 'earlier-work',
+    default: () => [],
+  })
+
+/** Awaited so a page can decide on a 404 during server rendering. */
+export const useProjectBySlug = async (slug: string) => {
+  const result = await useProjects()
 
   return {
     ...result,

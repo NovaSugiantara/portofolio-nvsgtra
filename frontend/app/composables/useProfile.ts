@@ -1,8 +1,6 @@
-import type { Database } from '~/types/database'
-
-type Profile = Database['public']['Tables']['profiles']['Row']
+import type { SeedProfile } from '~~/server/data/portfolio'
 
 export const useProfile = () =>
-  useFetch<Profile>('/api/profile', {
+  useFetch<SeedProfile>('/api/profile', {
     key: 'profile',
   })
