@@ -1,0 +1,30 @@
+{
+  "name": "nvsgtra-admin",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev --port 3001",
+    "preview": "nuxt preview",
+    "typecheck": "vue-tsc --noEmit -p .nuxt/tsconfig.app.json && vue-tsc --noEmit -p .nuxt/tsconfig.server.json",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource-variable/geist-mono": "^5.3.0",
+    "@iconify-json/ph": "^1.2.2",
+    "@nuxt/icon": "^2.4.1",
+    "@supabase/supabase-js": "^2.110.5",
+    "@tailwindcss/vite": "^4.3.2",
+    "nuxt": "^4.4.8",
+    "tailwindcss": "^4.3.2",
+    "vue": "^3.5.39",
+    "vue-router": "^5.1.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "typescript": "^6.0.3",
+    "vue-tsc": "^3.3.14"
+  }
+}

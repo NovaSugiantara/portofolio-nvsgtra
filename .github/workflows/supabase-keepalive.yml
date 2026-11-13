@@ -1,0 +1,31 @@
+name: Supabase keep-alive
+
+# Free Supabase projects pause after a week without activity. The public sites only read the
+# database at build time, so a quiet week could pause it and make the next Publish fail.
+# This makes one read-only request through the public REST API every three days.
+on:
+  schedule:
+    - cron: "17 2 */3 * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Read one published project
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_PUBLISHABLE_KEY" ]; then
+            echo "::error::Set the SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY repository secrets."
+            exit 1
+          fi
+          status=$(curl -s -o /dev/null -w "%{http_code}" \
+            "$SUPABASE_URL/rest/v1/projects?select=id&limit=1" \
+            -H "apikey: $SUPABASE_PUBLISHABLE_KEY")
+          echo "Supabase responded $status"
+          test "$status" = "200"

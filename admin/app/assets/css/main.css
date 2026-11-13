@@ -1,0 +1,282 @@
+/* admin/app/assets/css/main.css (tokens copied from portfolio)
+ * Design tokens & system specification (DESIGN.md)
+ * Content-first, calm technical portfolio; light and dark themes.
+ * Semantic tokens live in :root / .dark; Tailwind utilities resolve to them via @theme inline.
+ */
+
+@import "tailwindcss";
+@import "@fontsource-variable/geist/wght.css";
+@import "@fontsource-variable/geist-mono/wght.css";
+
+/* Tailwind v4 theme bridge: utilities resolve to the semantic tokens below,
+ * so light/dark flips stay in exactly one place (:root / .dark). */
+@theme inline {
+  --color-page: var(--background-page);
+  --color-section: var(--background-section);
+  --color-card: var(--background-card);
+  --color-soft: var(--background-muted);
+  --color-inverse: var(--background-inverse);
+  --color-primary: var(--foreground-primary);
+  --color-secondary: var(--foreground-secondary);
+  --color-faint: var(--foreground-muted);
+  --color-accent: var(--accent-primary);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-line: var(--border-subtle);
+  --color-line-strong: var(--border-strong);
+  --color-focus: var(--border-focus);
+  --color-obsidian: var(--color-obsidian);
+  --color-steel: var(--color-steel);
+  --color-teal: var(--color-teal);
+  --color-mint: var(--color-mint);
+
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+
+  --text-display: var(--text-display);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+
+  --animate-first-view: first-view var(--dur-long) var(--ease-out) both;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+
+    /* Brand anchors — keep these stable across themes. */
+    --color-obsidian: #321e48;
+    --color-steel: #43637e;
+    --color-teal: #65dcd5;
+    --color-mint: #d9fff4;
+
+    /* Semantic surfaces: quiet neutrals keep the accent meaningful. */
+    --background-page: #fbfcfd;
+    --background-section: #f3f6f8;
+    --background-card: #ffffff;
+    --background-muted: #f6faf9;
+    --background-inverse: var(--color-obsidian);
+
+    --foreground-primary: var(--color-obsidian);
+    --foreground-secondary: var(--color-steel);
+    --foreground-muted: #5f7080;
+
+    --accent-primary: #1f7a75;
+    --accent-hover: #185f5b;
+    --accent-soft: var(--color-mint);
+    --whatsapp-bg: #128c7e;
+    --whatsapp-hover: #0b6f65;
+
+    --border-subtle: #dce4e8;
+    --border-strong: #aab8c2;
+    --border-focus: var(--accent-primary);
+
+    /* One variable family keeps DESIGN.md's single-family rule but reads less default than Inter. */
+    --font-heading: "Geist Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-body: "Geist Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: "Geist Mono Variable", ui-monospace, "SFMono-Regular", monospace;
+
+    --space-xs: 0.5rem;
+    --space-sm: 0.75rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2.5rem;
+    --space-2xl: 4rem;
+    --space-3xl: 6rem;
+
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-md: 1.125rem;
+    --text-lg: 1.25rem;
+    --text-xl: 1.5625rem;
+    --text-2xl: 1.953rem;
+    --text-display: clamp(2.5rem, 4.5vw + 1rem, 4.25rem);
+
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
+
+    /* Shadows are tinted with the brand's obsidian/steel family. */
+    --shadow-sm: 0 1px 2px 0 rgba(50, 30, 72, 0.06);
+    --shadow-md: 0 6px 14px -4px rgba(50, 30, 72, 0.1), 0 2px 5px -2px rgba(67, 99, 126, 0.06);
+    --shadow-lg: 0 16px 28px -8px rgba(50, 30, 72, 0.14), 0 5px 12px -4px rgba(67, 99, 126, 0.08);
+
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --dur-micro: 120ms;
+    --dur-short: 220ms;
+    --dur-long: 420ms;
+    --z-sticky: 200;
+    --transition-smooth: color 180ms var(--ease-out), background-color 180ms var(--ease-out), border-color 180ms var(--ease-out), box-shadow 180ms var(--ease-out), opacity 180ms var(--ease-out), transform 180ms var(--ease-out), text-decoration-color 180ms var(--ease-out);
+  }
+
+  .dark {
+    color-scheme: dark;
+
+    --background-page: #21162c;
+    --background-section: #291b36;
+    --background-card: #321e48;
+    --background-muted: #3a2850;
+    --background-inverse: #fbfcfd;
+
+    --foreground-primary: var(--color-mint);
+    --foreground-secondary: #b7cad7;
+    --foreground-muted: #9fb4c3;
+
+    --accent-primary: var(--color-teal);
+    --accent-hover: #83e7e1;
+    --accent-soft: #263f46;
+    --whatsapp-bg: #128c7e;
+    --whatsapp-hover: #0b6f65;
+
+    --border-subtle: #4c3b5e;
+    --border-strong: #6a577d;
+    --border-focus: var(--color-teal);
+
+    --shadow-sm: 0 1px 2px 0 rgba(16, 11, 23, 0.3);
+    --shadow-md: 0 6px 16px -4px rgba(16, 11, 23, 0.42), 0 2px 6px -2px rgba(101, 220, 213, 0.05);
+    --shadow-lg: 0 16px 32px -8px rgba(16, 11, 23, 0.56), 0 4px 12px -4px rgba(101, 220, 213, 0.06);
+  }
+
+  html {
+    min-width: 0;
+    overflow-x: clip;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    min-width: 0;
+    margin: 0;
+    overflow-x: clip;
+    background-color: var(--background-page);
+    color: var(--foreground-primary);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.65;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition-property: background-color, color;
+    transition-duration: 180ms;
+    transition-timing-function: var(--ease-out);
+  }
+
+  :where(main, header, footer, section, article, aside, nav, form) {
+    min-width: 0;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    min-width: 0;
+    margin: 0;
+    overflow-wrap: anywhere;
+    color: var(--foreground-primary);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: var(--accent-primary);
+    text-decoration-thickness: 0.1em;
+    text-underline-offset: 0.18em;
+  }
+
+  :where(a, button, input, textarea, select, summary) {
+    max-width: 100%;
+    scroll-margin-block: 5rem 4rem;
+    transition-property: color, background-color, border-color, box-shadow, opacity, transform, text-decoration-color;
+    transition-duration: 180ms;
+    transition-timing-function: var(--ease-out);
+  }
+
+  :where(a, button, input, textarea, select, summary):focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 3px;
+  }
+
+  :where(a:hover) {
+    color: var(--accent-hover);
+  }
+
+  code, pre {
+    font-family: var(--font-mono);
+    overflow-wrap: anywhere;
+  }
+
+  pre {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  img, svg, video, canvas, iframe {
+    display: block;
+    max-width: 100%;
+  }
+
+  img, video {
+    height: auto;
+  }
+}
+
+/* ---- Admin components ---- */
+.shell { width: min(100% - 2rem, 72rem); margin-inline: auto; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  min-height: 2.75rem; padding: 0 1.1rem; border-radius: var(--radius-md);
+  border: 1px solid transparent; font: inherit; font-size: 0.9375rem; font-weight: 600;
+  line-height: 1; cursor: pointer; text-decoration: none; white-space: nowrap;
+}
+.btn:active:not(:disabled) { transform: translateY(1px); }
+.btn:has(input:focus-visible) { outline: 2px solid var(--border-focus); outline-offset: 3px; }
+.btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.btn-primary { background: var(--accent-primary); color: #fff; }
+.dark .btn-primary { color: #10231f; }
+.btn-primary:hover:not(:disabled) { background: var(--accent-hover); color: #fff; }
+.dark .btn-primary:hover:not(:disabled) { color: #10231f; }
+.btn-secondary { background: var(--background-card); color: var(--foreground-primary); border-color: var(--border-strong); }
+.btn-secondary:hover:not(:disabled) { border-color: var(--foreground-secondary); color: var(--foreground-primary); }
+.btn-danger { background: transparent; color: #b42318; border-color: #f1b8b2; }
+.dark .btn-danger { color: #ffb4ab; border-color: #7a3a36; }
+.btn-danger:hover:not(:disabled) { background: #fef3f2; color: #912018; }
+.dark .btn-danger:hover:not(:disabled) { background: #3b1d1f; color: #ffdad6; }
+.btn-sm { min-height: 2.25rem; padding: 0 0.75rem; font-size: 0.875rem; }
+.btn-icon { min-height: 2.25rem; min-width: 2.25rem; padding: 0; }
+
+.field { display: grid; gap: 0.375rem; align-content: start; }
+.field-label { font-size: 0.875rem; font-weight: 600; color: var(--foreground-primary); }
+.field-hint { font-size: 0.8125rem; color: var(--foreground-muted); }
+.field-error { font-size: 0.8125rem; color: #b42318; }
+.dark .field-error { color: #ffb4ab; }
+.input {
+  width: 100%; min-height: 2.75rem; padding: 0.55rem 0.75rem; border-radius: var(--radius-md);
+  border: 1px solid var(--border-strong); background: var(--background-card);
+  color: var(--foreground-primary); font: inherit; font-size: 0.9375rem; line-height: 1.5;
+}
+textarea.input { min-height: 6rem; resize: vertical; }
+.input[aria-invalid="true"] { border-color: #b42318; }
+
+.panel { background: var(--background-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); }
+.notice { border-radius: var(--radius-md); padding: 0.75rem 1rem; font-size: 0.9375rem; border: 1px solid var(--border-subtle); background: var(--background-section); }
+.notice-error { border-color: #f1b8b2; background: #fef3f2; color: #912018; }
+.dark .notice-error { border-color: #7a3a36; background: #3b1d1f; color: #ffdad6; }
+.notice-success { border-color: #a6e3d6; background: var(--accent-soft); color: var(--foreground-primary); }
+
+.tag { display: inline-flex; align-items: center; gap: 0.3rem; border-radius: var(--radius-sm); padding: 0.125rem 0.45rem; font-size: 0.75rem; font-weight: 600; border: 1px solid var(--border-subtle); color: var(--foreground-secondary); }
+.tag-live { color: var(--accent-primary); border-color: currentColor; }

@@ -35,3 +35,6 @@ credentials.json
 
 # Vercel build output
 .vercel
+
+# Browser test artifacts
+.playwright-mcp/
